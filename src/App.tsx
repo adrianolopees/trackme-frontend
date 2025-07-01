@@ -1,3 +1,4 @@
+// src/App.tsx
 import { AnimatePresence } from "framer-motion";
 import {
   BrowserRouter as Router,
@@ -5,6 +6,10 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { AuthProvider } from "./contexts/AuthContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -28,7 +33,26 @@ function AnimatedRoutes() {
 function App() {
   return (
     <Router>
-      <AnimatedRoutes />
+      <AuthProvider>
+        <div className="min-h-screen">
+          <AnimatedRoutes />
+
+          {/* Toast Container para notificações globais */}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            className="!z-50"
+          />
+        </div>
+      </AuthProvider>
     </Router>
   );
 }

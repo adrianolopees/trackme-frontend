@@ -1,14 +1,15 @@
-import { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+// src/pages/Register.tsx
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import "react-toastify/dist/ReactToastify.css";
-import GradientButton from "../components/GradientButton";
 import { FaUserPlus } from "react-icons/fa";
+import { useAuth } from "../hooks/useAuth";
+import GradientButton from "../components/GradientButton";
 
 function Register() {
   const navigate = useNavigate();
+  const { register, loading, isAuthenticated } = useAuth();
+
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -16,41 +17,33 @@ function Register() {
     name: "",
   });
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>(""); // adicionando erro
+  // Redireciona se já estiver autenticado
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/profile");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Removed redundant SubmitEvent interface
-
-  interface AxiosErrorResponse {
-    response?: {
-      data?: {
-        message?: string;
-      };
-    };
-  }
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    setError(""); // limpa erro anterior, se houver
 
     try {
-      await axios.post("http://localhost:5000/api/auth/register", form);
-      toast.success("Cadastro feito com sucesso!");
+      await register(form);
 
-      // Redireciona sem delay, como no seu exemplo que funcionava
-      navigate("/login");
-    } catch (err) {
-      const error = err as AxiosErrorResponse;
-      const msg = error.response?.data?.message || "Erro ao registrar.";
-      setError(msg);
-      toast.error(msg);
-    } finally {
-      setLoading(false);
+      // Se o registro retornar token (login automático), vai para profile
+      // Senão, vai para login
+      if (isAuthenticated) {
+        navigate("/profile");
+      } else {
+        navigate("/login");
+      }
+    } catch (error) {
+      // Erro já tratado no contexto com toast
+      console.error("Erro no registro:", error);
     }
   };
 
@@ -64,8 +57,6 @@ function Register() {
     >
       <h2 className="text-2xl font-bold mb-4">Crie sua conta</h2>
 
-      {error && <p className="text-red-500 mb-2">{error}</p>}
-
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-4 w-full max-w-sm"
@@ -76,8 +67,9 @@ function Register() {
           placeholder="Nome de usuário"
           value={form.username}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
           required
+          disabled={loading}
         />
         <input
           type="email"
@@ -85,8 +77,9 @@ function Register() {
           placeholder="Email"
           value={form.email}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
           required
+          disabled={loading}
         />
         <input
           type="password"
@@ -94,8 +87,10 @@ function Register() {
           placeholder="Senha"
           value={form.password}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
           required
+          disabled={loading}
+          minLength={6}
         />
         <input
           type="text"
@@ -103,7 +98,8 @@ function Register() {
           placeholder="Nome completo (opcional)"
           value={form.name}
           onChange={handleChange}
-          className="p-2 border rounded"
+          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+          disabled={loading}
         />
 
         <GradientButton
@@ -111,11 +107,27 @@ function Register() {
           loading={loading}
           disabled={loading}
           icon={<FaUserPlus />}
+          loadingText="Criando conta..."
         >
           Registrar
         </GradientButton>
       </form>
-      <ToastContainer />
+
+      <p className="mt-4 text-sm">
+        Já tem uma conta?{" "}
+        <Link
+          to="/login"
+          className="text-blue-600 underline hover:text-blue-800"
+        >
+          Faça login
+        </Link>
+      </p>
+
+      <p className="mt-2 text-sm">
+        <Link to="/" className="text-gray-600 underline hover:text-gray-800">
+          Voltar ao início
+        </Link>
+      </p>
     </motion.div>
   );
 }

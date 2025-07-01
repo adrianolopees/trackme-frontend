@@ -1,68 +1,41 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { Link } from "react-router-dom";
-
-// Import para feedback e animações
-import { toast, ToastContainer } from "react-toastify";
+// src/pages/Login.tsx
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import "react-toastify/dist/ReactToastify.css";
-import GradientButton from "../components/GradientButton";
 import { FaUser } from "react-icons/fa";
+import { useAuth } from "../hooks/useAuth";
+import GradientButton from "../components/GradientButton";
 
 function Login() {
   const navigate = useNavigate();
+  const { login, loading, isAuthenticated } = useAuth();
 
   const [form, setForm] = useState({
     identifier: "",
     password: "",
   });
 
-  const [loading, setLoading] = useState(false);
-
-  // atualiza os estados conforme o tonto digita
+  // Redireciona se já estiver autenticado
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/profile");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ao enviar essa merda
-  interface LoginResponse {
-    token: string;
-    [key: string]: unknown;
-  }
-
-  interface ErrorResponse {
-    response?: {
-      data?: {
-        message?: string;
-      };
-    };
-  }
-
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
 
     try {
-      const res = await axios.post<LoginResponse>(
-        "http://localhost:5000/api/auth/login",
-        form
-      );
-      const token = res.data.token;
-      localStorage.setItem("token", token);
-
-      toast.success("Login feito com sucesso!");
-      setTimeout(() => {
-        navigate("/profile");
-      }, 2000);
-    } catch (err: unknown) {
-      const error = err as ErrorResponse;
-      toast.error(error.response?.data?.message || "Erro ao fazer login");
-    } finally {
-      setLoading(false);
+      await login(form);
+      // Navegação será feita pelo useEffect quando isAuthenticated mudar
+      navigate("/profile");
+    } catch (error) {
+      // Erro já tratado no contexto com toast
+      console.error("Erro no login:", error);
     }
   };
 
@@ -86,8 +59,9 @@ function Login() {
           placeholder="Email ou usuário"
           value={form.identifier}
           onChange={handleChange}
-          className="bg-gray-100 p-2 border-none rounded outline-none"
+          className="bg-gray-100 p-2 border-none rounded outline-none focus:ring-2 focus:ring-blue-500"
           required
+          disabled={loading}
         />
         <input
           type="password"
@@ -95,8 +69,9 @@ function Login() {
           placeholder="Senha"
           value={form.password}
           onChange={handleChange}
-          className="bg-gray-100 p-2 border-none rounded outline-none"
+          className="bg-gray-100 p-2 border-none rounded outline-none focus:ring-2 focus:ring-blue-500"
           required
+          disabled={loading}
         />
         <GradientButton
           type="submit"
@@ -111,11 +86,19 @@ function Login() {
 
       <p className="mt-4 text-sm">
         Ainda não tem conta?{" "}
-        <Link to="/register" className="text-blue-600 underline">
+        <Link
+          to="/register"
+          className="text-blue-600 underline hover:text-blue-800"
+        >
           Cadastre-se
         </Link>
       </p>
-      <ToastContainer />
+
+      <p className="mt-2 text-sm">
+        <Link to="/" className="text-gray-600 underline hover:text-gray-800">
+          Voltar ao início
+        </Link>
+      </p>
     </motion.div>
   );
 }
