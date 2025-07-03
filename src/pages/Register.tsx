@@ -37,7 +37,7 @@ function Register() {
       // Se o registro retornar token (login automático), vai para profile
       // Senão, vai para login
       if (isAuthenticated) {
-        navigate("/profile");
+        navigate("/profile-setup");
       } else {
         navigate("/login");
       }

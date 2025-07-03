@@ -14,6 +14,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import ProfileSetup from "./pages/ProfileSetup";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -23,7 +24,9 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register />} />~
+        <Route path="/profile-setup" element={<ProfileSetup />} />
+        {/* Redireciona para o perfil se já estiver autenticado */}
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </AnimatePresence>
