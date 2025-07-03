@@ -95,7 +95,7 @@ function Register() {
         <input
           type="text"
           name="name"
-          placeholder="Nome completo (opcional)"
+          placeholder="Nome completo"
           value={form.name}
           onChange={handleChange}
           className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
