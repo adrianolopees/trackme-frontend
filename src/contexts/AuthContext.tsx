@@ -95,12 +95,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (data: RegisterData) => {
     try {
       setLoading(true);
-      const response = await authService.register(data);
+      const { token, profile } = await authService.register(data);
 
       // Se o backend retornar token no registro, faz login automático
-      if (response.token) {
-        authService.saveAuthData(response.token, response.profile);
-        setProfile(response.profile || null);
+      if (token) {
+        authService.saveAuthData(token, profile);
+        setProfile(profile || null);
         toast.success("Conta criada e login realizado com sucesso!");
       } else {
         toast.success("Conta criada com sucesso! Faça login para continuar.");

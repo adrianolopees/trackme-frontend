@@ -15,6 +15,8 @@ function Register() {
     email: "",
     password: "",
     name: "",
+    bio: "",
+    avatar: null as File | null, // Para o avatar, se necessário
   });
 
   // Redireciona se já estiver autenticado
