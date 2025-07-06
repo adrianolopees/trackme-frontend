@@ -69,11 +69,7 @@ function Home() {
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">
           O que é o TrackMe?
         </h2>
-        <p className="text-gray-600 leading-relaxed">
-          Uma plataforma completa para gerenciar suas atividades e acompanhar
-          seu progresso. Organize sua rotina, defina metas e alcance seus
-          objetivos de forma eficiente.
-        </p>
+        <p className="text-gray-600 leading-relaxed"></p>
       </div>
     </motion.div>
   );
