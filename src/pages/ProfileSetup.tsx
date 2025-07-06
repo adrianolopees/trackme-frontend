@@ -22,7 +22,7 @@ export default function ProfileSetup() {
     formData.append("avatar", avatar);
 
     try {
-      await axios.put("/api/profile/me", formData, {
+      await axios.put("/profile/me", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

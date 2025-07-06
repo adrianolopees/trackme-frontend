@@ -35,14 +35,7 @@ function Register() {
 
     try {
       await register(form);
-
-      // Se o registro retornar token (login automático), vai para profile
-      // Senão, vai para login
-      if (isAuthenticated) {
-        navigate("/profile-setup");
-      } else {
-        navigate("/login");
-      }
+      navigate("/profile-setup"); // Redireciona para configuração de perfil
     } catch (error) {
       // Erro já tratado no contexto com toast
       console.error("Erro no registro:", error);

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import authService from "../services/authService";
 import type { ProfileData } from "../services/authService";
 import type { LoginData, RegisterData } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextData {
   profile: ProfileData | null;
@@ -25,6 +26,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const isAuthenticated = !!profile && !!authService.getToken();
 
@@ -100,10 +102,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // Se o backend retornar token no registro, faz login automático
       if (token) {
         authService.saveAuthData(token, profile);
-        setProfile(profile || null);
-        toast.success("Conta criada e login realizado com sucesso!");
+        setProfile(profile ?? null);
+        toast.success("Fale sobre você e coloque uma foto!");
+        navigate("/profile-setup"); // Redireciona para configuração de perfil
       } else {
-        toast.success("Conta criada com sucesso! Faça login para continuar.");
+        toast.success("Conta criada com sucesso!");
       }
     } catch (error: unknown) {
       let errorMessage = "Erro ao criar conta";

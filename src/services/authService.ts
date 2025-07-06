@@ -75,7 +75,7 @@ export const authService = {
   saveAuthData(token: string, profile?: ProfileData): void {
     localStorage.setItem("token", token);
     if (profile) {
-      localStorage.setItem("user", JSON.stringify(profile));
+      localStorage.setItem("profile", JSON.stringify(profile));
     }
   },
 
