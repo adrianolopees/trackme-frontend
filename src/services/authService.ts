@@ -14,16 +14,18 @@ export interface RegisterData {
   name?: string; // opcional como no seu form
 }
 
-export interface User {
+export interface ProfileData {
   id: string;
   username: string;
   email: string;
   name?: string;
+  bio?: string;
+  avatar?: Blob; // URL da imagem do avatar
 }
 
 export interface AuthResponse {
   token: string;
-  user?: User;
+  profile?: ProfileData; // Dados do usuário após login ou registro
 }
 
 // Serviços de autenticação
@@ -54,7 +56,7 @@ export const authService = {
   },
 
   // Verificar token e obter dados do usuário
-  async verifyToken(): Promise<User> {
+  async verifyToken(): Promise<ProfileData> {
     const response = await api.get("/auth/me");
     return response.data;
   },
@@ -70,17 +72,17 @@ export const authService = {
   },
 
   // Salvar dados de autenticação
-  saveAuthData(token: string, user?: User): void {
+  saveAuthData(token: string, profile?: ProfileData): void {
     localStorage.setItem("token", token);
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
+    if (profile) {
+      localStorage.setItem("user", JSON.stringify(profile));
     }
   },
 
   // Obter dados do usuário salvos
-  getSavedUser(): User | null {
-    const userData = localStorage.getItem("user");
-    return userData ? JSON.parse(userData) : null;
+  getSavedProfile(): ProfileData | null {
+    const profileData = localStorage.getItem("profile");
+    return profileData ? JSON.parse(profileData) : null;
   },
 };
 

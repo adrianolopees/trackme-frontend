@@ -3,11 +3,11 @@ import React, { createContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { toast } from "react-toastify";
 import authService from "../services/authService";
-import type { User } from "../services/authService";
+import type { ProfileData } from "../services/authService";
 import type { LoginData, RegisterData } from "../services/authService";
 
 interface AuthContextData {
-  user: User | null;
+  profile: ProfileData | null;
   loading: boolean;
   login: (data: LoginData) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
@@ -23,10 +23,10 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const isAuthenticated = !!user && !!authService.getToken();
+  const isAuthenticated = !!profile && !!authService.getToken();
 
   // Verificar autenticação ao carregar a aplicação
   const checkAuth = async () => {
@@ -34,22 +34,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const token = authService.getToken();
       if (token) {
         // Tenta verificar se o token é válido
-        const userData = await authService.verifyToken();
-        setUser(userData);
-        authService.saveAuthData(token, userData);
+        const profileData = await authService.verifyToken();
+        setProfile(profileData);
+        authService.saveAuthData(token, profileData);
       } else {
         // Se não tem token, verifica se tem dados salvos
-        const savedUser = authService.getSavedUser();
-        if (savedUser) {
-          localStorage.removeItem("user"); // Remove dados órfãos
+        const savedProfile = authService.getSavedProfile();
+        if (savedProfile) {
+          localStorage.removeItem("profile"); // Remove dados órfãos
         }
       }
     } catch (error) {
       // Token inválido ou expirado
       console.warn("Erro na verificação de autenticação:", error);
       localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      setUser(null);
+      localStorage.removeItem("profile");
+      setProfile(null);
     } finally {
       setLoading(false);
     }
@@ -64,8 +64,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(true);
       const response = await authService.login(data);
 
-      authService.saveAuthData(response.token, response.user);
-      setUser(response.user || null);
+      authService.saveAuthData(response.token, response.profile);
+      setProfile(response.profile || null);
 
       toast.success("Login realizado com sucesso!");
     } catch (error: unknown) {
@@ -99,8 +99,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       // Se o backend retornar token no registro, faz login automático
       if (response.token) {
-        authService.saveAuthData(response.token, response.user);
-        setUser(response.user || null);
+        authService.saveAuthData(response.token, response.profile);
+        setProfile(response.profile || null);
         toast.success("Conta criada e login realizado com sucesso!");
       } else {
         toast.success("Conta criada com sucesso! Faça login para continuar.");
@@ -133,12 +133,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setLoading(true);
       await authService.logout();
-      setUser(null);
+      setProfile(null);
       toast.success("Logout realizado com sucesso!");
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
       // Mesmo com erro, remove os dados locais
-      setUser(null);
+      setProfile(null);
       toast.success("Logout realizado!");
     } finally {
       setLoading(false);
@@ -148,7 +148,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        user,
+        profile,
         loading,
         login,
         register,
