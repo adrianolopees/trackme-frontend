@@ -7,6 +7,7 @@ import GradientButton from "../components/GradientButton";
 export default function ProfileSetup() {
   const [bio, setBio] = useState("");
   const [avatar, setAvatar] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -17,29 +18,24 @@ export default function ProfileSetup() {
       return;
     }
 
+    setLoading(true);
+
+    // CORREÇÃO: Criar FormData corretamente
     const formData = new FormData();
     formData.append("bio", bio);
-    formData.append("avatar", avatar);
+    formData.append("avatar", avatar); // Nome deve corresponder ao esperado no backend
 
     try {
-      const token = localStorage.getItem("token");
+      // CORREÇÃO: Não precisa mais definir headers manualmente
+      await api.put("/profile/me", formData);
 
-      if (!token) {
-        toast.error("Você precisa estar logado para configurar o perfil.");
-        return;
-      }
-      // Envia os dados do perfil para o backend
-      // Certifique-se de que o endpoint está correto e aceita FormData
-      await api.put("/profile/me", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
       toast.success("Perfil configurado com sucesso!");
       navigate("/profile");
     } catch (error) {
       console.error("Erro ao configurar perfil:", error);
       toast.error("Erro ao configurar perfil. Tente novamente.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,6 +51,7 @@ export default function ProfileSetup() {
             onChange={(e) => setBio(e.target.value)}
             placeholder="Conte um pouco sobre você..."
             rows={4}
+            disabled={loading}
           />
         </div>
 
@@ -62,18 +59,28 @@ export default function ProfileSetup() {
           <label className="block font-medium">Avatar</label>
           <input
             type="file"
+            name="avatar"
             accept="image/*"
             onChange={(e) => {
               if (e.target.files?.[0]) {
-                setAvatar(e.target.files![0]);
+                setAvatar(e.target.files[0]);
               }
             }}
+            disabled={loading}
+            className="w-full p-2 border rounded-lg"
           />
+          {avatar && (
+            <p className="text-sm text-gray-600 mt-1">
+              Arquivo selecionado: {avatar.name}
+            </p>
+          )}
         </div>
+
         <GradientButton
           type="submit"
-          loading={false}
+          loading={loading}
           loadingText="Configurando..."
+          disabled={loading}
           icon={null}
         >
           Salvar
