@@ -1,5 +1,5 @@
 // src/services/authService.ts
-import api from "../api/api";
+import api from "./api";
 
 // Tipos baseados no seu frontend atual
 export interface LoginData {

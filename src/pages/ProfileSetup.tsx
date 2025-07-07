@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../api/api";
+import api from "../services/api";
 import { toast } from "react-toastify";
 import GradientButton from "../components/GradientButton";
 
@@ -22,9 +22,17 @@ export default function ProfileSetup() {
     formData.append("avatar", avatar);
 
     try {
-      await axios.put("/profile/me", formData, {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Você precisa estar logado para configurar o perfil.");
+        return;
+      }
+      // Envia os dados do perfil para o backend
+      // Certifique-se de que o endpoint está correto e aceita FormData
+      await api.put("/profile/me", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
       toast.success("Perfil configurado com sucesso!");
