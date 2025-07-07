@@ -97,7 +97,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (data: RegisterData) => {
     try {
       setLoading(true);
-      const { token, profile } = await authService.register(data);
+
+      const response = await authService.register(data);
+      const { token, profile } = response;
 
       // Se o backend retornar token no registro, faz login automático
       if (token) {

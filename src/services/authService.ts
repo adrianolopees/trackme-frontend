@@ -39,7 +39,7 @@ export const authService = {
   // Registro
   async register(data: RegisterData): Promise<AuthResponse> {
     const response = await api.post("/auth/register", data);
-    return response.data;
+    return response.data.data;
   },
 
   // Logout
