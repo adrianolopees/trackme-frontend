@@ -1,4 +1,3 @@
-// src/pages/Profile.tsx
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -7,7 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 
 export const Profile = () => {
   const navigate = useNavigate();
-  const { user, logout, isAuthenticated, loading } = useAuth();
+  const { profile, logout, isAuthenticated, loading } = useAuth();
 
   // Redireciona para login se não estiver autenticado
   useEffect(() => {
@@ -37,7 +36,7 @@ export const Profile = () => {
   }
 
   // Se não estiver autenticado, não renderiza nada (useEffect vai redirecionar)
-  if (!isAuthenticated || !user) {
+  if (!isAuthenticated || !profile) {
     return null;
   }
 
@@ -59,12 +58,12 @@ export const Profile = () => {
         </div>
 
         <div className="space-y-4 mb-6">
-          {user.name && (
+          {profile.name && (
             <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
               <FaUser className="text-gray-500" />
               <div>
                 <p className="text-sm text-gray-500">Nome</p>
-                <p className="font-medium text-gray-800">{user.name}</p>
+                <p className="font-medium text-gray-800">{profile.name}</p>
               </div>
             </div>
           )}
@@ -73,7 +72,7 @@ export const Profile = () => {
             <FaUser className="text-gray-500" />
             <div>
               <p className="text-sm text-gray-500">Usuário</p>
-              <p className="font-medium text-gray-800">{user.username}</p>
+              <p className="font-medium text-gray-800">{profile.username}</p>
             </div>
           </div>
 
@@ -81,7 +80,7 @@ export const Profile = () => {
             <FaEnvelope className="text-gray-500" />
             <div>
               <p className="text-sm text-gray-500">Email</p>
-              <p className="font-medium text-gray-800">{user.email}</p>
+              <p className="font-medium text-gray-800">{profile.email}</p>
             </div>
           </div>
         </div>
