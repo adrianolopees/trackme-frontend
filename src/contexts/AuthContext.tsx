@@ -65,9 +65,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setLoading(true);
       const response = await authService.login(data);
+      const { token, profile } = response;
 
-      authService.saveAuthData(response.token, response.profile);
-      setProfile(response.profile || null);
+      authService.saveAuthData(token, profile);
+      setProfile(profile || null);
 
       toast.success("Login realizado com sucesso!");
     } catch (error: unknown) {

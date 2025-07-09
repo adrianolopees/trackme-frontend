@@ -33,7 +33,7 @@ export const authService = {
   // Login
   async login(data: LoginData): Promise<AuthResponse> {
     const response = await api.post("/auth/login", data);
-    return response.data;
+    return response.data.data;
   },
 
   // Registro
