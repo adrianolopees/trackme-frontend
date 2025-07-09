@@ -67,10 +67,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await authService.login(data);
       const { token, profile } = response;
 
-      authService.saveAuthData(token, profile);
-      setProfile(profile || null);
+      if (token) {
+        authService.saveAuthData(token, profile);
+        setProfile(profile || null);
 
-      toast.success("Login realizado com sucesso!");
+        toast.success("Login realizado com sucesso!");
+      }
     } catch (error: unknown) {
       let errorMessage = "Erro ao fazer login";
       interface ApiError {
