@@ -33,9 +33,10 @@ function Login() {
       await login(form);
       // Navegação será feita pelo useEffect quando isAuthenticated mudar
       navigate("/profile");
-    } catch (error) {
-      // Erro já tratado no contexto com toast
-      console.error("Erro no login:", error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log("Error no login", error.message);
+      }
     }
   };
 

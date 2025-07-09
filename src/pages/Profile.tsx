@@ -37,6 +37,7 @@ export const Profile = () => {
 
   // Se não estiver autenticado, não renderiza nada (useEffect vai redirecionar)
   if (!isAuthenticated || !profile) {
+    console.log("Perfil ausente ou não autenticado:", profile);
     return null;
   }
 

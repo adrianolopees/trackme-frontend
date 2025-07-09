@@ -20,7 +20,7 @@ export interface ProfileData {
   email: string;
   name?: string;
   bio?: string;
-  avatar?: Blob; // URL da imagem do avatar
+  avatar?: Blob;
 }
 
 export interface AuthResponse {
@@ -28,12 +28,16 @@ export interface AuthResponse {
   profile?: ProfileData; // Dados do usuário após login ou registro
 }
 
+export interface TokenResponse {
+  token: string;
+}
+
 // Serviços de autenticação
 export const authService = {
   // Login
-  async login(data: LoginData): Promise<AuthResponse> {
-    const response = await api.post("/auth/login", data);
-    return response.data.data;
+  async login(data: LoginData): Promise<TokenResponse> {
+    const tokenResponse = await api.post("/auth/login", data);
+    return tokenResponse.data.data;
   },
 
   // Registro
@@ -57,7 +61,7 @@ export const authService = {
 
   // Verificar token e obter dados do usuário
   async verifyToken(): Promise<ProfileData> {
-    const response = await api.get("/auth/me");
+    const response = await api.get("/profile/me");
     return response.data;
   },
 

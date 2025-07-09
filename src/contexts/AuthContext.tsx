@@ -6,6 +6,7 @@ import authService from "../services/authService";
 import type { ProfileData } from "../services/authService";
 import type { LoginData, RegisterData } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import { removeHeavyFields } from "../utils/profileUtils";
 
 interface AuthContextData {
   profile: ProfileData | null;
@@ -34,11 +35,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const checkAuth = async () => {
     try {
       const token = authService.getToken();
+
       if (token) {
         // Tenta verificar se o token é válido
         const profileData = await authService.verifyToken();
         setProfile(profileData);
-        authService.saveAuthData(token, profileData);
+
+        const profileNoAvatar = removeHeavyFields(profileData);
+        authService.saveAuthData(token, profileNoAvatar);
       } else {
         // Se não tem token, verifica se tem dados salvos
         const savedProfile = authService.getSavedProfile();
@@ -64,12 +68,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (data: LoginData) => {
     try {
       setLoading(true);
-      const response = await authService.login(data);
-      const { token, profile } = response;
+      const tokenResponse = await authService.login(data);
+      const { token } = tokenResponse;
 
       if (token) {
-        authService.saveAuthData(token, profile);
-        setProfile(profile || null);
+        authService.saveAuthData(token);
+
+        const profileData = await authService.verifyToken();
+
+        setProfile(profileData);
+
+        const profileNoAvatar = removeHeavyFields(profileData);
+        authService.saveAuthData(token, profileNoAvatar);
 
         toast.success("Login realizado com sucesso!");
       }
