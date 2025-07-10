@@ -1,41 +1,15 @@
-// src/services/authService.ts
-import api from "./api";
-
-// Tipos baseados no seu frontend atual
-export interface LoginData {
-  identifier: string; // email ou username
-  password: string;
-}
-
-export interface RegisterData {
-  username: string;
-  email: string;
-  password: string;
-  name?: string; // opcional como no seu form
-}
-
-export interface ProfileData {
-  id: string;
-  username: string;
-  email: string;
-  name?: string;
-  bio?: string;
-  avatar?: Blob;
-}
-
-export interface AuthResponse {
-  token: string;
-  profile?: ProfileData; // Dados do usuário após login ou registro
-}
-
-export interface TokenResponse {
-  token: string;
-}
+import api from "./api.service";
+import type {
+  LoginData,
+  AuthResponse,
+  RegisterData,
+  ProfileData,
+} from "../types/auth.types";
 
 // Serviços de autenticação
 export const authService = {
   // Login
-  async login(data: LoginData): Promise<TokenResponse> {
+  async login(data: LoginData): Promise<AuthResponse> {
     const tokenResponse = await api.post("/auth/login", data);
     return tokenResponse.data.data;
   },
@@ -59,10 +33,17 @@ export const authService = {
     }
   },
 
-  // Verificar token e obter dados do usuário
-  async verifyToken(): Promise<ProfileData> {
-    const response = await api.get("/profile/me");
-    return response.data;
+  async verifyToken(token?: string): Promise<ProfileData> {
+    const finalToken = token ?? this.getToken(); // usa o token passado ou pega do localStorage
+    if (!finalToken) throw new Error("Token não encontrado");
+
+    const response = await api.get("/profile/me", {
+      headers: {
+        Authorization: `Bearer ${finalToken}`,
+      },
+    });
+
+    return response.data.data; // acessa corretamente a estrutura { success, data, message }
   },
 
   // Verificar se o usuário está autenticado
@@ -76,7 +57,7 @@ export const authService = {
   },
 
   // Salvar dados de autenticação
-  saveAuthData(token: string, profile?: ProfileData): void {
+  saveAuthData(token: string, profile?: ProfileData) {
     localStorage.setItem("token", token);
     if (profile) {
       localStorage.setItem("profile", JSON.stringify(profile));

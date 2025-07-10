@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaUser, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../auth/hooks/useAuth";
 
 export const Profile = () => {
   const navigate = useNavigate();

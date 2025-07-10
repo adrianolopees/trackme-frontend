@@ -1,26 +1,16 @@
 // src/contexts/AuthContext.tsx
 import React, { createContext, useState, useEffect } from "react";
-import type { ReactNode } from "react";
-import { toast } from "react-toastify";
-import authService from "../services/authService";
-import type { ProfileData } from "../services/authService";
-import type { LoginData, RegisterData } from "../services/authService";
 import { useNavigate } from "react-router-dom";
-import { removeHeavyFields } from "../utils/profileUtils";
+import { toast } from "react-toastify";
+import authService from "../services/auth.service";
 
-interface AuthContextData {
-  profile: ProfileData | null;
-  loading: boolean;
-  login: (data: LoginData) => Promise<void>;
-  register: (data: RegisterData) => Promise<void>;
-  logout: () => Promise<void>;
-  isAuthenticated: boolean;
-  checkAuth: () => Promise<void>;
-}
-
-interface AuthProviderProps {
-  children: ReactNode;
-}
+import type {
+  AuthContextData,
+  AuthProviderProps,
+  ProfileData,
+  LoginData,
+  RegisterData,
+} from "../types/auth.types";
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
@@ -41,8 +31,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const profileData = await authService.verifyToken();
         setProfile(profileData);
 
-        const profileNoAvatar = removeHeavyFields(profileData);
-        authService.saveAuthData(token, profileNoAvatar);
+        authService.saveAuthData(token, profileData);
       } else {
         // Se não tem token, verifica se tem dados salvos
         const savedProfile = authService.getSavedProfile();
@@ -68,21 +57,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (data: LoginData) => {
     try {
       setLoading(true);
-      const tokenResponse = await authService.login(data);
-      const { token } = tokenResponse;
+      const { token } = await authService.login(data);
+      if (!token) throw new Error("Token não recebido");
 
-      if (token) {
-        authService.saveAuthData(token);
+      authService.saveAuthData(token);
 
-        const profileData = await authService.verifyToken();
+      const profile = await authService.verifyToken(token);
 
-        setProfile(profileData);
+      setProfile(profile);
+      authService.saveAuthData(token, profile);
 
-        const profileNoAvatar = removeHeavyFields(profileData);
-        authService.saveAuthData(token, profileNoAvatar);
-
-        toast.success("Login realizado com sucesso!");
-      }
+      toast.success("Login realizado com sucesso!");
+      navigate("/profile");
     } catch (error: unknown) {
       let errorMessage = "Erro ao fazer login";
       interface ApiError {

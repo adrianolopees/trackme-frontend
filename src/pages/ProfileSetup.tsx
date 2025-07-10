@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../services/api";
+import api from "../auth/services/api.service";
 import { toast } from "react-toastify";
 import GradientButton from "../components/GradientButton";
 

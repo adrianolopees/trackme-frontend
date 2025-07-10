@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaUserPlus } from "react-icons/fa";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../auth/hooks/useAuth";
 import GradientButton from "../components/GradientButton";
 
 function Register() {
