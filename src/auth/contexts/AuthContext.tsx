@@ -2,7 +2,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import authService from "../services/auth.service";
+import { authService } from "../services/auth.service";
 
 import type {
   AuthContextData,
@@ -49,15 +49,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     checkAuth();
   }, []);
 
   const login = async (data: LoginData) => {
+    setLoading(true);
     try {
-      setLoading(true);
       const { token } = await authService.login(data);
+
       if (!token) throw new Error("Token não recebido");
 
       authService.saveAuthData(token);
@@ -69,28 +69,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       toast.success("Login realizado com sucesso!");
       navigate("/profile");
-    } catch (error: unknown) {
-      let errorMessage = "Erro ao fazer login";
-      interface ApiError {
-        response?: {
-          data?: {
-            message?: string;
-          };
-        };
-      }
-      if (
-        typeof error === "object" &&
-        error !== null &&
-        "response" in error &&
-        typeof (error as ApiError).response?.data?.message === "string"
-      ) {
-        errorMessage = (error as ApiError).response!.data!.message!;
-      }
-      toast.error(errorMessage);
-      throw error;
     } finally {
       setLoading(false);
     }
+  };
+
+  const logout = async () => {
+    setLoading(true);
+
+    await authService.logout();
+
+    setProfile(null);
+    setLoading(false);
+    navigate("/login");
+
+    toast.success("Logout realizado com sucesso!");
   };
 
   const register = async (data: RegisterData) => {
@@ -128,22 +121,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
       toast.error(errorMessage);
       throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const logout = async () => {
-    try {
-      setLoading(true);
-      await authService.logout();
-      setProfile(null);
-      toast.success("Logout realizado com sucesso!");
-    } catch (error) {
-      console.error("Erro ao fazer logout:", error);
-      // Mesmo com erro, remove os dados locais
-      setProfile(null);
-      toast.success("Logout realizado!");
     } finally {
       setLoading(false);
     }

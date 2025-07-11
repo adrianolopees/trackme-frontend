@@ -1,4 +1,6 @@
 import axios from "axios";
+import type { AxiosResponse, AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 // Configuração base do Axios
 const api = axios.create({
@@ -17,7 +19,7 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // CORREÇÃO: Remove Content-Type para FormData (axios detecta automaticamente)
+    // -- Remove Content-Type para FormData (axios detecta automaticamente)
     if (config.data instanceof FormData) {
       delete config.headers["Content-Type"];
     }
@@ -31,20 +33,52 @@ api.interceptors.request.use(
 
 // Interceptor para tratar respostas e erros
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  (error) => {
-    if (error.response?.status === 401) {
-      // Token expirado ou inválido
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      // Redirecionar para login se não estiver já na página de login
-      if (window.location.pathname !== "/login") {
-        window.location.href = "/login";
-      }
+  (response: AxiosResponse) => response,
+  (error: AxiosError) => {
+    // -- Estrutura do erro da API
+    const apiError = error.response?.data as {
+      message?: string;
+      statusCode?: number;
+    };
+
+    let errorMessage = "Erro interno do servidor";
+
+    // -- Tratamento específico por status code
+    switch (error.response?.status) {
+      case 400:
+        errorMessage = apiError?.message || "Dados inválidos";
+        break;
+      case 401:
+        errorMessage = "Credenciais inválidas";
+        // Limpar token inválido
+        localStorage.removeItem("token");
+        localStorage.removeItem("profile");
+        break;
+      case 403:
+        errorMessage = "Acesso negado";
+        break;
+      case 404:
+        errorMessage = "Recurso não encontrado";
+        break;
+      case 422:
+        errorMessage = apiError?.message || "Dados de entrada inválidos";
+        break;
+      case 500:
+        errorMessage = "Erro interno do servidor";
+        break;
+      default:
+        errorMessage = apiError?.message || "Erro desconhecido";
     }
-    return Promise.reject(error);
+
+    // -- Exibir toast de erro automaticamente
+    toast.error(errorMessage);
+
+    // -- Rejeitar com erro customizado
+    return Promise.reject({
+      message: errorMessage,
+      status: error.response?.status,
+      originalError: error,
+    });
   }
 );
 
