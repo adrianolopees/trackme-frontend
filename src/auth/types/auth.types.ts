@@ -39,8 +39,9 @@ export interface AuthContextData {
   login: (data: LoginData) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
   logout: () => Promise<void>;
-  isAuthenticated: boolean;
+  isLoggingOut: boolean;
   checkAuth: () => Promise<void>;
+  isAuthenticated: boolean;
 }
 
 export interface AuthProviderProps {

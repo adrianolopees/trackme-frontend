@@ -6,7 +6,7 @@ import { useAuth } from "../auth/hooks/useAuth";
 
 export const Profile = () => {
   const navigate = useNavigate();
-  const { profile, logout, isAuthenticated, loading } = useAuth();
+  const { profile, logout, isAuthenticated, loading, isLoggingOut } = useAuth();
 
   // Redireciona para login se não estiver autenticado
   useEffect(() => {
@@ -35,10 +35,14 @@ export const Profile = () => {
     );
   }
 
-  // Se não estiver autenticado, não renderiza nada (useEffect vai redirecionar)
-  if (!isAuthenticated || !profile) {
-    console.log("Perfil ausente ou não autenticado:", profile);
+  // Se esta fazendo logout, nao mostrar nada
+  if (isLoggingOut) {
     return null;
+  }
+
+  // Se não está autenticado, redirecionar
+  if (!isAuthenticated || !profile) {
+    return;
   }
 
   return (
@@ -51,9 +55,17 @@ export const Profile = () => {
     >
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <div className="text-center mb-6">
-          <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <FaUser className="text-blue-600 text-2xl" />
-          </div>
+          {profile?.avatar ? (
+            <img
+              src={profile.avatar}
+              alt="Avatar do usuário"
+              className="w-20 h-20 rounded-full object-cover mx-auto mb-4 shadow"
+            />
+          ) : (
+            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FaUser className="text-blue-600 text-2xl" />
+            </div>
+          )}
           <h1 className="text-2xl font-bold text-gray-800">Bem-vindo!</h1>
           <p className="text-gray-600">Seu perfil TrackMe</p>
         </div>

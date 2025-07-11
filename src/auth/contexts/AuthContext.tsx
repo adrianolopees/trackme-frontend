@@ -17,37 +17,27 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const navigate = useNavigate();
 
-  const isAuthenticated = !!profile && !!authService.getToken();
+  const isAuthenticated =
+    !!profile && !isLoggingOut && !!authService.getToken();
 
-  // Verificar autenticação ao carregar a aplicação
   const checkAuth = async () => {
-    try {
-      const token = authService.getToken();
+    setIsLoggingOut(false);
+    const token = authService.getToken();
 
-      if (token) {
-        // Tenta verificar se o token é válido
-        const profileData = await authService.verifyToken();
-        setProfile(profileData);
-
-        authService.saveAuthData(token, profileData);
-      } else {
-        // Se não tem token, verifica se tem dados salvos
-        const savedProfile = authService.getSavedProfile();
-        if (savedProfile) {
-          localStorage.removeItem("profile"); // Remove dados órfãos
-        }
-      }
-    } catch (error) {
-      // Token inválido ou expirado
-      console.warn("Erro na verificação de autenticação:", error);
-      localStorage.removeItem("token");
-      localStorage.removeItem("profile");
-      setProfile(null);
-    } finally {
+    if (!token) {
+      authService.clearAuthData();
       setLoading(false);
+      return;
     }
+
+    // Sem try/catch - interceptor cuida de tudo
+    const profile = await authService.verifyToken();
+    setProfile(profile);
+    authService.saveAuthData(token, profile);
+    setLoading(false);
   };
   useEffect(() => {
     checkAuth();
@@ -75,12 +65,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = async () => {
-    setLoading(true);
+    setIsLoggingOut(true);
 
     await authService.logout();
 
     setProfile(null);
-    setLoading(false);
+    setIsLoggingOut(false);
+
     navigate("/login");
 
     toast.success("Logout realizado com sucesso!");
@@ -136,6 +127,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         logout,
         isAuthenticated,
         checkAuth,
+        isLoggingOut,
       }}
     >
       {children}

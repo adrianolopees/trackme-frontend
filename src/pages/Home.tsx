@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "../auth/hooks/useAuth";
 
 function Home() {
-  const { isAuthenticated, user, loading } = useAuth();
+  const { isAuthenticated, profile, loading } = useAuth();
 
   if (loading) {
     return (
@@ -24,13 +24,13 @@ function Home() {
     >
       <h1 className="text-4xl font-bold mb-6 text-blue-600">TrackMe</h1>
 
-      {isAuthenticated && user ? (
+      {isAuthenticated && profile ? (
         // Usuário logado
         <div className="text-center">
           <p className="mb-6 text-gray-700 text-lg">
             Olá,{" "}
             <span className="font-semibold text-blue-600">
-              {user.name || user.username}
+              {profile.name || profile.username}
             </span>
             !
           </p>

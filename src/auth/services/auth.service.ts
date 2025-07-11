@@ -22,14 +22,7 @@ class AuthService {
 
   // Logout
   async logout(): Promise<void> {
-    try {
-      await api.post("/auth/logout");
-    } catch (error) {
-      // Mesmo que dê erro na API, remove localmente
-      console.warn("Erro ao fazer logout na API:", error);
-    } finally {
-      this.clearAuthData();
-    }
+    this.clearAuthData();
   }
 
   async verifyToken(token?: string): Promise<ProfileData> {
