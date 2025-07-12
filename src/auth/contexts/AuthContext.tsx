@@ -1,4 +1,3 @@
-// src/contexts/AuthContext.tsx
 import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -33,7 +32,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return;
     }
 
-    // Sem try/catch - interceptor cuida de tudo
+    // interceptor cuida de tudo
     const profile = await authService.verifyToken();
     setProfile(profile);
     authService.saveAuthData(token, profile);
@@ -93,25 +92,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } else {
         toast.success("Conta criada com sucesso!");
       }
-    } catch (error: unknown) {
-      let errorMessage = "Erro ao criar conta";
-      interface ApiError {
-        response?: {
-          data?: {
-            message?: string;
-          };
-        };
-      }
-      if (
-        typeof error === "object" &&
-        error !== null &&
-        "response" in error &&
-        typeof (error as ApiError).response?.data?.message === "string"
-      ) {
-        errorMessage = (error as ApiError).response!.data!.message!;
-      }
-      toast.error(errorMessage);
-      throw error;
     } finally {
       setLoading(false);
     }

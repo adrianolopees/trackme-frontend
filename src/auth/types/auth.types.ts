@@ -10,7 +10,7 @@ export interface RegisterData {
   username: string;
   email: string;
   password: string;
-  name?: string; // opcional como no seu form
+  name: string;
 }
 
 // -- Dados do usuário retornados pela API
@@ -26,10 +26,6 @@ export interface ProfileData {
 export interface AuthResponse {
   token: string;
   profile?: ProfileData; // Dados do usuário após login ou registro
-}
-
-export interface TokenResponse {
-  token: string;
 }
 
 // -- Tipo da interface do Contexto de Autenticação
