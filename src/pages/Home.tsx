@@ -2,6 +2,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../auth/hooks/useAuth";
+import { FaUser } from "react-icons/fa";
+import GradientButton from "../components/GradientButton";
 
 function Home() {
   const { isAuthenticated, profile, loading } = useAuth();
@@ -36,11 +38,16 @@ function Home() {
           </p>
           <p className="mb-6 text-gray-600">Bem-vindo de volta ao TrackMe</p>
           <div className="flex gap-4">
-            <Link
-              to="/profile"
-              className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors font-medium"
-            >
-              Ir para Perfil
+            <Link to="/profile">
+              <GradientButton
+                type="submit"
+                loading={loading}
+                disabled={loading}
+                icon={<FaUser />}
+                loadingText="Entrando..."
+              >
+                ir para Perfil
+              </GradientButton>
             </Link>
           </div>
         </div>
@@ -49,11 +56,16 @@ function Home() {
         <div className="text-center">
           <p className="mb-6 text-gray-700 text-lg">Bem-vindo! Comece agora:</p>
           <div className="flex gap-4 flex-wrap justify-center">
-            <Link
-              to="/login"
-              className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 transition-colors font-medium"
-            >
-              Login
+            <Link to="/login">
+              <GradientButton
+                type="submit"
+                loading={loading}
+                disabled={loading}
+                icon={<FaUser />}
+                loadingText="Entrando..."
+              >
+                Login
+              </GradientButton>
             </Link>
             <Link
               to="/register"
@@ -69,7 +81,10 @@ function Home() {
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">
           O que é o TrackMe?
         </h2>
-        <p className="text-gray-600 leading-relaxed"></p>
+
+        <p className="text-gray-600 leading-relaxed">
+          Transforme playlists em conexões.”
+        </p>
       </div>
     </motion.div>
   );

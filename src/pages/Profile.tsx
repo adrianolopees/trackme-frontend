@@ -44,8 +44,7 @@ export const Profile = () => {
   if (!isAuthenticated || !profile) {
     return;
   }
-  console.log("Avatar recebido:", profile.avatar);
-  console.log("Tipo de avatar:", typeof profile.avatar);
+
   return (
     <motion.div
       className="min-h-screen flex flex-col justify-center items-center p-4 bg-gray-50"
