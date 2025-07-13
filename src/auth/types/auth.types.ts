@@ -20,7 +20,7 @@ export interface ProfileData {
   email: string;
   name?: string;
   bio?: string;
-  avatar?: Blob;
+  avatar?: string;
 }
 
 export interface AuthResponse {
