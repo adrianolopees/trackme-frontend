@@ -105,7 +105,7 @@ export const Profile = () => {
             disabled={loading}
           >
             <FaSignOutAlt />
-            <span>{loading ? "Saindo..." : "Sair"}</span>
+            <span>Sair</span>
           </button>
 
           <button
