@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import { FaUser, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../auth/hooks/useAuth";
+import { Avatar, LoadingSpinner, PageWrapper } from "../components";
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -27,11 +27,7 @@ export const Profile = () => {
 
   // Loading state
   if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   // Se não está autenticado, redirecionar
@@ -40,26 +36,10 @@ export const Profile = () => {
   }
 
   return (
-    <motion.div
-      className="min-h-screen flex flex-col justify-center items-center p-4 bg-gray-50"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5 }}
-    >
+    <PageWrapper>
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <div className="text-center mb-6">
-          {profile?.avatar ? (
-            <img
-              src={profile.avatar}
-              alt="Avatar do usuário"
-              className="w-20 h-20 rounded-full object-cover mx-auto mb-4 shadow"
-            />
-          ) : (
-            <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <FaUser className="text-blue-600 text-2xl" />
-            </div>
-          )}
+          <Avatar src={profile?.avatar} />
           <h1 className="text-2xl font-bold text-gray-800">Bem-vindo!</h1>
           <p className="text-gray-600">Seu perfil TrackMe</p>
         </div>
@@ -110,7 +90,7 @@ export const Profile = () => {
           </button>
         </div>
       </div>
-    </motion.div>
+    </PageWrapper>
   );
 };
 
