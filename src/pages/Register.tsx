@@ -1,10 +1,14 @@
-// src/pages/Register.tsx
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { FaUserPlus } from "react-icons/fa";
 import { useAuth } from "../auth/hooks/useAuth";
-import GradientButton from "../components/GradientButton";
+import {
+  AuthFormLayout,
+  AuthRedirectLinks,
+  InputField,
+  PageWrapper,
+  GradientButton,
+} from "../components";
 
 function Register() {
   const navigate = useNavigate();
@@ -43,87 +47,64 @@ function Register() {
   };
 
   return (
-    <motion.div
-      className="min-h-screen flex flex-col justify-center items-center bg-gray-50 p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.4 }}
-    >
-      <h2 className="text-2xl font-bold mb-4">Crie sua conta</h2>
-
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 w-full max-w-sm"
+    <PageWrapper>
+      <AuthFormLayout
+        title="Crie sua conta"
+        redirectLinks={<AuthRedirectLinks alternate="login" />}
       >
-        <input
-          type="text"
-          name="username"
-          placeholder="Nome de usuário"
-          value={form.username}
-          onChange={handleChange}
-          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-          required
-          disabled={loading}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-          required
-          disabled={loading}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Senha"
-          value={form.password}
-          onChange={handleChange}
-          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-          required
-          disabled={loading}
-          minLength={6}
-        />
-        <input
-          type="text"
-          name="name"
-          placeholder="Nome completo"
-          value={form.name}
-          onChange={handleChange}
-          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-          disabled={loading}
-        />
-
-        <GradientButton
-          type="submit"
-          loading={loading}
-          disabled={loading}
-          icon={<FaUserPlus />}
-          loadingText="Criando conta..."
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4 w-full max-w-sm"
         >
-          Registrar
-        </GradientButton>
-      </form>
+          <InputField
+            type="text"
+            name="username"
+            placeholder="Nome de usuário"
+            value={form.username}
+            onChange={handleChange}
+            required
+            disabled={loading}
+          />
+          <InputField
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            disabled={loading}
+          />
+          <InputField
+            type="password"
+            name="password"
+            placeholder="Senha"
+            value={form.password}
+            onChange={handleChange}
+            required
+            disabled={loading}
+            minLength={6}
+          />
+          <InputField
+            type="text"
+            name="name"
+            placeholder="Nome completo"
+            value={form.name}
+            onChange={handleChange}
+            disabled={loading}
+          />
 
-      <p className="mt-4 text-sm">
-        Já tem uma conta?{" "}
-        <Link
-          to="/login"
-          className="text-blue-600 underline hover:text-blue-800"
-        >
-          Faça login
-        </Link>
-      </p>
-
-      <p className="mt-2 text-sm">
-        <Link to="/" className="text-gray-600 underline hover:text-gray-800">
-          Voltar ao início
-        </Link>
-      </p>
-    </motion.div>
+          <GradientButton
+            type="submit"
+            loading={loading}
+            disabled={loading}
+            icon={<FaUserPlus />}
+            loadingText="Criando conta..."
+          >
+            Registrar
+          </GradientButton>
+        </form>
+      </AuthFormLayout>
+    </PageWrapper>
   );
 }
 
