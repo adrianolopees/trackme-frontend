@@ -6,18 +6,17 @@ import { useAuth } from "../auth/hooks/useAuth";
 
 export const Profile = () => {
   const navigate = useNavigate();
-  const { profile, logout, isAuthenticated, loading, isLoggingOut } = useAuth();
+  const { profile, logout, isAuthenticated, loading } = useAuth();
 
-  // Redireciona para login se não estiver autenticado
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    if (!isAuthenticated) {
       navigate("/login");
     }
-  }, [isAuthenticated, loading, navigate]);
+  }, [isAuthenticated, navigate]);
 
   const handleLogout = async () => {
     try {
-      await logout();
+      logout();
       navigate("/login");
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
@@ -33,11 +32,6 @@ export const Profile = () => {
         <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
       </div>
     );
-  }
-
-  // Se esta fazendo logout, nao mostrar nada
-  if (isLoggingOut) {
-    return null;
   }
 
   // Se não está autenticado, redirecionar

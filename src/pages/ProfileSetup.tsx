@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import api from "../auth/services/api.service";
 import { toast } from "react-toastify";
 import GradientButton from "../components/GradientButton";
+import { useAuth } from "../auth/hooks/useAuth";
 
 export default function ProfileSetup() {
   const [bio, setBio] = useState("");
   const [avatar, setAvatar] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const { setProfile } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,15 +22,15 @@ export default function ProfileSetup() {
 
     setLoading(true);
 
-    // CORREÇÃO: Criar FormData corretamente
     const formData = new FormData();
     formData.append("bio", bio);
-    formData.append("avatar", avatar); // Nome deve corresponder ao esperado no backend
+    formData.append("avatar", avatar);
 
     try {
-      // CORREÇÃO: Não precisa mais definir headers manualmente
-      await api.put("/profile/me", formData);
+      const response = await api.put("/profile/me", formData);
+      const updatedProfile = response.data.data;
 
+      setProfile(updatedProfile);
       toast.success("Perfil configurado com sucesso!");
       navigate("/profile");
     } catch (error) {

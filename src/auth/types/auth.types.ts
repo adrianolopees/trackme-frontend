@@ -1,6 +1,5 @@
-import type { ReactNode } from "react";
+import type { ReactNode, Dispatch, SetStateAction } from "react";
 
-// -- Tipos usados para formulários e chamadas de API
 export interface LoginData {
   identifier: string; // email ou username
   password: string;
@@ -13,7 +12,6 @@ export interface RegisterData {
   name: string;
 }
 
-// -- Dados do usuário retornados pela API
 export interface ProfileData {
   id: string;
   username: string;
@@ -25,16 +23,17 @@ export interface ProfileData {
 
 export interface AuthResponse {
   token: string;
-  profile?: ProfileData; // Dados do usuário após login ou registro
+  profile?: ProfileData;
 }
 
 // -- Tipo da interface do Contexto de Autenticação
 export interface AuthContextData {
   profile: ProfileData | null;
+  setProfile: Dispatch<SetStateAction<ProfileData | null>>;
   loading: boolean;
   login: (data: LoginData) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
-  logout: () => Promise<void>;
+  logout: () => void;
   isLoggingOut: boolean;
   checkAuth: () => Promise<void>;
   isAuthenticated: boolean;

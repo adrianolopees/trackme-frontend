@@ -63,10 +63,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const logout = async () => {
+  const logout = () => {
     setIsLoggingOut(true);
 
-    await authService.logout();
+    authService.logout();
 
     setProfile(null);
     setIsLoggingOut(false);
@@ -101,6 +101,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     <AuthContext.Provider
       value={{
         profile,
+        setProfile,
         loading,
         login,
         register,
