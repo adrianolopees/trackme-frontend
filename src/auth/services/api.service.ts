@@ -11,6 +11,9 @@ const api = axios.create({
   },
 });
 
+// Flag para evitar múltiplos redirects
+let isRedirecting = false;
+
 // Interceptor para adicionar token de autenticação nas requisições
 api.interceptors.request.use(
   (config) => {
@@ -53,6 +56,15 @@ api.interceptors.response.use(
         // Limpar token inválido
         localStorage.removeItem("token");
         localStorage.removeItem("profile");
+
+        // Redirecionar para login (apenas uma vez)
+        if (!isRedirecting) {
+          isRedirecting = true;
+          setTimeout(() => {
+            window.location.href = "/login";
+            isRedirecting = false;
+          }, 1000);
+        }
         break;
       case 403:
         errorMessage = "Acesso negado";

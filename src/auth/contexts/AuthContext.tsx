@@ -40,14 +40,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const { token } = await authService.login(data);
-
       if (!token) throw new Error("Token não recebido");
 
       authService.saveAuthData(token);
 
       const profile = await authService.getAuthProfile();
-
       setProfile(profile);
+
       authService.saveAuthData(token, profile);
 
       toast.success("Login realizado com sucesso!");
@@ -58,19 +57,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = () => {
-    authService.logout();
-
+    authService.clearAuthData();
     setProfile(null);
-
     navigate("/login");
-
     toast.success("Logout realizado com sucesso!");
   };
 
   const register = async (data: RegisterData) => {
+    setLoading(true);
     try {
-      setLoading(true);
-
       const response = await authService.register(data);
       const { token, profile } = response;
 
