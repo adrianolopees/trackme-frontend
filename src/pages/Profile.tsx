@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../auth/hooks/useAuth";
-import { Avatar, LoadingSpinner, PageWrapper } from "../components";
+import { Avatar, FullPageSpinner, PageWrapper } from "../components";
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export const Profile = () => {
 
   // Loading state
   if (loading) {
-    return <LoadingSpinner />;
+    return <FullPageSpinner />;
   }
 
   // Se não está autenticado, redirecionar

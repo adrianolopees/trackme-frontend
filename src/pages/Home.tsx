@@ -1,6 +1,6 @@
 import { useAuth } from "../auth/hooks/useAuth";
 import {
-  LoadingSpinner,
+  FullPageSpinner,
   PageWrapper,
   UserGreeting,
   AuthButtons,
@@ -9,18 +9,15 @@ import {
 function Home() {
   const { isAuthenticated, profile, loading } = useAuth();
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
-
   return (
     <PageWrapper>
+      {loading && <FullPageSpinner />}
       <h1 className="text-4xl font-bold mb-6 text-blue-600">TrackMe</h1>
 
       {isAuthenticated && profile ? (
         <UserGreeting profile={profile} loading={loading} />
       ) : (
-        <AuthButtons loading={loading} />
+        <AuthButtons />
       )}
 
       <div className="mt-12 text-center max-w-2xl">

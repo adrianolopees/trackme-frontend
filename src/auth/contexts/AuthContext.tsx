@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { authService } from "../services/auth.service";
 
@@ -16,7 +15,6 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   const isAuthenticated = profile != null && authService.getToken() != null;
 
@@ -50,7 +48,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       authService.saveAuthData(token, profile);
 
       toast.success("Login realizado com sucesso!");
-      navigate("/profile");
     } finally {
       setLoading(false);
     }
@@ -67,7 +64,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         authService.saveAuthData(token, profile);
         setProfile(profile ?? null);
         toast.success("Fale sobre você e coloque uma foto!");
-        navigate("/profile-setup"); // Redireciona para configuração de perfil
       } else {
         toast.success("Conta criada com sucesso!");
       }
@@ -79,7 +75,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     authService.clearAuthData();
     setProfile(null);
-    navigate("/login");
     toast.success("Logout realizado com sucesso!");
   };
 

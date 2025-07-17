@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { useAuth } from "../auth/hooks/useAuth";
-import GradientButton from "../components/GradientButton";
-import { PageWrapper } from "../components";
-import InputField from "../components/InputField";
-import AuthRedirectLinks from "../components/AuthRedirectLinks";
-import AuthFormLayout from "../components/AuthFormLayout";
+import {
+  GradientButton,
+  PageWrapper,
+  InputField,
+  AuthRedirectLinks,
+  AuthFormLayout,
+} from "../components/index";
 
 function Login() {
   const navigate = useNavigate();
@@ -30,7 +32,6 @@ function Login() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       await login(form);
       // Navegação será feita pelo useEffect quando isAuthenticated mudar
