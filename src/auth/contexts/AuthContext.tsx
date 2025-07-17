@@ -56,13 +56,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    authService.clearAuthData();
-    setProfile(null);
-    navigate("/login");
-    toast.success("Logout realizado com sucesso!");
-  };
-
   const register = async (data: RegisterData) => {
     setLoading(true);
     try {
@@ -83,6 +76,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const logout = () => {
+    authService.clearAuthData();
+    setProfile(null);
+    navigate("/login");
+    toast.success("Logout realizado com sucesso!");
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -101,6 +101,4 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 };
 
-// Remove useAuth export from this file to comply with Fast Refresh requirements.
-export default AuthContext;
 export { AuthContext };

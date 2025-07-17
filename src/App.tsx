@@ -1,4 +1,3 @@
-// src/App.tsx
 import { AnimatePresence } from "framer-motion";
 import {
   BrowserRouter as Router,
