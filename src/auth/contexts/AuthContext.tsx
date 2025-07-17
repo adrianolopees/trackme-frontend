@@ -16,26 +16,20 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const navigate = useNavigate();
 
-  const isAuthenticated =
-    !!profile && !isLoggingOut && !!authService.getToken();
+  const isAuthenticated = profile != null && authService.getToken() != null;
 
   const checkAuth = async () => {
-    setIsLoggingOut(false);
-    const token = authService.getToken();
-
-    if (!token) {
+    const tokenStorage = authService.getToken();
+    if (!tokenStorage) {
       authService.clearAuthData();
       setLoading(false);
       return;
     }
-
-    // interceptor cuida de tudo
-    const profile = await authService.verifyToken();
+    const profile = await authService.getAuthProfile();
     setProfile(profile);
-    authService.saveAuthData(token, profile);
+    authService.saveAuthData(tokenStorage, profile);
     setLoading(false);
   };
   useEffect(() => {
@@ -51,7 +45,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       authService.saveAuthData(token);
 
-      const profile = await authService.verifyToken(token);
+      const profile = await authService.getAuthProfile();
 
       setProfile(profile);
       authService.saveAuthData(token, profile);
@@ -64,12 +58,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = () => {
-    setIsLoggingOut(true);
-
     authService.logout();
 
     setProfile(null);
-    setIsLoggingOut(false);
 
     navigate("/login");
 
@@ -108,7 +99,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         logout,
         isAuthenticated,
         checkAuth,
-        isLoggingOut,
       }}
     >
       {children}

@@ -25,15 +25,9 @@ class AuthService {
     this.clearAuthData();
   }
 
-  async verifyToken(token?: string): Promise<ProfileData> {
-    const finalToken = token ?? this.getToken(); // usa o token passado ou pega do localStorage
-    const response = await api.get("/profile/me", {
-      headers: {
-        Authorization: `Bearer ${finalToken}`,
-      },
-    });
-
-    return response.data.data; // acessa corretamente a estrutura { success, data, message }
+  async getAuthProfile(): Promise<ProfileData> {
+    const response = await api.get("/profile/me"); // api intercepta e add o token
+    return response.data.data; // estrutura { success, data, message }
   }
 
   // Salvar dados de autenticação
