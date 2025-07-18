@@ -5,6 +5,8 @@ import Avatar from "../Avatar/Avatar";
 type AvatarInputProps = {
   onFileSelect: (file: File) => void;
   disabled?: boolean;
+  size?: number; // tamanho do avatar
+  className?: string; // classes extras para o Avatar
 };
 
 export default function AvatarInput({
