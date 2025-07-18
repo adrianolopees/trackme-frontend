@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../auth/services/api.service";
 import { toast } from "react-toastify";
-import { GradientButton, PageWrapper } from "../components/index";
+import { GradientButton, PageWrapper, AvatarInput } from "../components/index";
 import { useAuth } from "../auth/hooks/useAuth";
-import { FaCamera } from "react-icons/fa";
 
 export default function ProfileSetup() {
   const [bio, setBio] = useState("");
@@ -48,38 +47,14 @@ export default function ProfileSetup() {
         <h2 className="text-2xl font-bold mb-4">Complete seu perfil</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block font-medium mb-2">Avatar</label>
-
-            <div className="flex items-start gap-4 justify-center ">
-              <div className="space-y-2 ">
-                <label
-                  htmlFor="avatar"
-                  title="Clique para selecionar avatar"
-                  className="w-20 h-20 flex items-center justify-center rounded-lg border border-gray-300 overflow-hidden cursor-pointer"
-                >
-                  {avatar ? (
-                    <img
-                      src={URL.createObjectURL(avatar)}
-                      alt="Preview do avatar"
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <FaCamera className="text-gray-400 text-3xl" />
-                  )}
-                </label>
-
-                <input
-                  id="avatar"
-                  type="file"
-                  accept="image/jpeg, image/png"
-                  disabled={loading}
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) setAvatar(file);
-                  }}
-                  className="hidden"
-                />
-              </div>
+            <div>
+              <label className="block font-medium mb-2">Avatar</label>
+              <AvatarInput
+                onFileSelect={(file) => {
+                  setAvatar(file);
+                }}
+                disabled={loading}
+              />
             </div>
             <div>
               <label className="block font-medium mb-2">Bio</label>

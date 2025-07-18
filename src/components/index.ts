@@ -8,3 +8,4 @@ export { default as AuthFormLayout } from "./AuthFormLayout";
 export { default as AuthRedirectLinks } from "./AuthRedirectLinks";
 export { default as InputField } from "./InputField";
 export { default as Avatar } from "./Avatar";
+export { default as AvatarInput } from "./AvatarInput";

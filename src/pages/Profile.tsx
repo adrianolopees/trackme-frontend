@@ -39,7 +39,7 @@ export const Profile = () => {
     <PageWrapper>
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <div className="text-center mb-6">
-          <Avatar src={profile?.avatar} />
+          <Avatar src={profile?.avatar} size={96} className="mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-gray-800">Bem-vindo!</h1>
           <p className="text-gray-600">Seu perfil TrackMe</p>
         </div>
