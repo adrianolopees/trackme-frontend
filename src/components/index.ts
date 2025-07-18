@@ -1,11 +1,22 @@
-export { default as GradientButton } from "./GradientButton";
-export { default as FullPageSpinner } from "./FullPageSpinner";
-export { default as ButtonSpinner } from "./ButtonSpinner";
-export { default as UserGreeting } from "./UserGreeting";
-export { default as AuthButtons } from "./AuthButtons";
-export { default as PageWrapper } from "./PageWrapper";
-export { default as AuthFormLayout } from "./AuthFormLayout";
-export { default as AuthRedirectLinks } from "./AuthRedirectLinks";
-export { default as InputField } from "./InputField";
-export { default as Avatar } from "./Avatar";
-export { default as AvatarInput } from "./AvatarInput";
+// Layout
+export { default as PageWrapper } from "./Layout/PageWrapper";
+export { default as UserGreeting } from "./Layout/UserGreeting";
+
+// Auth
+export { default as AuthButtons } from "./Auth/AuthButtons";
+export { default as AuthFormLayout } from "./Auth/AuthFormLayout";
+export { default as AuthRedirectLinks } from "./Auth/AuthRedirectLinks";
+
+// Buttons
+export { default as GradientButton } from "./Buttons/GradientButton";
+export { default as ButtonSpinner } from "./Buttons/ButtonSpinner";
+
+// Inputs
+export { default as InputField } from "./Inputs/InputField";
+export { default as AvatarInput } from "./Inputs/AvatarInput";
+
+// Avatar
+export { default as Avatar } from "./Avatar/Avatar";
+
+// Feedback
+export { default as FullPageSpinner } from "./Feedback/FullPageSpinner";
