@@ -5,6 +5,8 @@ import type {
   RegisterData,
   ProfileData,
 } from "../types/auth.types";
+const TOKEN_KEY = "@app:token";
+const PROFILE_KEY = "@app:profile";
 
 // Serviços de autenticação
 export const authService = {
@@ -28,26 +30,31 @@ export const authService = {
 
   // -- Save authentication data to local storage
   saveAuthData(token: string, profile?: ProfileData) {
-    localStorage.setItem("token", token);
+    localStorage.setItem(TOKEN_KEY, token);
     if (profile) {
-      localStorage.setItem("profile", JSON.stringify(profile));
+      this.saveProfile(profile);
     }
+  },
+
+  // -- Reutilizável para updates de perfil
+  saveProfile(profile: ProfileData): void {
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
   },
 
   // -- Clear data
   clearAuthData() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("profile");
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(PROFILE_KEY);
   },
 
   // -- Obter token atual
   getToken(): string | null {
-    return localStorage.getItem("token");
+    return localStorage.getItem(TOKEN_KEY);
   },
 
   // -- Obter dados do usuário salvos
   getSavedProfile(): ProfileData | null {
-    const profileData = localStorage.getItem("profile");
+    const profileData = localStorage.getItem(PROFILE_KEY);
     return profileData ? JSON.parse(profileData) : null;
   },
 };

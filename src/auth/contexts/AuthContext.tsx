@@ -16,7 +16,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const isAuthenticated = profile != null && authService.getToken() != null;
+  const isAuthenticated = !!profile;
 
   const checkAuth = async () => {
     const tokenStorage = authService.getToken();

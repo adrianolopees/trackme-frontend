@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { AxiosResponse, AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { authService } from "./auth.service";
 
 // Configuração base do Axios
 const api = axios.create({
@@ -17,7 +18,7 @@ let isRedirecting = false;
 // Interceptor para adicionar token de autenticação nas requisições
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = authService.getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -53,9 +54,7 @@ api.interceptors.response.use(
         break;
       case 401:
         errorMessage = "Credenciais inválidas";
-        // Limpar token inválido
-        localStorage.removeItem("token");
-        localStorage.removeItem("profile");
+        authService.clearAuthData();
 
         // Redirecionar para login (apenas uma vez)
         if (!isRedirecting) {
