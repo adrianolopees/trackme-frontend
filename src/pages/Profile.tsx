@@ -1,8 +1,14 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../auth/hooks/useAuth";
-import { Avatar, FullPageSpinner, PageWrapper } from "../components";
+import {
+  Avatar,
+  FullPageSpinner,
+  GradientButton,
+  PageWrapper,
+} from "../components";
+import { FiHome } from "react-icons/fi";
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -14,7 +20,7 @@ export const Profile = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
       logout();
       navigate("/login");
@@ -73,6 +79,19 @@ export const Profile = () => {
         </div>
 
         <div className="space-y-3">
+          <div className="flex gap-4 justify-center">
+            <Link to="/">
+              <GradientButton
+                type="submit"
+                loading={loading}
+                disabled={loading}
+                icon={<FiHome size={14} />}
+                loadingText="Entrando..."
+              >
+                Home
+              </GradientButton>
+            </Link>
+          </div>
           <button
             onClick={handleLogout}
             className="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center space-x-2"
@@ -80,13 +99,6 @@ export const Profile = () => {
           >
             <FaSignOutAlt />
             <span>Sair</span>
-          </button>
-
-          <button
-            onClick={() => navigate("/")}
-            className="w-full bg-gray-200 text-gray-800 p-3 rounded-lg hover:bg-gray-300 transition-colors"
-          >
-            Voltar ao início
           </button>
         </div>
       </div>
