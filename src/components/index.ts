@@ -10,6 +10,7 @@ export { default as AuthRedirectLinks } from "./Auth/AuthRedirectLinks";
 // Buttons
 export { default as GradientButton } from "./Buttons/GradientButton";
 export { default as ButtonSpinner } from "./Buttons/ButtonSpinner";
+export { default as SkipButton } from "./Buttons/SkipButton";
 
 // Inputs
 export { default as InputField } from "./Inputs/InputField";

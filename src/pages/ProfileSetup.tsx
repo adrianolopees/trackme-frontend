@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/hooks/useAuth";
 import api from "../auth/services/api.service";
 import { toast } from "react-toastify";
-import { GradientButton, PageWrapper, AvatarInput } from "../components/index";
-import { useAuth } from "../auth/hooks/useAuth";
-import SkipButton from "../components/Buttons/SkipButton";
+import {
+  GradientButton,
+  PageWrapper,
+  AvatarInput,
+  SkipButton,
+} from "../components/index";
 
 export default function ProfileSetup() {
   const [bio, setBio] = useState("");
