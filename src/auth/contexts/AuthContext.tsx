@@ -58,11 +58,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const response = await authService.register(data);
       const { token, profile } = response;
-
-      // Se o backend retornar token no registro, faz login automático
       if (token) {
         authService.saveAuthData(token, profile);
-        setProfile(profile ?? null);
+        setProfile(profile);
         toast.success("Fale sobre você e coloque uma foto!");
       } else {
         toast.success("Conta criada com sucesso!");

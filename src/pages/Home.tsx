@@ -14,8 +14,8 @@ function Home() {
       {loading && <FullPageSpinner />}
       <h1 className="text-4xl font-bold mb-6 text-blue-600">TrackMe</h1>
 
-      {isAuthenticated && profile ? (
-        <UserGreeting profile={profile} loading={loading} />
+      {isAuthenticated ? (
+        <UserGreeting profile={profile!} loading={loading} />
       ) : (
         <AuthButtons />
       )}

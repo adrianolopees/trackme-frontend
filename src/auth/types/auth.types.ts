@@ -23,7 +23,7 @@ export interface ProfileData {
 
 export interface AuthResponse {
   token: string;
-  profile?: ProfileData;
+  profile: ProfileData;
 }
 
 // -- Tipo da interface do Contexto de Autenticação
