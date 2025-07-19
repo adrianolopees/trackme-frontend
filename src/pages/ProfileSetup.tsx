@@ -48,7 +48,7 @@ export default function ProfileSetup() {
   const handleSkip = async () => {
     setLoading(true);
     const formData = new FormData();
-    formData.append("bio", ""); // bio vazio
+    formData.append("bio", bio || ""); // bio vazio
     // avatar não será enviado
     try {
       const response = await api.put("/profile/me", formData);
