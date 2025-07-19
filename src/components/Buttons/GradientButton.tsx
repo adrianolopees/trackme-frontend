@@ -25,7 +25,7 @@ export default function GradientButton({
         hover:from-purple-700 hover:to-blue-600
         transition-colors duration-300
         disabled:opacity-70 disabled:cursor-not-allowed
-        min-w-[140px] h-12
+        h-12
         `}
     >
       {loading ? (

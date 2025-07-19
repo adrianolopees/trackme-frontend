@@ -19,10 +19,9 @@ function Login() {
     password: "",
   });
 
-  // Redireciona se já estiver autenticado
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/profile");
+      navigate("/");
     }
   }, [isAuthenticated, navigate]);
 
@@ -34,8 +33,7 @@ function Login() {
     e.preventDefault();
     try {
       await login(form);
-      // Navegação será feita pelo useEffect quando isAuthenticated mudar
-      navigate("/profile");
+      navigate("/");
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log("Error no login", error.message);

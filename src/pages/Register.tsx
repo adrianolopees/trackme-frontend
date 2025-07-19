@@ -23,10 +23,9 @@ function Register() {
     avatar: null as File | null, // Para o avatar, se necessário
   });
 
-  // Redireciona se já estiver autenticado
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/profile");
+      navigate("/");
     }
   }, [isAuthenticated, navigate]);
 

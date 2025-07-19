@@ -77,10 +77,10 @@ export default function AvatarInput({
       <label
         htmlFor="avatar"
         title="Clique para selecionar avatar"
-        className="w-24 h-24 flex items-center justify-center rounded-full border border-gray-300 overflow-hidden cursor-pointer"
+        className="w-36 h-36 flex items-center justify-center rounded-full border border-gray-300 overflow-hidden cursor-pointer"
       >
         {preview ? (
-          <Avatar src={preview} size={96} />
+          <Avatar src={preview} size={146} />
         ) : (
           <FaCamera className="text-gray-400 text-3xl" />
         )}
