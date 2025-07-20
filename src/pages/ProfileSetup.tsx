@@ -19,7 +19,6 @@ export default function ProfileSetup() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!bio || !avatar) {
       toast.error("Por favor, preencha todos os campos.");
       return;
@@ -45,6 +44,7 @@ export default function ProfileSetup() {
       setLoading(false);
     }
   };
+
   const handleSkip = async () => {
     setLoading(true);
     const formData = new FormData();

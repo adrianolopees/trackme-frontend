@@ -15,6 +15,8 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import ProfileSetup from "./pages/ProfileSetup";
 
+import { ProtectedRoute } from "./routes/ProtectedRoute";
+
 function AnimatedRoutes() {
   const location = useLocation();
 
@@ -23,10 +25,25 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />~
-        <Route path="/profile-setup" element={<ProfileSetup />} />
-        {/* Redireciona para o perfil se já estiver autenticado */}
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* 🔒 Rotas protegidas individualmente */}
+        <Route
+          path="/profile-setup"
+          element={
+            <ProtectedRoute>
+              <ProfileSetup />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </AnimatePresence>
   );

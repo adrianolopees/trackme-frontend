@@ -1,24 +1,12 @@
-import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../auth/hooks/useAuth";
-import {
-  Avatar,
-  FullPageSpinner,
-  GradientButton,
-  PageWrapper,
-} from "../components";
+import { Avatar, GradientButton, PageWrapper } from "../components";
 import { FiHome } from "react-icons/fi";
 
 export const Profile = () => {
   const navigate = useNavigate();
-  const { profile, logout, isAuthenticated, loading } = useAuth();
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, navigate]);
+  const { profile, logout, loading } = useAuth();
 
   const handleLogout = () => {
     try {
@@ -31,14 +19,14 @@ export const Profile = () => {
     }
   };
 
-  // Loading state
-  if (loading) {
-    return <FullPageSpinner />;
-  }
-
-  // Se não está autenticado, redirecionar
-  if (!isAuthenticated || !profile) {
-    return;
+  if (!profile) {
+    return (
+      <PageWrapper>
+        <div className="text-center mt-10 text-red-500">
+          Erro: perfil não encontrado.
+        </div>
+      </PageWrapper>
+    );
   }
 
   return (
