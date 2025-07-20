@@ -1,13 +1,15 @@
-import { useNavigate, Link } from "react-router-dom";
 import { FaUser, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
-import { useAuth } from "../auth/hooks/useAuth";
 import { Avatar, GradientButton, PageWrapper } from "../components";
 import { FiHome } from "react-icons/fi";
 
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../auth/hooks/useAuth";
+import { useRequireProfile } from "../auth/hooks/useRequireProfile";
+
 export const Profile = () => {
   const navigate = useNavigate();
-  const { profile, logout, loading } = useAuth();
-
+  const { logout, loading } = useAuth();
+  const profile = useRequireProfile();
   const handleLogout = () => {
     try {
       logout();
@@ -19,23 +21,15 @@ export const Profile = () => {
     }
   };
 
-  if (!profile) {
-    return (
-      <PageWrapper>
-        <div className="text-center mt-10 text-red-500">
-          Erro: perfil não encontrado.
-        </div>
-      </PageWrapper>
-    );
-  }
-
   return (
     <PageWrapper>
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <div className="text-center mb-6">
-          <Avatar src={profile?.avatar} size={96} className="mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-800">Bem-vindo!</h1>
-          <p className="text-gray-600">Seu perfil TrackMe</p>
+          <Avatar src={profile.avatar} size={96} className="mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-800">
+            {profile.username}
+          </h1>
+          <p className="text-gray-600">{profile.bio}</p>
         </div>
 
         <div className="space-y-4 mb-6">

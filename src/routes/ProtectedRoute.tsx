@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../auth/hooks/useAuth";
+import { FullPageSpinner } from "../components";
 
 type ProtectedRoutesProps = {
   children: React.ReactNode;
@@ -11,7 +12,7 @@ export const ProtectedRoute = ({ children }: ProtectedRoutesProps) => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen text-gray-500">
-        Carregando...
+        <FullPageSpinner />
       </div>
     );
   }
