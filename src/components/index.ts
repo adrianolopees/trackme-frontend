@@ -11,6 +11,7 @@ export { default as AuthRedirectLinks } from "./Auth/AuthRedirectLinks";
 export { default as GradientButton } from "./Buttons/GradientButton";
 export { default as ButtonSpinner } from "./Buttons/ButtonSpinner";
 export { default as SkipButton } from "./Buttons/SkipButton";
+export { default as ProfileSettingsButton } from "./Buttons/ProfileSettingsButton";
 
 // Inputs
 export { default as InputField } from "./Inputs/InputField";

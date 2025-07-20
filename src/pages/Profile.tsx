@@ -1,5 +1,10 @@
 import { FaUser, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
-import { Avatar, GradientButton, PageWrapper } from "../components";
+import {
+  Avatar,
+  GradientButton,
+  PageWrapper,
+  ProfileSettingsButton,
+} from "../components";
 import { FiHome } from "react-icons/fi";
 
 import { useNavigate, Link } from "react-router-dom";
@@ -29,6 +34,7 @@ export const Profile = () => {
           <h1 className="text-2xl font-bold text-gray-800">
             {profile.username}
           </h1>
+          <ProfileSettingsButton></ProfileSettingsButton>
           <p className="text-gray-600">{profile.bio}</p>
         </div>
 
