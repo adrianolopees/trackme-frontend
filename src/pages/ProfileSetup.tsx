@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/hooks/useAuth";
 
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
 import api from "../auth/services/api.service";
 import { toast } from "react-toastify";
 import {
@@ -9,26 +13,43 @@ import {
   PageWrapper,
   AvatarInput,
   SkipButton,
+  TextAreaField,
 } from "../components/index";
 
+const profileSetupSchema = z.object({
+  bio: z
+    .string()
+    .min(1, "Bio é obrigatória")
+    .max(500, "Bio muito longa")
+    .optional(),
+});
+type ProfileSetupFormData = z.infer<typeof profileSetupSchema>;
+
 export default function ProfileSetup() {
-  const [bio, setBio] = useState("");
   const [avatar, setAvatar] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const { setProfile } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!bio || !avatar) {
-      toast.error("Por favor, preencha todos os campos.");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<ProfileSetupFormData>({
+    resolver: zodResolver(profileSetupSchema),
+  });
+
+  const onSubmit = async (data: ProfileSetupFormData) => {
+    if (!avatar) {
+      toast.error("Por favor, selecione um avatar.");
       return;
     }
 
     setLoading(true);
 
     const formData = new FormData();
-    formData.append("bio", bio);
+    formData.append("bio", data.bio || "");
     formData.append("avatar", avatar);
 
     try {
@@ -48,8 +69,10 @@ export default function ProfileSetup() {
 
   const handleSkip = async () => {
     setLoading(true);
+    const { bio } = getValues();
+
     const formData = new FormData();
-    formData.append("bio", bio || ""); // bio vazio
+    formData.append("bio", bio || "");
     // avatar não será enviado
     try {
       const response = await api.put("/profile/me", formData);
@@ -73,7 +96,7 @@ export default function ProfileSetup() {
           Complete seu perfil
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="flex justify-center">
             <AvatarInput
               onFileSelect={(file) => {
@@ -83,16 +106,12 @@ export default function ProfileSetup() {
             />
           </div>
 
-          <div>
-            <textarea
-              className="w-full p-1 border border-blue-600 rounded-lg resize-none"
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              placeholder="Conte um pouco sobre você..."
-              rows={4}
-              disabled={loading}
-            />
-          </div>
+          <TextAreaField
+            placeholder="Conte um pouco sobre você..."
+            {...register("bio")}
+            error={errors.bio?.message}
+            className="h-24"
+          />
 
           <div className="flex gap-2 justify-between mt-6">
             <GradientButton
@@ -105,7 +124,7 @@ export default function ProfileSetup() {
               Salvar
             </GradientButton>
 
-            <SkipButton onClick={handleSkip} disabled={loading} />
+            <SkipButton onClick={handleSkip} disabled={loading} type="button" />
           </div>
         </form>
       </div>

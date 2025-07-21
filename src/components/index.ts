@@ -16,6 +16,7 @@ export { default as ProfileSettingsButton } from "./Buttons/ProfileSettingsButto
 // Inputs
 export { default as InputField } from "./Inputs/InputField";
 export { default as AvatarInput } from "./Inputs/AvatarInput";
+export { default as TextAreaField } from "./Inputs/TextAreaField";
 
 // Avatar
 export { default as Avatar } from "./Avatar/Avatar";
