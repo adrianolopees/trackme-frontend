@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { useAuth } from "../auth/hooks/useAuth";
@@ -9,14 +9,27 @@ import {
   AuthRedirectLinks,
   AuthFormLayout,
 } from "../components/index";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// Validação com Zod
+const loginSchema = z.object({
+  identifier: z.string().min(3, "Email ou usuário é obrigatório"),
+  password: z.string().min(6, "Senha deve ter pelo menos 8 caracteres"),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 function Login() {
   const navigate = useNavigate();
   const { login, loading, isAuthenticated } = useAuth();
-
-  const [form, setForm] = useState({
-    identifier: "",
-    password: "",
+  const {
+    register: registerForm,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
   });
 
   useEffect(() => {
@@ -25,14 +38,9 @@ function Login() {
     }
   }, [isAuthenticated, navigate]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      await login(form);
+      await login(data);
       navigate("/");
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -49,23 +57,21 @@ function Login() {
       >
         <form
           className="w-full max-w-sm flex flex-col gap-4"
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <InputField
             type="text"
-            name="identifier"
             placeholder="Email ou usuário"
-            value={form.identifier}
-            onChange={handleChange}
+            {...registerForm("identifier")}
+            error={errors.identifier?.message}
             required
             disabled={loading}
           />
           <InputField
             type="password"
-            name="password"
             placeholder="Senha"
-            value={form.password}
-            onChange={handleChange}
+            {...registerForm("password")}
+            error={errors.password?.message}
             required
             disabled={loading}
           />
