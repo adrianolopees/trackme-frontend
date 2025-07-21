@@ -43,6 +43,7 @@ function Register() {
   const onSubmit = async (data: RegisterFormData) => {
     const { confirmPassword: _, ...rest } = data;
     // Remove a confirmação de senha do objeto
+
     // para enviar apenas os dados necessários para o backend
     const userData: RegisterData = rest;
     try {

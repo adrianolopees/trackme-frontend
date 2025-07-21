@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/hooks/useAuth";
 
-import { z } from "zod";
+import {
+  profileSetupSchema,
+  type ProfileSetupFormData,
+} from "../schemas/profileSchemas";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
@@ -15,15 +19,6 @@ import {
   SkipButton,
   TextAreaField,
 } from "../components/index";
-
-const profileSetupSchema = z.object({
-  bio: z
-    .string()
-    .min(1, "Bio é obrigatória")
-    .max(500, "Bio muito longa")
-    .optional(),
-});
-type ProfileSetupFormData = z.infer<typeof profileSetupSchema>;
 
 export default function ProfileSetup() {
   const [avatar, setAvatar] = useState<File | null>(null);

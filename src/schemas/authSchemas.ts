@@ -13,6 +13,7 @@ export const registerDataSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(6, "Mínimo 6 caracteres"),
 });
+
 // Schema do formulário - estende o base + confirmPassword
 export const registerSchema = registerDataSchema
   .extend({
@@ -22,6 +23,7 @@ export const registerSchema = registerDataSchema
     message: "As senhas não coincidem",
     path: ["confirmPassword"],
   });
+
 export type RegisterData = z.infer<typeof registerDataSchema>; // Para backend
 export type RegisterFormData = z.infer<typeof registerSchema>; // Para formulário
 
