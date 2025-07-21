@@ -21,5 +21,6 @@ export const ProtectedRoute = ({ children }: ProtectedRoutesProps) => {
     return <Navigate to="/login" replace />;
   }
 
+  // Somente verifica se está autenticado
   return <>{children}</>;
 };

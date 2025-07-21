@@ -6,10 +6,8 @@ import type {
   AuthContextData,
   AuthProviderProps,
   ProfileData,
-  LoginData,
-  RegisterData,
 } from "../types/auth.types";
-
+import type { LoginFormData, RegisterData } from "../../schemas/authSchemas";
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -17,6 +15,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const isAuthenticated = !!profile;
+  const isProfileSetupDone = profile?.profileSetupDone === true;
 
   const checkAuth = async () => {
     const tokenStorage = authService.getToken();
@@ -34,7 +33,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     checkAuth();
   }, []);
 
-  const login = async (data: LoginData) => {
+  const login = async (data: LoginFormData) => {
     setLoading(true);
     try {
       const { token } = await authService.login(data);
@@ -87,6 +86,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         logout,
         isAuthenticated,
         checkAuth,
+        isProfileSetupDone,
       }}
     >
       {children}

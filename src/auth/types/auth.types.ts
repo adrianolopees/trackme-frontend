@@ -11,6 +11,7 @@ export interface ProfileData {
   name?: string;
   bio?: string;
   avatar?: string;
+  profileSetupDone: boolean;
 }
 
 export interface AuthResponse {
@@ -28,6 +29,7 @@ export interface AuthContextData {
   logout: () => void;
   checkAuth: () => Promise<void>;
   isAuthenticated: boolean;
+  isProfileSetupDone: boolean;
 }
 
 export interface AuthProviderProps {

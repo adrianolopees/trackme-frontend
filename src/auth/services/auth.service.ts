@@ -1,17 +1,13 @@
 import api from "./api.service";
-import type {
-  LoginData,
-  AuthResponse,
-  RegisterData,
-  ProfileData,
-} from "../types/auth.types";
+import type { AuthResponse, ProfileData } from "../types/auth.types";
+import type { LoginFormData, RegisterData } from "../../schemas/authSchemas";
 const TOKEN_KEY = "@app:token";
 const PROFILE_KEY = "@app:profile";
 
 // Serviços de autenticação
 export const authService = {
   // -- Login
-  async login(data: LoginData): Promise<AuthResponse> {
+  async login(data: LoginFormData): Promise<AuthResponse> {
     const response = await api.post("/auth/login", data);
     return response.data.data;
   },

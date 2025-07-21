@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/hooks/useAuth";
+import { useRequireProfile } from "../auth/hooks/useRequireProfile";
 
 import {
   profileSetupSchema,
@@ -24,7 +25,14 @@ export default function ProfileSetup() {
   const [avatar, setAvatar] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const { setProfile } = useAuth();
+  const profile = useRequireProfile();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (profile.profileSetupDone) {
+      navigate("/", { replace: true });
+    }
+  }, [profile, navigate]);
 
   const {
     register,
@@ -46,6 +54,7 @@ export default function ProfileSetup() {
     const formData = new FormData();
     formData.append("bio", data.bio || "");
     formData.append("avatar", avatar);
+    formData.append("profileSetupDone", "true");
 
     try {
       const response = await api.put("/profile/me", formData);
@@ -69,6 +78,7 @@ export default function ProfileSetup() {
     const formData = new FormData();
     formData.append("bio", bio || "");
     // avatar não será enviado
+    formData.append("profileSetupDone", "true");
     try {
       const response = await api.put("/profile/me", formData);
       const updatedProfile = response.data.data;

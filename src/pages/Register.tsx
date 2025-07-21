@@ -48,7 +48,7 @@ function Register() {
     const userData: RegisterData = rest;
     try {
       await register(userData);
-      navigate("/profile-setup");
+      navigate("/profile-setup", { replace: true });
     } catch (error) {
       console.error("Erro ao registrar:", error);
       toast.error("Erro ao criar conta");
