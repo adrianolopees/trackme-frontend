@@ -1,17 +1,5 @@
 import type { ReactNode, Dispatch, SetStateAction } from "react";
-
-export interface LoginData {
-  identifier: string; // email ou username
-  password: string;
-}
-
-export interface RegisterData {
-  username: string;
-  email: string;
-  password: string;
-  name: string;
-}
-
+import { type LoginData, type RegisterData } from "../../schemas/authSchemas";
 export interface ProfileData {
   id: string;
   username: string;
