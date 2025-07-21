@@ -1,5 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginFormData } from "../schemas/authSchemas";
+
 import { FaUser } from "react-icons/fa";
 import { useAuth } from "../auth/hooks/useAuth";
 import {
@@ -9,17 +13,6 @@ import {
   AuthRedirectLinks,
   AuthFormLayout,
 } from "../components/index";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-// Validação com Zod
-const loginSchema = z.object({
-  identifier: z.string().min(3, "Email ou usuário é obrigatório"),
-  password: z.string().min(6, "Senha deve ter pelo menos 8 caracteres"),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
 
 function Login() {
   const navigate = useNavigate();

@@ -29,6 +29,6 @@ export type RegisterFormData = z.infer<typeof registerSchema>; // Para formulár
 
 export const loginSchema = z.object({
   identifier: z.string().min(3, "Email ou usuário é obrigatório"),
-  password: z.string().min(8, "Senha deve ter pelo menos 8 caracteres"),
+  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
 });
-export type LoginData = z.infer<typeof loginSchema>;
+export type LoginFormData = z.infer<typeof loginSchema>;

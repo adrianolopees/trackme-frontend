@@ -1,5 +1,9 @@
 import type { ReactNode, Dispatch, SetStateAction } from "react";
-import { type LoginData, type RegisterData } from "../../schemas/authSchemas";
+import {
+  type LoginFormData,
+  type RegisterData,
+} from "../../schemas/authSchemas";
+
 export interface ProfileData {
   id: string;
   username: string;
@@ -19,7 +23,7 @@ export interface AuthContextData {
   profile: ProfileData | null;
   setProfile: Dispatch<SetStateAction<ProfileData | null>>;
   loading: boolean;
-  login: (data: LoginData) => Promise<void>;
+  login: (data: LoginFormData) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
   logout: () => void;
   checkAuth: () => Promise<void>;
