@@ -8,14 +8,8 @@ export function useRequireProfile() {
 
   useEffect(() => {
     if (!profile) {
-      // Usuário não logado — pode redirecionar para login, por exemplo:
-      navigate("/login");
+      navigate("/login", { replace: true });
       return;
-    }
-
-    if (profile.profileSetupDone) {
-      // Perfil completo — não pode acessar setup novamente
-      navigate("/");
     }
   }, [profile, navigate]);
 

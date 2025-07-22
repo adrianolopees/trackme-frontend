@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/hooks/useAuth";
-import { useRequireProfile } from "../auth/hooks/useRequireProfile";
-
 import {
   profileSetupSchema,
   type ProfileSetupFormData,
@@ -20,17 +18,18 @@ import {
   SkipButton,
   TextAreaField,
 } from "../components/index";
+import { useRequireProfile } from "../auth/hooks/useRequireProfile";
 
 export default function ProfileSetup() {
   const [avatar, setAvatar] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const { setProfile } = useAuth();
-  const profile = useRequireProfile();
   const navigate = useNavigate();
+  const profile = useRequireProfile();
 
   useEffect(() => {
-    if (profile.profileSetupDone) {
-      navigate("/", { replace: true });
+    if (profile?.profileSetupDone) {
+      navigate("/profile", { replace: true });
     }
   }, [profile, navigate]);
 
