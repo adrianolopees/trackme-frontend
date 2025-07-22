@@ -1,20 +1,29 @@
-import { AnimatePresence } from "framer-motion";
+// React Router - Roteamento da aplicação
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useLocation,
 } from "react-router-dom";
+
+// Framer Motion - Animações e transições
+import { AnimatePresence } from "framer-motion";
+
+// React Toastify - Sistema de notificações
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+// Providers - Contextos globais da aplicação
 import { AuthProvider } from "./auth/contexts/AuthContext";
+
+// Pages - Componentes de páginas
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import ProfileSetup from "./pages/ProfileSetup";
+import Register from "./pages/Register";
 
+// Route Guards - Proteção de rotas
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { PublicRoute } from "./routes/PublicRoute";
 

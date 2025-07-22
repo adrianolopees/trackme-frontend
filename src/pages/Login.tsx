@@ -1,16 +1,26 @@
+// React Router - Navegação
 import { useNavigate } from "react-router-dom";
+
+// React Hook Form - Gerenciamento de formulários
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+// Schemas e tipos - Validação de dados
 import { loginSchema, type LoginFormData } from "../schemas/authSchemas";
 
-import { FaUser } from "react-icons/fa";
+// Hooks customizados - Lógica de autenticação
 import { useAuth } from "../auth/hooks/useAuth";
+
+// Ícones - Interface visual
+import { FaUser } from "react-icons/fa";
+
+// Componentes customizados - Interface da aplicação
 import {
-  GradientButton,
-  PageWrapper,
-  InputField,
-  AuthRedirectLinks,
   AuthFormLayout,
+  AuthRedirectLinks,
+  GradientButton,
+  InputField,
+  PageWrapper,
 } from "../components/index";
 
 function Login() {

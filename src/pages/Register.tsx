@@ -1,22 +1,30 @@
+// React Router - Navegação
+import { useNavigate } from "react-router-dom";
+
+// React Hook Form - Gerenciamento de formulários
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
-import { FaUserPlus } from "react-icons/fa";
 
-// ✅ Imports dos schemas - tudo centralizado
+// Schemas e tipos - Validação de dados
 import {
   registerSchema,
   type RegisterData,
   type RegisterFormData,
 } from "../schemas/authSchemas";
 
+// Hooks customizados - Lógica de autenticação
 import { useAuth } from "../auth/hooks/useAuth";
+
+// Ícones - Interface visual
+import { FaUserPlus } from "react-icons/fa";
+
+// Componentes customizados - Interface da aplicação
 import {
   AuthFormLayout,
   AuthRedirectLinks,
+  GradientButton,
   InputField,
   PageWrapper,
-  GradientButton,
 } from "../components";
 
 function Register() {

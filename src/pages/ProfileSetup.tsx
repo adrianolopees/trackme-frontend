@@ -1,24 +1,37 @@
+// React - Core hooks
 import { useState, useEffect } from "react";
+
+// React Router - Navegação
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../auth/hooks/useAuth";
+
+// React Hook Form - Gerenciamento de formulários
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+// React Toastify - Notificações
+import { toast } from "react-toastify";
+
+// Schemas e tipos - Validação de dados
 import {
   profileSetupSchema,
   type ProfileSetupFormData,
 } from "../schemas/profileSchemas";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
+// Services - API e comunicação externa
 import api from "../auth/services/api.service";
-import { toast } from "react-toastify";
+
+// Hooks customizados - Lógica de negócio
+import { useAuth } from "../auth/hooks/useAuth";
+import { useRequireProfile } from "../auth/hooks/useRequireProfile";
+
+// Componentes customizados - Interface da aplicação
 import {
+  AvatarInput,
   GradientButton,
   PageWrapper,
-  AvatarInput,
   SkipButton,
   TextAreaField,
 } from "../components/index";
-import { useRequireProfile } from "../auth/hooks/useRequireProfile";
 
 export default function ProfileSetup() {
   const [avatar, setAvatar] = useState<File | null>(null);
