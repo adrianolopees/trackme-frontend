@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +15,7 @@ import {
 
 function Login() {
   const navigate = useNavigate();
-  const { login, loading, isAuthenticated } = useAuth();
+  const { login, loading } = useAuth();
   const {
     register: registerForm,
     handleSubmit,
@@ -25,16 +24,10 @@ function Login() {
     resolver: zodResolver(loginSchema),
   });
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
-
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login(data);
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log("Error no login", error.message);

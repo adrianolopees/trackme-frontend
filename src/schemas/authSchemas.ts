@@ -3,14 +3,14 @@ import { z } from "zod";
 export const registerDataSchema = z.object({
   name: z
     .string()
-    .min(2, "Nome deve ter pelo menos 2 caracteres")
-    .max(50, "Nome muito longo"),
+    .min(3, "Nome deve ter pelo menos 3 caracteres")
+    .max(50, "Nome maximo 50 caractere"),
   username: z
     .string()
-    .min(3, "Usuário muito curto")
-    .max(20, "Usuário muito longo")
-    .regex(/^[a-zA-Z0-9_]+$/, "Apenas letras, números e underscore"),
-  email: z.string().email("Email inválido"),
+    .min(3, "Usuário deve ter pelo menos 3 caracteres")
+    .max(20, "Usuário maximo 20 caracteres")
+    .regex(/^[a-zA-Z0-9]+$/, "Apenas letras e números são permitidos"),
+  email: z.email({ message: "Email inválido" }),
   password: z.string().min(6, "Mínimo 6 caracteres"),
 });
 

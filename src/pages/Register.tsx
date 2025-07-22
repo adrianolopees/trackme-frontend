@@ -1,9 +1,7 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import { FaUserPlus } from "react-icons/fa";
-import { toast } from "react-toastify";
 
 // ✅ Imports dos schemas - tudo centralizado
 import {
@@ -23,7 +21,7 @@ import {
 
 function Register() {
   const navigate = useNavigate();
-  const { register, loading, isAuthenticated } = useAuth();
+  const { register, loading } = useAuth();
 
   const {
     register: registerForm,
@@ -33,25 +31,17 @@ function Register() {
     resolver: zodResolver(registerSchema),
   });
 
-  // Redireciona se já estiver logado
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
-
   const onSubmit = async (data: RegisterFormData) => {
     const { confirmPassword: _, ...rest } = data;
     // Remove a confirmação de senha do objeto
 
-    // para enviar apenas os dados necessários para o backend
+    // Para enviar apenas os dados necessários para o backend
     const userData: RegisterData = rest;
     try {
       await register(userData);
       navigate("/profile-setup", { replace: true });
     } catch (error) {
       console.error("Erro ao registrar:", error);
-      toast.error("Erro ao criar conta");
     }
   };
 
