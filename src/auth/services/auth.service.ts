@@ -1,27 +1,50 @@
 import api from "./api.service";
-import type { AuthResponse, ProfileData } from "../types/auth.types";
-import type { LoginFormData, RegisterData } from "../../schemas/authSchemas";
+import type { ProfileData } from "../types/auth.types";
+import type {
+  LoginFormData,
+  RegisterData,
+  TokenResponse,
+  AuthResponse,
+  ProfileResponse,
+} from "../../schemas/authSchemas";
+import {
+  ProfileResponseSchema,
+  TokenResponseSchema,
+  AuthResponseSchema,
+} from "../../schemas/authSchemas";
 const TOKEN_KEY = "@app:token";
 const PROFILE_KEY = "@app:profile";
 
 // Serviços de autenticação
 export const authService = {
   // -- Login
-  async login(data: LoginFormData): Promise<AuthResponse> {
+  async login(data: LoginFormData): Promise<TokenResponse> {
     const response = await api.post("/auth/login", data);
-    return response.data.data;
+    const validation = TokenResponseSchema.safeParse(response.data);
+    if (!validation.success) {
+      throw new Error("Invalid token response");
+    }
+    return validation.data;
   },
 
   // -- Register
   async register(data: RegisterData): Promise<AuthResponse> {
     const response = await api.post("/auth/register", data);
-    return response.data.data;
+    const validation = AuthResponseSchema.safeParse(response.data);
+    if (!validation.success) {
+      throw new Error("Invalid auth response");
+    }
+    return validation.data;
   },
 
   // -- Get profile authenticated
-  async getAuthProfile(): Promise<ProfileData> {
-    const response = await api.get("/profile/me"); // api intercepta e add o token
-    return response.data.data; // estrutura { success, data, message }
+  async getAuthProfile(): Promise<ProfileResponse> {
+    const response = await api.get("/profile/me");
+    const validation = ProfileResponseSchema.safeParse(response.data);
+    if (!validation.success) {
+      throw new Error("Invalid profile response");
+    }
+    return validation.data;
   },
 
   // -- Save authentication data to local storage

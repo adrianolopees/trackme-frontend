@@ -5,18 +5,13 @@ import {
 } from "../../schemas/authSchemas";
 
 export interface ProfileData {
-  id: string;
+  id: number;
   username: string;
   email: string;
   name?: string;
   bio?: string;
   avatar?: string;
   profileSetupDone: boolean;
-}
-
-export interface AuthResponse {
-  token: string;
-  profile: ProfileData;
 }
 
 // -- Tipo da interface do Contexto de Autenticação

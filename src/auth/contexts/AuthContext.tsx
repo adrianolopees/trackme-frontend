@@ -16,8 +16,6 @@ import type {
 
 // Schemas - Validação e tipos de formulários
 import type { LoginFormData, RegisterData } from "../../schemas/authSchemas";
-
-// Contexto de autenticação - Criação do contexto
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -34,7 +32,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setLoading(false);
       return;
     }
-    const profile = await authService.getAuthProfile();
+    const validatedProfile = await authService.getAuthProfile();
+    const profile = validatedProfile.data.profile;
     setProfile(profile);
     authService.saveAuthData(tokenStorage, profile);
     setLoading(false);
@@ -46,14 +45,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (data: LoginFormData) => {
     setLoading(true);
     try {
-      const { token } = await authService.login(data);
-      if (!token) throw new Error("Token não recebido");
+      const validatedToken = await authService.login(data);
 
-      authService.saveAuthData(token);
+      const token = validatedToken.data.token;
 
-      const profile = await authService.getAuthProfile();
+      const validatedProfile = await authService.getAuthProfile();
+
+      const profile = validatedProfile.data.profile;
       setProfile(profile);
-
       authService.saveAuthData(token, profile);
 
       toast.success("Login realizado com sucesso!");
@@ -66,14 +65,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const response = await authService.register(data);
-      const { token, profile } = response;
-      if (token) {
-        authService.saveAuthData(token, profile);
-        setProfile(profile);
-        toast.success("Fale sobre você e coloque uma foto!");
-      } else {
-        toast.success("Conta criada com sucesso!");
-      }
+
+      const token = response.data.token;
+      const profileData = response.data.profile;
+      authService.saveAuthData(token, profileData);
+      setProfile(profileData);
+      toast.success("Fale sobre você e coloque uma foto!");
     } finally {
       setLoading(false);
     }
