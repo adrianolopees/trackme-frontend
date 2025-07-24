@@ -1,5 +1,10 @@
+// React - Core e hooks
 import React, { createContext, useState, useEffect } from "react";
+
+// Bibliotecas externas - Notificações
 import { toast } from "react-toastify";
+
+// Services - Camada de serviços
 import { authService } from "../services/auth.service";
 
 // Types - Tipagem específica do contexto de autenticação
@@ -11,7 +16,6 @@ import type {
 
 // Schemas - Validação e tipos de formulários
 import type { LoginFormData, RegisterData } from "../../schemas/authSchemas";
-
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
