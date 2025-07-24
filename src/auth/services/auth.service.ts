@@ -19,30 +19,11 @@ const PROFILE_KEY = "@app:profile";
 export const authService = {
   // -- Login
   async login(data: LoginFormData): Promise<TokenResponse> {
-    console.log("=== CHAMANDO API LOGIN ===");
-    console.log("Dados enviados:", data);
     const response = await api.post("/auth/login", data);
-    console.log("=== RESPOSTA RECEBIDA ===");
-    console.log("Status:", response.status);
-    console.log("Headers:", response.headers);
-    console.log(
-      "response.data completo:",
-      JSON.stringify(response.data, null, 2)
-    );
-
-    console.log("=== VALIDANDO COM SCHEMA ===");
     const validation = TokenResponseSchema.safeParse(response.data);
     if (!validation.success) {
-      console.log("❌ ERRO DE VALIDAÇÃO:");
-      console.log("Dados recebidos:", response.data);
-      console.log("Erros do schema:", validation.error.issues);
-      console.log(
-        "Schema esperado: { success: boolean, data: { token: string }, message: string }"
-      );
       throw new Error("Invalid token response");
     }
-    console.log("✅ VALIDAÇÃO PASSOU:");
-    console.log("validation.data:", validation.data);
     return validation.data;
   },
 
@@ -58,22 +39,12 @@ export const authService = {
 
   // -- Get profile authenticated
   async getAuthProfile(): Promise<ProfileResponse> {
-    console.log("=== CHAMANDO getAuthProfile ===");
     const response = await api.get("/profile/me");
-    console.log("=== RESPOSTA getAuthProfile ===");
-    console.log("Status:", response.status);
-    console.log("response.data:", JSON.stringify(response.data, null, 2));
 
-    console.log("=== VALIDANDO PROFILE COM SCHEMA ===");
     const validation = ProfileResponseSchema.safeParse(response.data);
     if (!validation.success) {
-      console.log("❌ ERRO DE VALIDAÇÃO DO PROFILE:");
-      console.log("Dados recebidos:", response.data);
-      console.log("Erros do schema:", validation.error.issues);
       throw new Error("Invalid profile response");
     }
-    console.log("✅ VALIDAÇÃO DO PROFILE PASSOU:");
-    console.log("validation.data:", validation.data);
     return validation.data;
   },
 
