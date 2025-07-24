@@ -1,10 +1,5 @@
-// React - Core e hooks
 import React, { createContext, useState, useEffect } from "react";
-
-// Bibliotecas externas - Notificações
 import { toast } from "react-toastify";
-
-// Services - Camada de serviços
 import { authService } from "../services/auth.service";
 
 // Types - Tipagem específica do contexto de autenticação
@@ -16,6 +11,7 @@ import type {
 
 // Schemas - Validação e tipos de formulários
 import type { LoginFormData, RegisterData } from "../../schemas/authSchemas";
+
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -45,13 +41,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (data: LoginFormData) => {
     setLoading(true);
     try {
-      const validatedToken = await authService.login(data);
+      const { data: loginData } = await authService.login(data);
+      const token = loginData.token;
+      authService.saveAuthData(token);
 
-      const token = validatedToken.data.token;
-
-      const validatedProfile = await authService.getAuthProfile();
-
-      const profile = validatedProfile.data.profile;
+      const { data: profileData } = await authService.getAuthProfile();
+      const profile = profileData.profile;
       setProfile(profile);
       authService.saveAuthData(token, profile);
 
@@ -65,11 +60,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       const response = await authService.register(data);
+      const {
+        data: { token, profile },
+      } = response;
 
-      const token = response.data.token;
-      const profileData = response.data.profile;
-      authService.saveAuthData(token, profileData);
-      setProfile(profileData);
+      authService.saveAuthData(token, profile);
+      setProfile(profile);
       toast.success("Fale sobre você e coloque uma foto!");
     } finally {
       setLoading(false);
