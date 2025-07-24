@@ -45,16 +45,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (data: LoginFormData) => {
     setLoading(true);
     try {
-      const validatedToken = await authService.login(data);
+      const { data: loginData } = await authService.login(data);
+      const token = loginData.token;
 
-      const token = validatedToken.data.token;
-
-      const validatedProfile = await authService.getAuthProfile();
-
-      const profile = validatedProfile.data.profile;
+      const { data: profileData } = await authService.getAuthProfile();
+      const profile = profileData.profile;
       setProfile(profile);
-      authService.saveAuthData(token, profile);
 
+      authService.saveAuthData(token, profile);
       toast.success("Login realizado com sucesso!");
     } finally {
       setLoading(false);
@@ -64,12 +62,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (data: RegisterData) => {
     setLoading(true);
     try {
-      const response = await authService.register(data);
+      const { data: registerData } = await authService.register(data);
+      const token = registerData.token;
+      const profile = registerData.profile;
+      setProfile(profile);
 
-      const token = response.data.token;
-      const profileData = response.data.profile;
-      authService.saveAuthData(token, profileData);
-      setProfile(profileData);
+      authService.saveAuthData(token, profile);
       toast.success("Fale sobre você e coloque uma foto!");
     } finally {
       setLoading(false);
