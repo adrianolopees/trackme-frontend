@@ -1,0 +1,4 @@
+Set-Content -Path .husky\pre-commit -Value '#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+yarn lint-staged'
