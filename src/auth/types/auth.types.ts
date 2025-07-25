@@ -5,7 +5,6 @@ import {
   type SafeProfile,
 } from "../../schemas/authSchemas";
 
-// -- Tipo da interface do Contexto de Autenticação
 export interface AuthContextData {
   profile: SafeProfile | null;
   setProfile: Dispatch<SetStateAction<SafeProfile | null>>;
