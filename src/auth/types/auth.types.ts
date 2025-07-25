@@ -2,22 +2,13 @@ import type { ReactNode, Dispatch, SetStateAction } from "react";
 import {
   type LoginFormData,
   type RegisterData,
+  type SafeProfile,
 } from "../../schemas/authSchemas";
-
-export interface ProfileData {
-  id: number;
-  username: string;
-  email: string;
-  name?: string;
-  bio?: string;
-  avatar?: string;
-  profileSetupDone: boolean;
-}
 
 // -- Tipo da interface do Contexto de Autenticação
 export interface AuthContextData {
-  profile: ProfileData | null;
-  setProfile: Dispatch<SetStateAction<ProfileData | null>>;
+  profile: SafeProfile | null;
+  setProfile: Dispatch<SetStateAction<SafeProfile | null>>;
   loading: boolean;
   login: (data: LoginFormData) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;

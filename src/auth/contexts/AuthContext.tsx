@@ -1,25 +1,20 @@
-// React - Core e hooks
 import React, { createContext, useState, useEffect } from "react";
 
-// Bibliotecas externas - Notificações
 import { toast } from "react-toastify";
 
-// Services - Camada de serviços
 import { authService } from "../services/auth.service";
 
-// Types - Tipagem específica do contexto de autenticação
-import type {
-  AuthContextData,
-  AuthProviderProps,
-  ProfileData,
-} from "../types/auth.types";
+import type { AuthContextData, AuthProviderProps } from "../types/auth.types";
 
-// Schemas - Validação e tipos de formulários
-import type { LoginFormData, RegisterData } from "../../schemas/authSchemas";
+import type {
+  LoginFormData,
+  RegisterData,
+  SafeProfile,
+} from "../../schemas/authSchemas";
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [profile, setProfile] = useState<SafeProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   const isAuthenticated = !!profile;
