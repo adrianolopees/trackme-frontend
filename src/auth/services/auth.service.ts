@@ -1,11 +1,11 @@
 import api from "./api.service";
-import type { ProfileData } from "../types/auth.types";
 import type {
   LoginFormData,
   RegisterData,
   TokenResponse,
   AuthResponse,
   ProfileResponse,
+  SafeProfile,
 } from "../../schemas/authSchemas";
 import {
   ProfileResponseSchema,
@@ -45,14 +45,14 @@ export const authService = {
     return validation.data;
   },
 
-  saveAuthData(token: string, profile?: ProfileData) {
+  saveAuthData(token: string, profile?: SafeProfile) {
     localStorage.setItem(TOKEN_KEY, token);
     if (profile) {
       this.saveProfile(profile);
     }
   },
 
-  saveProfile(profile: ProfileData): void {
+  saveProfile(profile: SafeProfile): void {
     localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
   },
 
@@ -65,7 +65,7 @@ export const authService = {
     return localStorage.getItem(TOKEN_KEY);
   },
 
-  getSavedProfile(): ProfileData | null {
+  getSavedProfile(): SafeProfile | null {
     const profileData = localStorage.getItem(PROFILE_KEY);
     return profileData ? JSON.parse(profileData) : null;
   },

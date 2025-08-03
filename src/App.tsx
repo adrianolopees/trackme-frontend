@@ -20,6 +20,7 @@ import Register from "./pages/Register";
 
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { PublicRoute } from "./routes/PublicRoute";
+import { FollowProvider } from "./auth/contexts/FollowContext";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -71,24 +72,26 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="min-h-screen">
-          <AnimatedRoutes />
+        <FollowProvider>
+          <div className="min-h-screen">
+            <AnimatedRoutes />
 
-          {/* Toast Container para notificações globais */}
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            className="!z-50"
-          />
-        </div>
+            {/* Toast Container para notificações globais */}
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              className="!z-50"
+            />
+          </div>
+        </FollowProvider>
       </AuthProvider>
     </Router>
   );
