@@ -21,6 +21,8 @@ import Register from "./pages/Register";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { PublicRoute } from "./routes/PublicRoute";
 import { FollowProvider } from "./auth/contexts/FollowContext";
+import FollowersPage from "./pages/FollowersPage";
+import FollowingPage from "./pages/FollowingPage";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -60,6 +62,23 @@ function AnimatedRoutes() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile/:profileId/followers"
+          element={
+            <ProtectedRoute>
+              <FollowersPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile/:profileId/following"
+          element={
+            <ProtectedRoute>
+              <FollowingPage />
             </ProtectedRoute>
           }
         />

@@ -52,10 +52,7 @@ export const Profile = () => {
           {/* Estatísticas de Follow */}
           <div className="flex justify-center space-x-4 mt-4">
             <button
-              onClick={() => {
-                setShowFollowSection(!showFollowSection);
-                setActiveFollowTab("followers");
-              }}
+              onClick={() => navigate(`/profile/${profile.id}/followers`)}
               className="text-center hover:bg-gray-50 p-2 rounded transition-colors"
             >
               <div className="text-lg font-bold text-gray-800">
@@ -64,10 +61,7 @@ export const Profile = () => {
               <div className="text-xs text-gray-500">Seguidores</div>
             </button>
             <button
-              onClick={() => {
-                setShowFollowSection(!showFollowSection);
-                setActiveFollowTab("following");
-              }}
+              onClick={() => navigate(`/profile/${profile.id}/following`)}
               className="text-center hover:bg-gray-50 p-2 rounded transition-colors"
             >
               <div className="text-lg font-bold text-gray-800">
