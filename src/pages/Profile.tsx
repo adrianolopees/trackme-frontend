@@ -15,7 +15,6 @@ import { useFollow } from "../auth/hooks/useFollow";
 // Componentes de Follow
 const FollowersList = () => {
   const { followers, loading } = useFollow();
-  console.log("Followers:", followers);
 
   if (loading) {
     return (
@@ -24,7 +23,6 @@ const FollowersList = () => {
       </div>
     );
   }
-
   return (
     <div className="space-y-3">
       {followers.length === 0 ? (
@@ -36,11 +34,7 @@ const FollowersList = () => {
             className="flex items-center justify-between p-2 bg-gray-50 rounded"
           >
             <div className="flex items-center space-x-2">
-              <img
-                src={follower.avatar || "/default-avatar.png"}
-                alt={follower.name}
-                className="w-8 h-8 rounded-full object-cover"
-              />
+              <Avatar src={follower.avatar} size={32} className="w-8 h-8" />
               <span className="text-sm font-medium">{follower.name}</span>
             </div>
           </div>
@@ -60,7 +54,6 @@ const FollowingList = () => {
       </div>
     );
   }
-
   return (
     <div className="space-y-3">
       {following.length === 0 ? (
@@ -74,10 +67,10 @@ const FollowingList = () => {
             className="flex items-center justify-between p-2 bg-gray-50 rounded"
           >
             <div className="flex items-center space-x-2">
-              <img
-                src={followedUser.avatar || "/default-avatar.png"}
-                alt={followedUser.name}
-                className="w-8 h-8 rounded-full object-cover"
+              <Avatar
+                src={followedUser.avatar}
+                size={96}
+                className="mx-auto mb-4"
               />
               <span className="text-sm font-medium">{followedUser.name}</span>
             </div>
