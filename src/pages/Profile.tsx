@@ -11,82 +11,11 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../auth/hooks/useAuth";
 import { useRequireProfile } from "../auth/hooks/useRequireProfile";
 import { useFollow } from "../auth/hooks/useFollow";
+import { FollowersList } from "../components/Follow/FollowersList";
+import { FollowingList } from "../components/Follow/FollowingList";
 
-// Componentes de Follow
-const FollowersList = () => {
-  const { followers, loading } = useFollow();
-
-  if (loading) {
-    return (
-      <div className="flex justify-center py-4">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
-      </div>
-    );
-  }
-  return (
-    <div className="space-y-3">
-      {followers.length === 0 ? (
-        <p className="text-gray-500 text-center py-4">Nenhum seguidor ainda.</p>
-      ) : (
-        followers.map((follower) => (
-          <div
-            key={follower.id}
-            className="flex items-center justify-between p-2 bg-gray-50 rounded"
-          >
-            <div className="flex items-center space-x-2">
-              <Avatar src={follower.avatar} size={32} className="w-8 h-8" />
-              <span className="text-sm font-medium">{follower.name}</span>
-            </div>
-          </div>
-        ))
-      )}
-    </div>
-  );
-};
-
-const FollowingList = () => {
-  const { following, loading, unfollowProfile } = useFollow();
-
-  if (loading) {
-    return (
-      <div className="flex justify-center py-4">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
-      </div>
-    );
-  }
-  return (
-    <div className="space-y-3">
-      {following.length === 0 ? (
-        <p className="text-gray-500 text-center py-4">
-          Não está seguindo ninguém ainda.
-        </p>
-      ) : (
-        following.map((followedUser) => (
-          <div
-            key={followedUser.id}
-            className="flex items-center justify-between p-2 bg-gray-50 rounded"
-          >
-            <div className="flex items-center space-x-2">
-              <Avatar
-                src={followedUser.avatar}
-                size={96}
-                className="mx-auto mb-4"
-              />
-              <span className="text-sm font-medium">{followedUser.name}</span>
-            </div>
-            <button
-              onClick={() => unfollowProfile(followedUser.id)}
-              disabled={loading}
-              className="text-red-500 hover:text-red-700 text-xs px-2 py-1 rounded transition-colors disabled:opacity-50"
-            >
-              Deixar de seguir
-            </button>
-          </div>
-        ))
-      )}
-    </div>
-  );
-};
+<FollowersList />;
+<FollowingList />;
 
 export const Profile = () => {
   const navigate = useNavigate();
