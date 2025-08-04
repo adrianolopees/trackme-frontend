@@ -12,9 +12,6 @@ const api = axios.create({
   },
 });
 
-// Flag para evitar múltiplos redirects
-let isRedirecting = false;
-
 // Interceptor para adicionar token de autenticação nas requisições
 api.interceptors.request.use(
   (config) => {
@@ -55,15 +52,6 @@ api.interceptors.response.use(
       case 401:
         errorMessage = "Credenciais inválidas";
         authService.clearAuthData();
-
-        // Redirecionar para login (apenas uma vez)
-        if (!isRedirecting) {
-          isRedirecting = true;
-          setTimeout(() => {
-            window.location.href = "/login";
-            isRedirecting = false;
-          }, 1000);
-        }
         break;
       case 403:
         errorMessage = "Acesso negado";

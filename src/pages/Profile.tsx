@@ -6,36 +6,20 @@ import {
   ProfileSettingsButton,
 } from "../components";
 import { FiHome } from "react-icons/fi";
-import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../auth/hooks/useAuth";
 import { useRequireProfile } from "../auth/hooks/useRequireProfile";
 import { useFollow } from "../auth/hooks/useFollow";
-import { FollowersList } from "../components/Follow/FollowersList";
-import { FollowingList } from "../components/Follow/FollowingList";
-
-<FollowersList />;
-<FollowingList />;
 
 export const Profile = () => {
+  const profile = useRequireProfile();
   const navigate = useNavigate();
   const { logout, loading } = useAuth();
-  const profile = useRequireProfile();
   const { followers, following } = useFollow();
-  const [showFollowSection, setShowFollowSection] = useState(false);
-  const [activeFollowTab, setActiveFollowTab] = useState<
-    "followers" | "following"
-  >("followers");
 
   const handleLogout = () => {
-    try {
-      logout();
-      navigate("/login");
-    } catch (error) {
-      console.error("Erro ao fazer logout:", error);
-      // Mesmo com erro, força a navegação
-      navigate("/login");
-    }
+    logout();
+    navigate("/login");
   };
 
   return (
@@ -72,52 +56,6 @@ export const Profile = () => {
           </div>
         </div>
 
-        {/* Seção de Follow (colapsável) */}
-        {showFollowSection && (
-          <div className="mb-6 border-t pt-4">
-            {/* Tabs */}
-            <div className="flex border-b mb-4">
-              <button
-                onClick={() => setActiveFollowTab("followers")}
-                className={`flex-1 py-2 text-sm font-medium transition-colors ${
-                  activeFollowTab === "followers"
-                    ? "border-b-2 border-blue-500 text-blue-600"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                Seguidores
-              </button>
-              <button
-                onClick={() => setActiveFollowTab("following")}
-                className={`flex-1 py-2 text-sm font-medium transition-colors ${
-                  activeFollowTab === "following"
-                    ? "border-b-2 border-blue-500 text-blue-600"
-                    : "text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                Seguindo
-              </button>
-            </div>
-
-            {/* Conteúdo das tabs */}
-            <div className="max-h-48 overflow-y-auto">
-              {activeFollowTab === "followers" ? (
-                <FollowersList />
-              ) : (
-                <FollowingList />
-              )}
-            </div>
-
-            {/* Botão para fechar */}
-            <button
-              onClick={() => setShowFollowSection(false)}
-              className="w-full mt-3 text-xs text-gray-500 hover:text-gray-700 py-1"
-            >
-              Fechar
-            </button>
-          </div>
-        )}
-
         <div className="space-y-4 mb-6">
           {profile.name && (
             <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
@@ -128,14 +66,6 @@ export const Profile = () => {
               </div>
             </div>
           )}
-
-          <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-            <FaUser className="text-gray-500" />
-            <div>
-              <p className="text-sm text-gray-500">Usuário</p>
-              <p className="font-medium text-gray-800">{profile.username}</p>
-            </div>
-          </div>
 
           <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
             <FaEnvelope className="text-gray-500" />

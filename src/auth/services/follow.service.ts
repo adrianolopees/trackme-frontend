@@ -1,4 +1,3 @@
-// services/follow.service.ts
 import api from "./api.service";
 import type { SafeProfile } from "../../schemas/authSchemas";
 
