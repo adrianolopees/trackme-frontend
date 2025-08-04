@@ -1,12 +1,18 @@
 import React, { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import api from "../services/api.service";
 import { useAuth } from "../hooks/useAuth";
 import type {
   FollowContextData,
   FollowProviderProps,
 } from "../types/follow.types";
 import type { SafeProfile } from "../../schemas/authSchemas";
+
+import {
+  fetchFollowers,
+  fetchFollowing,
+  followProfile as followService,
+  unfollowProfile as unfollowService,
+} from "../services/follow.service";
 
 const FollowContext = createContext<FollowContextData>({} as FollowContextData);
 
@@ -25,8 +31,8 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     const targetId = profileId || profile.id;
     setLoading(true);
     try {
-      const { data: response } = await api.get(`/follow/${targetId}/followers`);
-      setFollowers(response.data.followers || []);
+      const data = await fetchFollowers(targetId);
+      setFollowers(data);
     } finally {
       setLoading(false);
     }
@@ -39,8 +45,8 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     const targetId = profileId || profile.id;
     setLoading(true);
     try {
-      const { data: response } = await api.get(`/follow/${targetId}/following`);
-      setFollowing(response.data.followings || []);
+      const data = await fetchFollowing(targetId);
+      setFollowing(data);
     } finally {
       setLoading(false);
     }
@@ -52,10 +58,9 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       toast.error("Você precisa estar logado para seguir alguém");
       return;
     }
-
     setLoading(true);
     try {
-      await api.post(`/follow/${targetProfileId}`);
+      await followService(targetProfileId);
       toast.success("Perfil seguido com sucesso!");
 
       // Recarrega a lista de seguindo
@@ -74,7 +79,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      await api.delete(`/follow/${targetProfileId}`);
+      await unfollowService(targetProfileId);
       toast.success("Perfil deixado de seguir com sucesso!");
 
       // Recarrega a lista de seguindo
