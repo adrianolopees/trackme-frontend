@@ -13,20 +13,20 @@ import {
   followProfile as followService,
   unfollowProfile as unfollowService,
 } from "../services/follow.service";
+import { requireProfile } from "../../helpers/requireProfile";
 
 const FollowContext = createContext<FollowContextData>({} as FollowContextData);
 
 export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const { profile, isAuthenticated } = useAuth();
 
-  // Estados simples seguindo o padrão do AuthContext
   const [followers, setFollowers] = useState<SafeProfile[]>([]);
   const [following, setFollowing] = useState<SafeProfile[]>([]);
   const [loading, setLoading] = useState(false);
 
   // Função para buscar seguidores
   const loadFollowers = async (profileId?: number) => {
-    if (!profile) return;
+    if (!requireProfile(profile)) return;
 
     const targetId = profileId || profile.id;
     setLoading(true);
@@ -40,7 +40,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
 
   // Função para buscar seguindo
   const loadFollowing = async (profileId?: number) => {
-    if (!profile) return;
+    if (!requireProfile(profile)) return;
 
     const targetId = profileId || profile.id;
     setLoading(true);
@@ -54,10 +54,14 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
 
   // Função para seguir perfil
   const followProfile = async (targetProfileId: number) => {
-    if (!profile) {
-      toast.error("Você precisa estar logado para seguir alguém");
+    if (
+      !requireProfile(profile, () =>
+        toast.error("Você precisa estar logado para seguir")
+      )
+    ) {
       return;
     }
+
     setLoading(true);
     try {
       await followService(targetProfileId);
@@ -72,17 +76,18 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
 
   // Função para deixar de seguir
   const unfollowProfile = async (targetProfileId: number) => {
-    if (!profile) {
-      toast.error("Você precisa estar logado para deixar de seguir alguém");
+    if (
+      !requireProfile(profile, () =>
+        toast.error("Você precisa estar logado para deixar de seguir alguém")
+      )
+    ) {
       return;
     }
-
     setLoading(true);
     try {
       await unfollowService(targetProfileId);
       toast.success("Perfil deixado de seguir com sucesso!");
 
-      // Recarrega a lista de seguindo
       await loadFollowing(profile.id);
     } finally {
       setLoading(false);

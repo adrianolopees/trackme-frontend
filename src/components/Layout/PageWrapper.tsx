@@ -8,7 +8,7 @@ interface PageWrapperProps {
 export default function PageWrapper({ children }: PageWrapperProps) {
   return (
     <motion.div
-      className="min-h-screen flex flex-col justify-center items-center bg-gray-50 p-4"
+      className="min-h-screen  bg-gray-50 p-4"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}

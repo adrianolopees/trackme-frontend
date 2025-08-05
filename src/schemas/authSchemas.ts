@@ -22,6 +22,7 @@ export const AuthDataSchema = z.object({
   token: z.string(),
   profile: SafeProfileSchema,
 });
+
 export const ProfileDataSchema = z.object({
   profile: SafeProfileSchema,
 });
@@ -59,6 +60,7 @@ export const registerDataSchema = z.object({
   email: z.email({ message: "Email inválido" }),
   password: z.string().min(6, "Mínimo 6 caracteres"),
 });
+
 export const registerSchema = registerDataSchema
   .extend({
     confirmPassword: z.string(),
@@ -67,6 +69,7 @@ export const registerSchema = registerDataSchema
     message: "As senhas não coincidem",
     path: ["confirmPassword"],
   });
+
 export const loginSchema = z.object({
   identifier: z.string().min(3, "Email ou usuário é obrigatório"),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
