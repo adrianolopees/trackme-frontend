@@ -19,7 +19,6 @@ const FollowContext = createContext<FollowContextData>({} as FollowContextData);
 
 export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const { profile, isAuthenticated } = useAuth();
-
   const [followers, setFollowers] = useState<SafeProfile[]>([]);
   const [following, setFollowing] = useState<SafeProfile[]>([]);
   const [loading, setLoading] = useState(false);
