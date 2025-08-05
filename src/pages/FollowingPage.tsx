@@ -5,7 +5,7 @@ import { fetchFollowing } from "../auth/services/follow.service";
 import Avatar from "../components/Avatar/Avatar";
 
 import type { SafeProfile } from "../schemas/authSchemas";
-import { PageWrapper } from "../components";
+import PageWrapperFollow from "../components/Layout/PageWrapperFollow";
 
 const FollowersPage = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const FollowersPage = () => {
   );
 
   return (
-    <PageWrapper>
+    <PageWrapperFollow>
       <div className="min-h-screen bg-gray-50">
         {/* Header Mobile - Sticky */}
         <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3">
@@ -128,7 +128,7 @@ const FollowersPage = () => {
           )}
         </div>
       </div>
-    </PageWrapper>
+    </PageWrapperFollow>
   );
 };
 
