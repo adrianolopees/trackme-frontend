@@ -28,4 +28,4 @@ export { default as FullPageSpinner } from "./Feedback/FullPageSpinner";
 /* export { default as FollowButton } from "./Follow/FollowButton"; */
 export { default as FollowersSkeleton } from "./Follow/FollowersSkeleton";
 export { default as FollowList } from "./Follow/FollowList";
-export { default as UserListItem } from "./Follow/UserListItem";
+export { default as ProfileListItem } from "./Follow/ProfileListItem";

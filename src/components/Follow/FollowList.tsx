@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiSearch, FiUsers } from "react-icons/fi";
 import PageWrapperFollow from "../Layout/PageWrapperFollow";
-import { FollowersSkeleton, UserListItem } from "../index";
+import { FollowersSkeleton, ProfileListItem } from "../index";
 
 import type { SafeProfile } from "../../schemas/authSchemas";
 
@@ -14,7 +14,7 @@ interface FollowListProps {
 
 const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
   const navigate = useNavigate();
-  const [users, setUsers] = useState<SafeProfile[]>([]);
+  const [profiles, setProfiles] = useState<SafeProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -28,25 +28,24 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
     : "Buscar usuários...";
 
   useEffect(() => {
-    loadUsers();
+    loadProfiles();
   }, [profileId]);
 
-  const loadUsers = async () => {
+  const loadProfiles = async () => {
     try {
       setLoading(true);
       const data = await fetchFunction(profileId);
-      setUsers(data);
+      setProfiles(data);
     } catch (error) {
-      console.error(`Erro ao carregar ${type}:`, error);
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProfiles = profiles.filter(
+    (profile) =>
+      profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      profile.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -64,7 +63,7 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
             <div>
               <h1 className="text-lg font-semibold text-gray-900">{title}</h1>
               <p className="text-sm text-gray-500">
-                {users.length} {isFollowers ? "seguidores" : "seguindo"}
+                {profiles.length} {isFollowers ? "seguidores" : "seguindo"}
               </p>
             </div>
           </div>
@@ -91,7 +90,7 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
         <div className="px-4 py-2">
           {loading ? (
             <FollowersSkeleton />
-          ) : filteredUsers.length === 0 ? (
+          ) : filteredProfiles.length === 0 ? (
             // Estado vazio
             <div className="text-center py-12">
               <FiUsers size={48} className="mx-auto text-gray-300 mb-4" />
@@ -104,11 +103,11 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
           ) : (
             // Lista de Usuários
             <div className="space-y-1">
-              {filteredUsers.map((user) => (
-                <UserListItem
-                  key={user.id}
-                  user={user}
-                  onClick={() => navigate(`/profile/${user.id}`)}
+              {filteredProfiles.map((profile) => (
+                <ProfileListItem
+                  key={profile.id}
+                  profile={profile}
+                  onClick={() => navigate(`/profile/${profile.id}`)}
                 />
               ))}
             </div>
