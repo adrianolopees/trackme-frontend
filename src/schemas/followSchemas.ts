@@ -1,11 +1,11 @@
-/* import { z } from "zod";
-import type { SafeProfile } from "./authSchemas";
+import { z } from "zod";
+import { SafeProfileSchema } from "../schemas/authSchemas";
+
 export const FollowersResponseSchema = z.object({
-  followers: z.array(SafeProfile),
+  followers: z.array(SafeProfileSchema),
   total: z.number(),
-  currentPage: z.number(),
   totalPages: z.number(),
+  currentPage: z.number(),
 });
 
-// Tipo inferido automaticamente para usar na tipagem
-export type FollowersResponse = z.infer<typeof FollowersResponseSchema>; */
+export type FollowersResponse = z.infer<typeof FollowersResponseSchema>;

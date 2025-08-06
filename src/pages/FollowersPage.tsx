@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { fetchFollowers } from "../auth/services/follow.service";
+import { fetchFollowers } from "../follow/services/follow.service";
 
 import { FollowList } from "../components";
 

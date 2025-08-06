@@ -1,5 +1,5 @@
 import React from "react";
-import { useFollow } from "../../auth/hooks/useFollow";
+import { useFollow } from "../../follow/hooks/useFollow";
 
 interface FollowButtonProps {
   targetProfileId: number;

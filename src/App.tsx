@@ -4,25 +4,25 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-
 import { AnimatePresence } from "framer-motion";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { AuthProvider } from "./auth/contexts/AuthContext";
+import { FollowProvider } from "./follow/contexts/FollowContext";
+import { queryClient } from "./lib/reactQuery";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import ProfileSetup from "./pages/ProfileSetup";
 import Register from "./pages/Register";
+import FollowersPage from "./pages/FollowersPage";
+import FollowingPage from "./pages/FollowingPage";
 
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { PublicRoute } from "./routes/PublicRoute";
-import { FollowProvider } from "./auth/contexts/FollowContext";
-import FollowersPage from "./pages/FollowersPage";
-import FollowingPage from "./pages/FollowingPage";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -89,30 +89,32 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <FollowProvider>
-          <div className="min-h-screen">
-            <AnimatedRoutes />
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <AuthProvider>
+          <FollowProvider>
+            <div className="min-h-screen">
+              <AnimatedRoutes />
 
-            {/* Toast Container para notificações globais */}
-            <ToastContainer
-              position="top-right"
-              autoClose={3000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-              className="!z-50"
-            />
-          </div>
-        </FollowProvider>
-      </AuthProvider>
-    </Router>
+              {/* Toast Container para notificações globais */}
+              <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                className="!z-50"
+              />
+            </div>
+          </FollowProvider>
+        </AuthProvider>
+      </Router>
+    </QueryClientProvider>
   );
 }
 

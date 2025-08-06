@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 // Schema do perfil seguro (espelhando o backend)
-const SafeProfileSchema = z.object({
+export const SafeProfileSchema = z.object({
   id: z.number(),
   username: z.string(),
   email: z.string().email(),
