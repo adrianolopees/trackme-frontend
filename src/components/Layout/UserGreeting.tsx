@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import GradientButton from "../Buttons/GradientButton";
+import GradientButton from "../ui/GradientButton";
 import { FaUser } from "react-icons/fa";
 
 interface UserGreetingProps {

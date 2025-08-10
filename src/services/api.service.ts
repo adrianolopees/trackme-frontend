@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { AxiosResponse, AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { authService } from "./auth.service";
+import { authService } from "../services/auth.service";
 
 // Configuração base do Axios
 const api = axios.create({

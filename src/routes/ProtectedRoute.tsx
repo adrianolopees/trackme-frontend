@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../auth/hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import { FullPageSpinner } from "../components";
 
 type ProtectedRoutesProps = {

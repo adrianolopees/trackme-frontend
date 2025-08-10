@@ -18,11 +18,11 @@ import {
 } from "../schemas/profileSchemas";
 
 // Services - API e comunicação externa
-import api from "../auth/services/api.service";
+import api from "../services/api.service";
 
 // Hooks customizados - Lógica de negócio
-import { useAuth } from "../auth/hooks/useAuth";
-import { useRequireProfile } from "../auth/hooks/useRequireProfile";
+import { useAuth } from "../hooks/useAuth";
+import { useRequireProfile } from "../hooks/useRequireProfile";
 
 // Componentes customizados - Interface da aplicação
 import {

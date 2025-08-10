@@ -10,7 +10,7 @@ import type {
   LoginFormData,
   RegisterData,
   SafeProfile,
-} from "../../schemas/authSchemas";
+} from "../schemas/authSchemas";
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {

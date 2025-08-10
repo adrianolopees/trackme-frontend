@@ -8,8 +8,8 @@ import { AnimatePresence } from "framer-motion";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { AuthProvider } from "./auth/contexts/AuthContext";
-import { FollowProvider } from "./follow/contexts/FollowContext";
+import { AuthProvider } from "./contexts/AuthContext";
+import { FollowProvider } from "./contexts/FollowContext";
 import { queryClient } from "./lib/reactQuery";
 import { QueryClientProvider } from "@tanstack/react-query";
 

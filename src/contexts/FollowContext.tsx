@@ -5,7 +5,7 @@ import type {
   FollowContextData,
   FollowProviderProps,
 } from "../types/follow.types";
-import type { SafeProfile } from "../../schemas/authSchemas";
+import type { SafeProfile } from "../schemas/authSchemas";
 
 import {
   fetchFollowers,
@@ -13,7 +13,7 @@ import {
   followProfile as followService,
   unfollowProfile as unfollowService,
 } from "../services/follow.service";
-import { requireProfile } from "../../helpers/requireProfile";
+import { requireProfile } from "../helpers/requireProfile";
 
 const FollowContext = createContext<FollowContextData>({} as FollowContextData);
 

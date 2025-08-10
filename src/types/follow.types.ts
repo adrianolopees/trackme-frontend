@@ -1,4 +1,4 @@
-import type { SafeProfile } from "../../schemas/authSchemas";
+import type { SafeProfile } from "../schemas/authSchemas";
 
 export interface FollowContextData {
   followers: SafeProfile[];

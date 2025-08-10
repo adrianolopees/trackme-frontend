@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-import GradientButton from "../Buttons/GradientButton";
+import GradientButton from "./GradientButton";
 
 export default function AuthButtons() {
   return (

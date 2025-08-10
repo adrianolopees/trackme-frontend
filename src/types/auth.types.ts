@@ -3,7 +3,7 @@ import {
   type LoginFormData,
   type RegisterData,
   type SafeProfile,
-} from "../../schemas/authSchemas";
+} from "../schemas/authSchemas";
 
 export interface AuthContextData {
   profile: SafeProfile | null;

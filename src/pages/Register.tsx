@@ -13,7 +13,7 @@ import {
 } from "../schemas/authSchemas";
 
 // Hooks customizados - Lógica de autenticação
-import { useAuth } from "../auth/hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
 // Ícones - Interface visual
 import { FaUserPlus } from "react-icons/fa";

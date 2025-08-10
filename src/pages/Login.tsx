@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginFormData } from "../schemas/authSchemas";
 
 // Hooks customizados - Lógica de autenticação
-import { useAuth } from "../auth/hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 
 // Ícones - Interface visual
 import { FaUser } from "react-icons/fa";

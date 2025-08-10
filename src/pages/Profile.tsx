@@ -7,9 +7,9 @@ import {
 } from "../components";
 import { FiHome } from "react-icons/fi";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../auth/hooks/useAuth";
-import { useRequireProfile } from "../auth/hooks/useRequireProfile";
-import { useFollow } from "../follow/hooks/useFollow";
+import { useAuth } from "../hooks/useAuth";
+import { useRequireProfile } from "../hooks/useRequireProfile";
+import { useFollow } from "../hooks/useFollow";
 
 export const Profile = () => {
   const profile = useRequireProfile();

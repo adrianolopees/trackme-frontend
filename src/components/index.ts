@@ -3,20 +3,20 @@ export { default as PageWrapper } from "./Layout/PageWrapper";
 export { default as UserGreeting } from "./Layout/UserGreeting";
 
 // Auth
-export { default as AuthButtons } from "./Auth/AuthButtons";
-export { default as AuthFormLayout } from "./Auth/AuthFormLayout";
-export { default as AuthRedirectLinks } from "./Auth/AuthRedirectLinks";
+export { default as AuthButtons } from "./ui/AuthButtons";
+export { default as AuthFormLayout } from "./ui/AuthFormLayout";
+export { default as AuthRedirectLinks } from "./ui/AuthRedirectLinks";
 
 // Buttons
-export { default as GradientButton } from "./Buttons/GradientButton";
-export { default as ButtonSpinner } from "./Buttons/ButtonSpinner";
-export { default as SkipButton } from "./Buttons/SkipButton";
-export { default as ProfileSettingsButton } from "./Buttons/ProfileSettingsButton";
+export { default as GradientButton } from "./ui/GradientButton";
+export { default as ButtonSpinner } from "./ui/ButtonSpinner";
+export { default as SkipButton } from "./ui/SkipButton";
+export { default as ProfileSettingsButton } from "./ui/ProfileSettingsButton";
 
 // Inputs
-export { default as InputField } from "./Inputs/InputField";
-export { default as AvatarInput } from "./Inputs/AvatarInput";
-export { default as TextAreaField } from "./Inputs/TextAreaField";
+export { default as InputField } from "./ui/InputField";
+export { default as AvatarInput } from "./ui/AvatarInput";
+export { default as TextAreaField } from "./ui/TextAreaField";
 
 // Avatar
 export { default as Avatar } from "./Avatar/Avatar";

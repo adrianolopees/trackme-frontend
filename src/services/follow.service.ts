@@ -1,5 +1,5 @@
-import api from "./api.service";
-import type { SafeProfile } from "../../schemas/authSchemas";
+import api from "../services/api.service";
+import type { SafeProfile } from "../schemas/authSchemas";
 
 // Buscar seguidores de um perfil
 export const fetchFollowers = async (

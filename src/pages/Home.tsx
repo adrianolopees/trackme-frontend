@@ -1,4 +1,4 @@
-import { useAuth } from "../auth/hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import {
   FullPageSpinner,
   PageWrapper,

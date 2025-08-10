@@ -1,4 +1,4 @@
-import api from "./api.service";
+import api from "../services/api.service";
 import type {
   LoginFormData,
   RegisterData,
@@ -6,12 +6,12 @@ import type {
   AuthResponse,
   ProfileResponse,
   SafeProfile,
-} from "../../schemas/authSchemas";
+} from "../schemas/authSchemas";
 import {
   ProfileResponseSchema,
   TokenResponseSchema,
   AuthResponseSchema,
-} from "../../schemas/authSchemas";
+} from "../schemas/authSchemas";
 const TOKEN_KEY = "@app:token";
 const PROFILE_KEY = "@app:profile";
 

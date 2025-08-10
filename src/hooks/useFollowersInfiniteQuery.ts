@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import type { FollowersResponse } from "../../schemas/followSchemas";
-import api from "../../auth/services/api.service"; // adaptado se você usa seu axios custom
+import api from "../services/api.service";
+import type { FollowersResponse } from "../schemas/followSchemas";
 
 export function useFollowersInfiniteQuery(profileId: number) {
   return useInfiniteQuery<FollowersResponse>({
@@ -9,8 +9,7 @@ export function useFollowersInfiniteQuery(profileId: number) {
       const res = await api.get(`/follow/${profileId}/followers`, {
         params: { page: pageParam, limit: 10 },
       });
-
-      return res.data.data; // a tipagem agora vem do Zod
+      return res.data.data;
     },
     getNextPageParam: (lastPage) => {
       return lastPage.currentPage < lastPage.totalPages
