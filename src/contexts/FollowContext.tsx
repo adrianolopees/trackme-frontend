@@ -18,6 +18,8 @@ import { requireProfile } from "../helpers/requireProfile";
 export const FollowContext = createContext<FollowContextData>({
   followers: [],
   following: [],
+  followersTotal: 0,
+  followingTotal: 0,
   loading: false,
   followProfile: async () => {},
   unfollowProfile: async () => {},
@@ -30,39 +32,67 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const { profile, isAuthenticated } = useAuth();
   const [followers, setFollowers] = useState<SafeProfile[]>([]);
   const [following, setFollowing] = useState<SafeProfile[]>([]);
+  const [followersTotal, setFollowersTotal] = useState(0);
+  const [followingTotal, setFollowingTotal] = useState(0);
   const [loading, setLoading] = useState(false);
 
   // Função para buscar seguidores
-  const loadFollowers = async (profileId?: number, page: number = 1) => {
+  const loadFollowers = async (
+    profileId?: number,
+    page: number = 1,
+    append: boolean = false
+  ) => {
     if (!requireProfile(profile)) return;
 
     const targetId = profileId || profile.id;
     setLoading(true);
     try {
       const data = await fetchFollowers(targetId, page);
-      setFollowers(data.profiles || []); // Garantia de array
+
+      if (append && page > 1) {
+        // Adiciona os novos aos existentes
+        setFollowers((prev) => [...prev, ...(data.profiles || [])]);
+      } else {
+        // Substitui (primeira carga ou reset)
+        setFollowers(data.profiles || []);
+      }
+      setFollowersTotal(data.pagination.total);
     } catch (error) {
       toast.error("Erro ao carregar seguidores");
       console.error("Erro ao buscar seguidores:", error);
-      setFollowers([]); // Reset em caso de erro
+      if (!append) setFollowers([]); // Reset apenas se não for append
+      setFollowersTotal(0);
     } finally {
       setLoading(false);
     }
   };
 
   // Função para buscar seguindo
-  const loadFollowing = async (profileId?: number, page: number = 1) => {
+  const loadFollowing = async (
+    profileId?: number,
+    page: number = 1,
+    append: boolean = false
+  ) => {
     if (!requireProfile(profile)) return;
 
     const targetId = profileId || profile.id;
     setLoading(true);
     try {
       const data = await fetchFollowing(targetId, page);
-      setFollowing(data.profiles || []); // Garantia de array
+
+      if (append && page > 1) {
+        // Adiciona os novos aos existentes
+        setFollowing((prev) => [...prev, ...(data.profiles || [])]);
+      } else {
+        // Substitui (primeira carga ou reset)
+        setFollowing(data.profiles || []);
+      }
+      setFollowingTotal(data.pagination.total);
     } catch (error) {
       toast.error("Erro ao carregar seguindo");
       console.error("Erro ao buscar seguindo:", error);
-      setFollowing([]); // Reset em caso de erro
+      if (!append) setFollowing([]); // Reset apenas se não for append
+      setFollowingTotal(0); // Reset se erro
     } finally {
       setLoading(false);
     }
@@ -135,6 +165,8 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       value={{
         followers,
         following,
+        followersTotal,
+        followingTotal,
         loading,
         followProfile,
         unfollowProfile,

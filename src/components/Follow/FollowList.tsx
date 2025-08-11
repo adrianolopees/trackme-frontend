@@ -25,8 +25,8 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
   const [profiles, setProfiles] = useState<SafeProfile[]>([]);
   const [pagination, setPagination] = useState<PaginationMeta | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
-
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   const isFollowers = type === "followers";
@@ -38,24 +38,46 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
     ? "Buscar seguidores..."
     : "Buscar usuários...";
 
+  // Carrega primeira página quando muda o profileId
   useEffect(() => {
-    loadProfiles();
-  }, [profileId, currentPage]);
+    setProfiles([]);
+    setCurrentPage(1);
+    setPagination(null);
+    loadProfiles(1, false);
+  }, [profileId]);
 
-  const loadProfiles = async () => {
+  const loadProfiles = async (page: number, append: boolean = false) => {
     try {
-      setLoading(true);
-      const { profiles, pagination } = await fetchFunction(
-        profileId,
-        currentPage
-      );
-      setProfiles(profiles);
-      setPagination(pagination);
+      if (append) {
+        setLoadingMore(true);
+      } else {
+        setLoading(true);
+      }
+
+      const { profiles: newProfiles, pagination: newPagination } =
+        await fetchFunction(profileId, page);
+
+      if (append) {
+        // Adiciona aos existentes
+        setProfiles((prev) => [...prev, ...newProfiles]);
+      } else {
+        // Substitui (primeira carga)
+        setProfiles(newProfiles);
+      }
+
+      setPagination(newPagination);
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
+  };
+
+  const handleLoadMore = () => {
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    loadProfiles(nextPage, true);
   };
 
   const filteredProfiles = profiles.filter(
@@ -63,6 +85,8 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
       profile.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
       profile.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const hasMorePages = pagination && currentPage < pagination.totalPages;
 
   return (
     <PageWrapperFollow>
@@ -79,7 +103,8 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
             <div>
               <h1 className="text-lg font-semibold text-gray-900">{title}</h1>
               <p className="text-sm text-gray-500">
-                {profiles.length} {isFollowers ? "seguidores" : "seguindo"}
+                {pagination?.total || profiles.length}{" "}
+                {isFollowers ? "seguidores" : "seguindo"}
               </p>
             </div>
           </div>
@@ -128,12 +153,24 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
               ))}
             </div>
           )}
-          {pagination && currentPage < pagination.totalPages && (
+
+          {/* Botão Carregar Mais */}
+          {hasMorePages && (
             <button
-              onClick={() => setCurrentPage((prev) => prev + 1)}
-              className="w-full py-2 mt-4 bg-blue-500 text-white rounded"
+              onClick={handleLoadMore}
+              disabled={loadingMore}
+              className="w-full py-3 mt-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors"
             >
-              Carregar mais
+              {loadingMore ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Carregando...
+                </div>
+              ) : (
+                `Carregar mais (${
+                  pagination!.total - profiles.length
+                } restantes)`
+              )}
             </button>
           )}
         </div>

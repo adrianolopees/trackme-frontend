@@ -15,7 +15,7 @@ export const Profile = () => {
   const profile = useRequireProfile();
   const navigate = useNavigate();
   const { logout, loading } = useAuth();
-  const { followers, following } = useFollow();
+  const { followersTotal, followingTotal } = useFollow();
 
   const handleLogout = () => {
     logout();
@@ -40,7 +40,7 @@ export const Profile = () => {
               className="text-center hover:bg-gray-50 p-2 rounded transition-colors"
             >
               <div className="text-lg font-bold text-gray-800">
-                {followers.length}
+                {followersTotal}
               </div>
               <div className="text-xs text-gray-500">Seguidores</div>
             </button>
@@ -49,7 +49,7 @@ export const Profile = () => {
               className="text-center hover:bg-gray-50 p-2 rounded transition-colors"
             >
               <div className="text-lg font-bold text-gray-800">
-                {following.length}
+                {followingTotal}
               </div>
               <div className="text-xs text-gray-500">Seguindo</div>
             </button>
