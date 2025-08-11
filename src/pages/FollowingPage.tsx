@@ -3,7 +3,7 @@ import { fetchFollowing } from "../services/follow.service";
 
 import { FollowList } from "../components";
 
-const FollowersPage = () => {
+const FollowingPage = () => {
   const { profileId } = useParams();
   return (
     <FollowList
@@ -14,4 +14,4 @@ const FollowersPage = () => {
   );
 };
 
-export default FollowersPage;
+export default FollowingPage;
