@@ -6,15 +6,26 @@ import { FollowersSkeleton, ProfileListItem } from "../index";
 
 import type { SafeProfile } from "../../schemas/authSchemas";
 
+import type {
+  PaginatedProfiles,
+  PaginationMeta,
+} from "../../types/follow.types";
+
 interface FollowListProps {
   profileId: number;
   type: "followers" | "following";
-  fetchFunction: (profileId: number) => Promise<SafeProfile[]>;
+  fetchFunction: (
+    profileId: number,
+    page: number
+  ) => Promise<PaginatedProfiles>;
 }
 
 const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
   const navigate = useNavigate();
   const [profiles, setProfiles] = useState<SafeProfile[]>([]);
+  const [pagination, setPagination] = useState<PaginationMeta | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -29,14 +40,19 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
 
   useEffect(() => {
     loadProfiles();
-  }, [profileId]);
+  }, [profileId, currentPage]);
 
   const loadProfiles = async () => {
     try {
       setLoading(true);
-      const data = await fetchFunction(profileId);
-      setProfiles(data);
+      const { profiles, pagination } = await fetchFunction(
+        profileId,
+        currentPage
+      );
+      setProfiles(profiles);
+      setPagination(pagination);
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -111,6 +127,14 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
                 />
               ))}
             </div>
+          )}
+          {pagination && currentPage < pagination.totalPages && (
+            <button
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+              className="w-full py-2 mt-4 bg-blue-500 text-white rounded"
+            >
+              Carregar mais
+            </button>
           )}
         </div>
       </div>
