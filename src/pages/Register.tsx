@@ -1,24 +1,18 @@
-// React Router - Navegação
 import { useNavigate } from "react-router-dom";
 
-// React Hook Form - Gerenciamento de formulários
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// Schemas e tipos - Validação de dados
 import {
   registerSchema,
   type RegisterData,
   type RegisterFormData,
 } from "../schemas/authSchemas";
 
-// Hooks customizados - Lógica de autenticação
 import { useAuth } from "../hooks/useAuth";
 
-// Ícones - Interface visual
 import { FaUserPlus } from "react-icons/fa";
 
-// Componentes customizados - Interface da aplicação
 import {
   AuthFormLayout,
   AuthRedirectLinks,
@@ -41,9 +35,7 @@ function Register() {
 
   const onSubmit = async (data: RegisterFormData) => {
     const { confirmPassword: _, ...rest } = data;
-    // Remove a confirmação de senha do objeto
 
-    // Para enviar apenas os dados necessários para o backend
     const userData: RegisterData = rest;
     try {
       await register(userData);

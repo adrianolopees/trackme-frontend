@@ -1,4 +1,3 @@
-// React - Core hooks
 import { useState, useEffect } from "react";
 
 // React Router - Navegação

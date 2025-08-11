@@ -10,8 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { AuthProvider } from "./contexts/AuthContext";
 import { FollowProvider } from "./contexts/FollowContext";
-import { queryClient } from "./lib/reactQuery";
-import { QueryClientProvider } from "@tanstack/react-query";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -89,32 +87,30 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <AuthProvider>
-          <FollowProvider>
-            <div className="min-h-screen">
-              <AnimatedRoutes />
+    <Router>
+      <AuthProvider>
+        <FollowProvider>
+          <div className="min-h-screen">
+            <AnimatedRoutes />
 
-              {/* Toast Container para notificações globais */}
-              <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-                className="!z-50"
-              />
-            </div>
-          </FollowProvider>
-        </AuthProvider>
-      </Router>
-    </QueryClientProvider>
+            {/* Toast Container para notificações globais */}
+            <ToastContainer
+              position="top-right"
+              autoClose={3000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              className="!z-50"
+            />
+          </div>
+        </FollowProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 
