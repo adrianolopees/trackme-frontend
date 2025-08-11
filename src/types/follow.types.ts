@@ -30,6 +30,8 @@ export interface FollowContextData {
     append?: boolean
   ) => Promise<void>;
   isFollowing: (targetProfileId: number) => boolean;
+  loadFollowersCount: (profileId?: number) => Promise<void>; // Novo: Tipagem para a função de count de followers
+  loadFollowingCount: (profileId?: number) => Promise<void>; // Novo: Tipagem para a função de count de following
 }
 
 export interface FollowProviderProps {

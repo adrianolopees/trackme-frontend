@@ -12,6 +12,8 @@ import {
   fetchFollowing,
   followProfile as followService,
   unfollowProfile as unfollowService,
+  fetchFollowersCount,
+  fetchFollowingCount,
 } from "../services/follow.service";
 import { requireProfile } from "../helpers/requireProfile";
 
@@ -26,6 +28,8 @@ export const FollowContext = createContext<FollowContextData>({
   loadFollowers: async () => {},
   loadFollowing: async () => {},
   isFollowing: () => false,
+  loadFollowersCount: async () => {}, // Novo
+  loadFollowingCount: async () => {}, // Novo
 });
 
 export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
@@ -50,17 +54,15 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       const data = await fetchFollowers(targetId, page);
 
       if (append && page > 1) {
-        // Adiciona os novos aos existentes
         setFollowers((prev) => [...prev, ...(data.profiles || [])]);
       } else {
-        // Substitui (primeira carga ou reset)
         setFollowers(data.profiles || []);
       }
       setFollowersTotal(data.pagination.total);
     } catch (error) {
       toast.error("Erro ao carregar seguidores");
       console.error("Erro ao buscar seguidores:", error);
-      if (!append) setFollowers([]); // Reset apenas se não for append
+      if (!append) setFollowers([]);
       setFollowersTotal(0);
     } finally {
       setLoading(false);
@@ -81,24 +83,58 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       const data = await fetchFollowing(targetId, page);
 
       if (append && page > 1) {
-        // Adiciona os novos aos existentes
         setFollowing((prev) => [...prev, ...(data.profiles || [])]);
       } else {
-        // Substitui (primeira carga ou reset)
         setFollowing(data.profiles || []);
       }
       setFollowingTotal(data.pagination.total);
     } catch (error) {
       toast.error("Erro ao carregar seguindo");
       console.error("Erro ao buscar seguindo:", error);
-      if (!append) setFollowing([]); // Reset apenas se não for append
-      setFollowingTotal(0); // Reset se erro
+      if (!append) setFollowing([]);
+      setFollowingTotal(0);
     } finally {
       setLoading(false);
     }
   };
 
-  // Função para seguir perfil
+  // Nova: Carrega só o total de followers
+  const loadFollowersCount = async (profileId?: number) => {
+    if (!requireProfile(profile)) return;
+
+    const targetId = profileId || profile.id;
+    setLoading(true);
+    try {
+      const count = await fetchFollowersCount(targetId);
+      setFollowersTotal(count);
+    } catch (error) {
+      toast.error("Erro ao carregar total de seguidores");
+      console.error("Erro ao buscar total de seguidores:", error);
+      setFollowersTotal(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Nova: Carrega só o total de following
+  const loadFollowingCount = async (profileId?: number) => {
+    if (!requireProfile(profile)) return;
+
+    const targetId = profileId || profile.id;
+    setLoading(true);
+    try {
+      const count = await fetchFollowingCount(targetId);
+      setFollowingTotal(count);
+    } catch (error) {
+      toast.error("Erro ao carregar total de seguindo");
+      console.error("Erro ao buscar total de seguindo:", error);
+      setFollowingTotal(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Função para seguir perfil (já atualizada, OK)
   const followProfile = async (targetProfileId: number) => {
     if (
       !requireProfile(profile, () =>
@@ -113,8 +149,13 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       await followService(targetProfileId);
       toast.success("Perfil seguido com sucesso!");
 
-      // Recarrega a lista de seguindo
-      await loadFollowing(profile.id);
+      // Otimização opcional: Update local instantâneo
+      setFollowingTotal((prev) => prev + 1); // Seu following +1
+
+      // Recarrega lista e counts async
+      loadFollowing(profile.id); // Lista
+      loadFollowingCount(profile.id); // Seu count
+      loadFollowersCount(targetProfileId); // Count do target (se exibindo perfil do target)
     } catch (error) {
       toast.error("Erro ao seguir perfil");
       console.error("Erro ao seguir:", error);
@@ -123,7 +164,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     }
   };
 
-  // Função para deixar de seguir
+  // Função para deixar de seguir (atualizada para counts)
   const unfollowProfile = async (targetProfileId: number) => {
     if (
       !requireProfile(profile, () =>
@@ -137,7 +178,13 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       await unfollowService(targetProfileId);
       toast.success("Perfil deixado de seguir com sucesso!");
 
-      await loadFollowing(profile.id);
+      // Otimização opcional: Update local instantâneo
+      setFollowingTotal((prev) => Math.max(0, prev - 1)); // Seu following -1
+
+      // Recarrega lista e counts async
+      loadFollowing(profile.id); // Lista
+      loadFollowingCount(profile.id); // Seu count
+      loadFollowersCount(targetProfileId); // Count do target (se necessário)
     } catch (error) {
       toast.error("Erro ao deixar de seguir");
       console.error("Erro ao deixar de seguir:", error);
@@ -155,8 +202,11 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   // Carrega dados iniciais apenas se estiver autenticado
   useEffect(() => {
     if (isAuthenticated && profile) {
-      loadFollowing(profile.id);
-      loadFollowers(profile.id);
+      loadFollowersCount(profile.id);
+      loadFollowingCount(profile.id);
+      // Opcional: Adicione se quiser listas iniciais (ex: para isFollowing funcionar logo)
+      // loadFollowers(profile.id);
+      // loadFollowing(profile.id);
     }
   }, [isAuthenticated, profile?.id]);
 
@@ -173,6 +223,8 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
         loadFollowers,
         loadFollowing,
         isFollowing,
+        loadFollowersCount, // Novo
+        loadFollowingCount, // Novo
       }}
     >
       {children}

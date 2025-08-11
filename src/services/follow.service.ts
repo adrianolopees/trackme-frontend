@@ -47,3 +47,17 @@ export const unfollowProfile = async (
 ): Promise<void> => {
   await api.delete(`/follow/${targetProfileId}`);
 };
+
+// Novos métodos no service (follow.service.ts)
+export const fetchFollowersCount = async (profileId: number) => {
+  const response = await api.get(`/${profileId}/followers-count`);
+  return response.data.data.followersTotal;
+};
+
+export const fetchFollowingCount = async (profileId: number) => {
+  const response = await api.get(`/${profileId}/following-count`);
+  return response.data.data.followingTotal;
+};
+
+// No useEffect: loadCounts(profile.id);
+// Após follow/unfollow: loadCounts(profile.id); para atualizar
