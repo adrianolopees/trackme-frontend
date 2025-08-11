@@ -27,7 +27,7 @@ export const fetchFollowing = async (
   const { data } = await api.get(`/follow/${profileId}/following?page=${page}`);
 
   return {
-    profiles: data.data.following,
+    profiles: data.data.followings,
     pagination: {
       total: data.data.total,
       totalPages: data.data.totalPages,

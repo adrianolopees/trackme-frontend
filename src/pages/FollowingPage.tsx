@@ -4,6 +4,7 @@ import { fetchFollowing } from "../services/follow.service";
 import { FollowList } from "../components";
 
 const FollowingPage = () => {
+  console.log("ola mundo");
   const { profileId } = useParams();
   return (
     <FollowList
