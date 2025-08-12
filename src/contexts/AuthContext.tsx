@@ -65,7 +65,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       authService.saveAuthData(token, profile);
       setProfile(profile);
-      toast.success("Fale sobre você e coloque uma foto!");
+      toast.success("Fale mais sobre você e coloque uma foto!");
     } finally {
       setLoading(false);
     }

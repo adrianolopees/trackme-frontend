@@ -33,7 +33,7 @@ export const FollowContext = createContext<FollowContextData>({
 });
 
 export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
-  const { profile, isAuthenticated } = useAuth();
+  const { profile } = useAuth();
   const [followers, setFollowers] = useState<SafeProfile[]>([]);
   const [following, setFollowing] = useState<SafeProfile[]>([]);
   const [followersTotal, setFollowersTotal] = useState(0);
@@ -107,7 +107,6 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     try {
       const count = await fetchFollowersCount(targetId);
       setFollowersTotal(count);
-      console.log(count);
     } catch (error) {
       toast.error("Erro ao carregar total de seguidores");
       console.error("Erro ao buscar total de seguidores:", error);
@@ -202,14 +201,14 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
 
   // Carrega dados iniciais apenas se estiver autenticado
   useEffect(() => {
-    if (isAuthenticated && profile) {
+    if (profile) {
       loadFollowersCount(profile.id);
       loadFollowingCount(profile.id);
       // Opcional: Adicione se quiser listas iniciais (ex: para isFollowing funcionar logo)
       // loadFollowers(profile.id);
       // loadFollowing(profile.id);
     }
-  }, [isAuthenticated, profile?.id]);
+  }, [profile?.id]);
 
   return (
     <FollowContext.Provider
