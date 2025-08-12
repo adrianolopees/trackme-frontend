@@ -50,12 +50,12 @@ export const unfollowProfile = async (
 
 // Novos métodos no service (follow.service.ts)
 export const fetchFollowersCount = async (profileId: number) => {
-  const response = await api.get(`/${profileId}/followers-count`);
+  const response = await api.get(`/follow/${profileId}/followers-count`);
   return response.data.data.followersTotal;
 };
 
 export const fetchFollowingCount = async (profileId: number) => {
-  const response = await api.get(`/${profileId}/following-count`);
+  const response = await api.get(`/follow/${profileId}/following-count`);
   return response.data.data.followingTotal;
 };
 

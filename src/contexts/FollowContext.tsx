@@ -107,6 +107,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     try {
       const count = await fetchFollowersCount(targetId);
       setFollowersTotal(count);
+      console.log(count);
     } catch (error) {
       toast.error("Erro ao carregar total de seguidores");
       console.error("Erro ao buscar total de seguidores:", error);

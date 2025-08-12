@@ -21,6 +21,7 @@ import FollowingPage from "./pages/FollowingPage";
 
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { PublicRoute } from "./routes/PublicRoute";
+import ProfileView from "./pages/ProfileView";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -42,6 +43,14 @@ function AnimatedRoutes() {
           element={
             <PublicRoute>
               <Register />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/profile/:id"
+          element={
+            <PublicRoute>
+              <ProfileView />
             </PublicRoute>
           }
         />
