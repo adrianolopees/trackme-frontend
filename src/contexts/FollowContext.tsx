@@ -7,14 +7,7 @@ import type {
 } from "../types/follow.types";
 import type { SafeProfile } from "../schemas/authSchemas";
 
-import {
-  fetchFollowers,
-  fetchFollowing,
-  followProfile as followService,
-  unfollowProfile as unfollowService,
-  fetchFollowersCount,
-  fetchFollowingCount,
-} from "../services/follow.service";
+import { followService } from "../services/follow.service";
 import { requireProfile } from "../helpers/requireProfile";
 
 export const FollowContext = createContext<FollowContextData>({
@@ -33,14 +26,13 @@ export const FollowContext = createContext<FollowContextData>({
 });
 
 export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
-  const { profile } = useAuth();
+  const { profile, isAuthenticated } = useAuth();
   const [followers, setFollowers] = useState<SafeProfile[]>([]);
   const [following, setFollowing] = useState<SafeProfile[]>([]);
   const [followersTotal, setFollowersTotal] = useState(0);
   const [followingTotal, setFollowingTotal] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  // Função para buscar seguidores
   const loadFollowers = async (
     profileId?: number,
     page: number = 1,
@@ -51,7 +43,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     const targetId = profileId || profile.id;
     setLoading(true);
     try {
-      const data = await fetchFollowers(targetId, page);
+      const data = await followService.fetchFollowers(targetId, page);
 
       if (append && page > 1) {
         setFollowers((prev) => [...prev, ...(data.profiles || [])]);
@@ -69,18 +61,16 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     }
   };
 
-  // Função para buscar seguindo
   const loadFollowing = async (
     profileId?: number,
     page: number = 1,
     append: boolean = false
   ) => {
     if (!requireProfile(profile)) return;
-
     const targetId = profileId || profile.id;
     setLoading(true);
     try {
-      const data = await fetchFollowing(targetId, page);
+      const data = await followService.fetchFollowing(targetId, page);
 
       if (append && page > 1) {
         setFollowing((prev) => [...prev, ...(data.profiles || [])]);
@@ -98,14 +88,13 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     }
   };
 
-  // Nova: Carrega só o total de followers
   const loadFollowersCount = async (profileId?: number) => {
     if (!requireProfile(profile)) return;
 
     const targetId = profileId || profile.id;
     setLoading(true);
     try {
-      const count = await fetchFollowersCount(targetId);
+      const count = await followService.fetchFollowersCount(targetId);
       setFollowersTotal(count);
     } catch (error) {
       toast.error("Erro ao carregar total de seguidores");
@@ -116,14 +105,13 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     }
   };
 
-  // Nova: Carrega só o total de following
   const loadFollowingCount = async (profileId?: number) => {
     if (!requireProfile(profile)) return;
 
     const targetId = profileId || profile.id;
     setLoading(true);
     try {
-      const count = await fetchFollowingCount(targetId);
+      const count = await followService.fetchFollowingCount(targetId);
       setFollowingTotal(count);
     } catch (error) {
       toast.error("Erro ao carregar total de seguindo");
@@ -134,7 +122,6 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     }
   };
 
-  // Função para seguir perfil (já atualizada, OK)
   const followProfile = async (targetProfileId: number) => {
     if (
       !requireProfile(profile, () =>
@@ -146,7 +133,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
 
     setLoading(true);
     try {
-      await followService(targetProfileId);
+      await followService.followProfile(targetProfileId);
       toast.success("Perfil seguido com sucesso!");
 
       // Otimização opcional: Update local instantâneo
@@ -164,7 +151,6 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     }
   };
 
-  // Função para deixar de seguir (atualizada para counts)
   const unfollowProfile = async (targetProfileId: number) => {
     if (
       !requireProfile(profile, () =>
@@ -175,7 +161,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     }
     setLoading(true);
     try {
-      await unfollowService(targetProfileId);
+      await followService.unfollowProfile(targetProfileId);
       toast.success("Perfil deixado de seguir com sucesso!");
 
       // Otimização opcional: Update local instantâneo
@@ -208,7 +194,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       // loadFollowers(profile.id);
       // loadFollowing(profile.id);
     }
-  }, [profile?.id]);
+  }, [isAuthenticated, profile?.id]);
 
   return (
     <FollowContext.Provider

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { fetchFollowers } from "../services/follow.service";
+import { followService } from "../services/follow.service";
 
 import { FollowList } from "../components";
 
@@ -9,7 +9,7 @@ const FollowersPage = () => {
     <FollowList
       profileId={Number(profileId)}
       type="followers"
-      fetchFunction={fetchFollowers}
+      fetchFunction={followService.fetchFollowers}
     />
   );
 };
