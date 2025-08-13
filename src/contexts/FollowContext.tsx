@@ -39,7 +39,6 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     append: boolean = false
   ) => {
     if (!requireProfile(profile)) return;
-
     const targetId = profileId || profile.id;
     setLoading(true);
     try {
@@ -52,7 +51,6 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       }
       setFollowersTotal(data.pagination.total);
     } catch (error) {
-      toast.error("Erro ao carregar seguidores");
       console.error("Erro ao buscar seguidores:", error);
       if (!append) setFollowers([]);
       setFollowersTotal(0);
@@ -79,7 +77,6 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       }
       setFollowingTotal(data.pagination.total);
     } catch (error) {
-      toast.error("Erro ao carregar seguindo");
       console.error("Erro ao buscar seguindo:", error);
       if (!append) setFollowing([]);
       setFollowingTotal(0);
@@ -97,8 +94,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       const count = await followService.fetchFollowersCount(targetId);
       setFollowersTotal(count);
     } catch (error) {
-      toast.error("Erro ao carregar total de seguidores");
-      console.error("Erro ao buscar total de seguidores:", error);
+      console.error("Erro ao carregar quantidade de seguidores!", error);
       setFollowersTotal(0);
     } finally {
       setLoading(false);
@@ -114,7 +110,6 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       const count = await followService.fetchFollowingCount(targetId);
       setFollowingTotal(count);
     } catch (error) {
-      toast.error("Erro ao carregar total de seguindo");
       console.error("Erro ao buscar total de seguindo:", error);
       setFollowingTotal(0);
     } finally {

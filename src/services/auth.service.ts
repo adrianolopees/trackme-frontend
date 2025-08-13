@@ -21,7 +21,7 @@ export const authService = {
     const response = await api.post("/auth/login", data);
     const validation = TokenResponseSchema.safeParse(response.data);
     if (!validation.success) {
-      throw new Error("Invalid token response");
+      throw new Error("Resposta de Token inválida");
     }
     return validation.data;
   },
@@ -30,7 +30,7 @@ export const authService = {
     const response = await api.post("/auth/register", data);
     const validation = AuthResponseSchema.safeParse(response.data);
     if (!validation.success) {
-      throw new Error("Invalid auth response");
+      throw new Error(" Resposta de autenticação inválida");
     }
     return validation.data;
   },
@@ -40,7 +40,7 @@ export const authService = {
 
     const validation = ProfileResponseSchema.safeParse(response.data);
     if (!validation.success) {
-      throw new Error("Invalid profile response");
+      throw new Error("Resposta de validação do profile inválida!");
     }
     return validation.data;
   },
