@@ -11,20 +11,9 @@ import type { PublicProfile } from "../schemas/profileSchemas";
 import { followService } from "../services/follow.service";
 import { requireProfile } from "../helpers/requireProfile";
 
-export const FollowContext = createContext<FollowContextData>({
-  followers: [],
-  following: [],
-  followersTotal: 0,
-  followingTotal: 0,
-  loading: false,
-  followProfile: async () => {},
-  unfollowProfile: async () => {},
-  loadFollowers: async () => {},
-  loadFollowing: async () => {},
-  isFollowing: () => false,
-  loadFollowersCount: async () => {}, // Novo
-  loadFollowingCount: async () => {}, // Novo
-});
+export const FollowContext = createContext<FollowContextData>(
+  {} as FollowContextData
+);
 
 export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const { profile, isAuthenticated } = useAuth();
