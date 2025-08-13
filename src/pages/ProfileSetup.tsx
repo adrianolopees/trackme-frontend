@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
 // Schemas e tipos - Validação de dados
 import {
-  profileSetupSchema,
+  ProfileSetupSchema,
   type ProfileSetupFormData,
 } from "../schemas/profileSchemas";
 
@@ -51,7 +51,7 @@ export default function ProfileSetup() {
     formState: { errors },
     getValues,
   } = useForm<ProfileSetupFormData>({
-    resolver: zodResolver(profileSetupSchema),
+    resolver: zodResolver(ProfileSetupSchema),
   });
 
   const onSubmit = async (data: ProfileSetupFormData) => {

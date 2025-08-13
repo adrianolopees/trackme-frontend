@@ -5,17 +5,18 @@ import type {
   TokenResponse,
   AuthResponse,
   ProfileResponse,
-  SafeProfile,
 } from "../schemas/authSchemas";
+import type { SafeProfile } from "../schemas/profileSchemas";
+
 import {
   ProfileResponseSchema,
   TokenResponseSchema,
   AuthResponseSchema,
 } from "../schemas/authSchemas";
+
 const TOKEN_KEY = "@app:token";
 const PROFILE_KEY = "@app:profile";
 
-// Serviços de autenticação
 export const authService = {
   async login(data: LoginFormData): Promise<TokenResponse> {
     const response = await api.post("/auth/login", data);

@@ -1,16 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
-
 import { toast } from "react-toastify";
-
 import { authService } from "../services/auth.service";
 
 import type { AuthContextData, AuthProviderProps } from "../types/auth.types";
+import type { LoginFormData, RegisterData } from "../schemas/authSchemas";
+import type { SafeProfile } from "../schemas/profileSchemas";
 
-import type {
-  LoginFormData,
-  RegisterData,
-  SafeProfile,
-} from "../schemas/authSchemas";
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {

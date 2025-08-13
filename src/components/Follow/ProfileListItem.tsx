@@ -1,6 +1,6 @@
 import { FiChevronRight } from "react-icons/fi";
 import Avatar from "../Avatar/Avatar";
-import type { PublicProfile } from "../../schemas/authSchemas";
+import type { PublicProfile } from "../../schemas/profileSchemas";
 
 interface ProfileListItemProps {
   profile: PublicProfile;

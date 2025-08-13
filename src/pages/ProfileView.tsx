@@ -6,7 +6,7 @@ import { Avatar, GradientButton, PageWrapper } from "../components";
 import { useAuth } from "../hooks/useAuth";
 import { useFollow } from "../hooks/useFollow";
 import api from "../services/api.service";
-import type { SafeProfile } from "../schemas/authSchemas";
+import type { SafeProfile } from "../schemas/profileSchemas";
 
 export const ProfileView = () => {
   const { id } = useParams<{ id: string }>();

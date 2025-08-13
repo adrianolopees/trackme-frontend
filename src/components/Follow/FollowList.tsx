@@ -4,12 +4,12 @@ import { FiArrowLeft, FiSearch, FiUsers } from "react-icons/fi";
 import PageWrapperFollow from "../Layout/PageWrapperFollow";
 import { FollowersSkeleton, ProfileListItem } from "../index";
 
-import type { PublicProfile } from "../../schemas/authSchemas";
+import type { PublicProfile } from "../../schemas/profileSchemas";
 
 import type {
   PaginatedProfiles,
   PaginationMeta,
-} from "../../types/follow.types";
+} from "../../schemas/followShemas";
 
 interface FollowListProps {
   profileId: number;

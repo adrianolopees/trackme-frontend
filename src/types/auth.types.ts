@@ -1,9 +1,6 @@
 import type { ReactNode, Dispatch, SetStateAction } from "react";
-import {
-  type LoginFormData,
-  type RegisterData,
-  type SafeProfile,
-} from "../schemas/authSchemas";
+import type { LoginFormData, RegisterData } from "../schemas/authSchemas";
+import type { SafeProfile } from "../schemas/profileSchemas";
 
 export interface AuthContextData {
   profile: SafeProfile | null;

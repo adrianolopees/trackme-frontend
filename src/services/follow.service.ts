@@ -1,7 +1,6 @@
 import api from "../services/api.service";
 
-import type { PaginatedProfiles } from "../types/follow.types";
-
+import type { PaginatedProfiles } from "../schemas/followShemas";
 export const followService = {
   async fetchFollowers(
     profileId: number,

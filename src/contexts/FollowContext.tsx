@@ -1,11 +1,12 @@
 import React, { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useAuth } from "../hooks/useAuth";
+
 import type {
   FollowContextData,
   FollowProviderProps,
 } from "../types/follow.types";
-import type { PublicProfile } from "../schemas/authSchemas";
+import type { PublicProfile } from "../schemas/profileSchemas";
 
 import { followService } from "../services/follow.service";
 import { requireProfile } from "../helpers/requireProfile";

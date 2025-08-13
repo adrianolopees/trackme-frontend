@@ -1,15 +1,4 @@
-import type { PublicProfile } from "../schemas/authSchemas";
-
-export interface PaginationMeta {
-  total: number;
-  totalPages: number;
-  currentPage: number;
-}
-
-export interface PaginatedProfiles {
-  profiles: PublicProfile[];
-  pagination: PaginationMeta;
-}
+import type { PublicProfile } from "../schemas/profileSchemas";
 
 export interface FollowContextData {
   followers: PublicProfile[];
@@ -30,8 +19,8 @@ export interface FollowContextData {
     append?: boolean
   ) => Promise<void>;
   isFollowing: (targetProfileId: number) => boolean;
-  loadFollowersCount: (profileId?: number) => Promise<void>; // Novo: Tipagem para a função de count de followers
-  loadFollowingCount: (profileId?: number) => Promise<void>; // Novo: Tipagem para a função de count de following
+  loadFollowersCount: (profileId?: number) => Promise<void>;
+  loadFollowingCount: (profileId?: number) => Promise<void>;
 }
 
 export interface FollowProviderProps {

@@ -1,4 +1,4 @@
-import type { SafeProfile } from "../schemas/authSchemas";
+import type { SafeProfile } from "../schemas/profileSchemas";
 
 export function requireProfile(
   profile: SafeProfile | null,
