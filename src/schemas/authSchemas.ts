@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Schema do perfil seguro (espelhando o backend)
 export const SafeProfileSchema = z.object({
   id: z.number(),
   username: z.string(),
@@ -9,9 +8,16 @@ export const SafeProfileSchema = z.object({
   bio: z.string().optional(),
   avatar: z.string().optional(), // Base64 string
   profileSetupDone: z.boolean(),
-  createdAt: z.string(), // ISO date string
-  updatedAt: z.string(), // ISO date string
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
+export type SafeProfile = z.infer<typeof SafeProfileSchema>;
+
+export const PublicProfileSchema = SafeProfileSchema.omit({
+  email: true,
+  profileSetupDone: true,
+});
+export type PublicProfile = z.infer<typeof PublicProfileSchema>;
 
 // Schemas dos dados que vêm no campo 'data' das respostas
 export const TokenDataSchema = z.object({
@@ -20,10 +26,6 @@ export const TokenDataSchema = z.object({
 
 export const AuthDataSchema = z.object({
   token: z.string(),
-  profile: SafeProfileSchema,
-});
-
-export const ProfileDataSchema = z.object({
   profile: SafeProfileSchema,
 });
 
@@ -42,7 +44,7 @@ export const AuthResponseSchema = z.object({
 
 export const ProfileResponseSchema = z.object({
   success: z.boolean(),
-  data: ProfileDataSchema,
+  data: SafeProfileSchema,
   message: z.string(),
 });
 
@@ -78,7 +80,6 @@ export const loginSchema = z.object({
 export type RegisterData = z.infer<typeof registerDataSchema>; // Para backend
 export type RegisterFormData = z.infer<typeof registerSchema>; // Para formulário
 export type LoginFormData = z.infer<typeof loginSchema>;
-export type SafeProfile = z.infer<typeof SafeProfileSchema>;
 export type TokenData = z.infer<typeof TokenDataSchema>;
 export type AuthData = z.infer<typeof AuthDataSchema>;
 export type TokenResponse = z.infer<typeof TokenResponseSchema>;

@@ -1,4 +1,4 @@
-import type { SafeProfile } from "../schemas/authSchemas";
+import type { PublicProfile } from "../schemas/authSchemas";
 
 export interface PaginationMeta {
   total: number;
@@ -7,13 +7,13 @@ export interface PaginationMeta {
 }
 
 export interface PaginatedProfiles {
-  profiles: SafeProfile[];
+  profiles: PublicProfile[];
   pagination: PaginationMeta;
 }
 
 export interface FollowContextData {
-  followers: SafeProfile[];
-  following: SafeProfile[];
+  followers: PublicProfile[];
+  following: PublicProfile[];
   followersTotal: number; // novo
   followingTotal: number; // novo
   loading: boolean;

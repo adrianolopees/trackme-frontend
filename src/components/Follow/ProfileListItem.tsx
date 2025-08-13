@@ -1,9 +1,9 @@
 import { FiChevronRight } from "react-icons/fi";
 import Avatar from "../Avatar/Avatar";
-import type { SafeProfile } from "../../schemas/authSchemas";
+import type { PublicProfile } from "../../schemas/authSchemas";
 
 interface ProfileListItemProps {
-  profile: SafeProfile;
+  profile: PublicProfile;
   onClick: () => void;
   actions?: React.ReactNode;
 }

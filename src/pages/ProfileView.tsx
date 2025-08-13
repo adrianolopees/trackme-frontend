@@ -1,57 +1,51 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { FaUser, FaEnvelope } from "react-icons/fa";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { FiHome } from "react-icons/fi";
 import { Avatar, GradientButton, PageWrapper } from "../components";
 import { useAuth } from "../hooks/useAuth";
 import { useFollow } from "../hooks/useFollow";
-import api from "../services/api.service"; // Cliente axios ou fetch
+import api from "../services/api.service";
 import type { SafeProfile } from "../schemas/authSchemas";
 
 export const ProfileView = () => {
-  const { id } = useParams<{ id: string }>(); // ID do perfil visitado
+  const { id } = useParams<{ id: string }>();
   const profileId = parseInt(id || "", 10);
   const navigate = useNavigate();
   const { isAuthenticated, profile: currentUser } = useAuth();
-  const {
-    followProfile,
-    unfollowProfile,
-    isFollowing,
-    loadFollowersCount,
-    loadFollowingCount,
-  } = useFollow();
+  const { followProfile, unfollowProfile, isFollowing } = useFollow();
+
   const [visitedProfile, setVisitedProfile] = useState<SafeProfile | null>(
     null
   );
-  const [followersCount, setFollowersCount] = useState(0); // Local, não usa context
-  const [followingCount, setFollowingCount] = useState(0); // Local
+  const [followersCount, setFollowersCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  // Carrega dados do perfil visitado
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (!profileId) return;
-      setLoading(true);
-      try {
-        const response = await api.get(`/users/${profileId}`); // Assume endpoint para perfil
-        setVisitedProfile(response.data.data);
-        // Carrega counts com os novos endpoints
-        await loadFollowersCount(profileId);
-        await loadFollowingCount(profileId);
-        // Atualiza states locais com os counts do context (já setados por load)
-        setFollowersCount(response.data.followersTotal || 0);
-        setFollowingCount(response.data.followingTotal || 0);
-      } catch (error) {
-        console.error("Erro ao carregar perfil:", error);
-        navigate("/"); // Redireciona se perfil não existir
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProfile();
-  }, [profileId, navigate, loadFollowersCount, loadFollowingCount]);
+  // Função para carregar o perfil e counts em uma única chamada
+  const fetchProfileData = useCallback(async () => {
+    if (!profileId) return;
+    setLoading(true);
+    try {
+      const response = await api.get(`/users/${profileId}`);
+      const data = response.data;
+      setVisitedProfile(data.data);
+      setFollowersCount(data.followersTotal || 0);
+      setFollowingCount(data.followingsTotal || 0);
+    } catch (error) {
+      console.error("Erro ao carregar perfil:", error);
+      navigate("/");
+    } finally {
+      setLoading(false);
+    }
+  }, [profileId, navigate]);
 
-  // Botão de seguir/deixar de seguir
+  // Carrega dados ao montar ou trocar o ID
+  useEffect(() => {
+    fetchProfileData();
+  }, [fetchProfileData]);
+
+  // Seguir / deixar de seguir
   const handleFollowToggle = async () => {
     if (!isAuthenticated || !currentUser) {
       navigate("/login");
@@ -61,21 +55,10 @@ export const ProfileView = () => {
     try {
       if (isFollowing(profileId)) {
         await unfollowProfile(profileId);
-        setFollowersCount((prev) => Math.max(0, prev - 1)); // Update local
+        setFollowersCount((prev) => Math.max(0, prev - 1));
       } else {
         await followProfile(profileId);
-        setFollowersCount((prev) => prev + 1); // Update local
-      }
-      // Recarrega counts para sync
-      await loadFollowersCount(profileId);
-      await loadFollowingCount(profileId);
-      // Busca os novos totais do backend
-      try {
-        const countsResponse = await api.get(`/users/${profileId}`);
-        setFollowersCount(countsResponse.data.followersTotal || 0);
-        setFollowingCount(countsResponse.data.followingTotal || 0);
-      } catch (err) {
-        // fallback: não atualiza se erro
+        setFollowersCount((prev) => prev + 1);
       }
     } catch (error) {
       console.error("Erro ao seguir/deixar de seguir:", error);
@@ -102,7 +85,7 @@ export const ProfileView = () => {
           </h1>
           <p className="text-gray-600">{visitedProfile.bio}</p>
 
-          {/* Botão de seguir/deixar de seguir */}
+          {/* Botão seguir/deixar de seguir */}
           {isAuthenticated && currentUser?.id !== profileId && (
             <button
               onClick={handleFollowToggle}
@@ -121,7 +104,7 @@ export const ProfileView = () => {
             </button>
           )}
 
-          {/* Estatísticas de Follow */}
+          {/* Estatísticas */}
           <div className="flex justify-center space-x-4 mt-4">
             <button
               onClick={() => navigate(`/profile/${profileId}/followers`)}
@@ -174,11 +157,10 @@ export const ProfileView = () => {
           <div className="flex gap-4 justify-center">
             <Link to="/">
               <GradientButton
-                type="submit"
+                type="button"
                 loading={loading}
                 disabled={loading}
                 icon={<FiHome size={14} />}
-                loadingText="Entrando..."
               >
                 Home
               </GradientButton>

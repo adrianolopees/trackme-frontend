@@ -4,7 +4,7 @@ import { FiArrowLeft, FiSearch, FiUsers } from "react-icons/fi";
 import PageWrapperFollow from "../Layout/PageWrapperFollow";
 import { FollowersSkeleton, ProfileListItem } from "../index";
 
-import type { SafeProfile } from "../../schemas/authSchemas";
+import type { PublicProfile } from "../../schemas/authSchemas";
 
 import type {
   PaginatedProfiles,
@@ -22,7 +22,7 @@ interface FollowListProps {
 
 const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
   const navigate = useNavigate();
-  const [profiles, setProfiles] = useState<SafeProfile[]>([]);
+  const [profiles, setProfiles] = useState<PublicProfile[]>([]);
   const [pagination, setPagination] = useState<PaginationMeta | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState(true);
@@ -148,7 +148,7 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
                 <ProfileListItem
                   key={profile.id}
                   profile={profile}
-                  onClick={() => navigate(`/profile/${profile.id}`)}
+                  onClick={() => navigate(`/users/${profile.id}`)}
                 />
               ))}
             </div>

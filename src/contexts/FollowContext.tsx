@@ -5,7 +5,7 @@ import type {
   FollowContextData,
   FollowProviderProps,
 } from "../types/follow.types";
-import type { SafeProfile } from "../schemas/authSchemas";
+import type { PublicProfile } from "../schemas/authSchemas";
 
 import { followService } from "../services/follow.service";
 import { requireProfile } from "../helpers/requireProfile";
@@ -27,8 +27,8 @@ export const FollowContext = createContext<FollowContextData>({
 
 export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const { profile, isAuthenticated } = useAuth();
-  const [followers, setFollowers] = useState<SafeProfile[]>([]);
-  const [following, setFollowing] = useState<SafeProfile[]>([]);
+  const [followers, setFollowers] = useState<PublicProfile[]>([]);
+  const [following, setFollowing] = useState<PublicProfile[]>([]);
   const [followersTotal, setFollowersTotal] = useState(0);
   const [followingTotal, setFollowingTotal] = useState(0);
   const [loading, setLoading] = useState(false);

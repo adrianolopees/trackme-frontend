@@ -46,14 +46,7 @@ function AnimatedRoutes() {
             </PublicRoute>
           }
         />
-        <Route
-          path="/profile/:id"
-          element={
-            <PublicRoute>
-              <ProfileView />
-            </PublicRoute>
-          }
-        />
+        <Route path="/users/:id" element={<ProfileView />} />
 
         {/* 🔒 Rotas protegidas individualmente */}
         <Route

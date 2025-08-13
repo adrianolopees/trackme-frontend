@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       return;
     }
     const validatedProfile = await authService.getAuthProfile();
-    const profile = validatedProfile.data.profile;
+    const profile = validatedProfile.data;
     setProfile(profile);
     authService.saveAuthData(tokenStorage, profile);
     setLoading(false);
@@ -45,7 +45,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       authService.saveAuthData(token);
 
       const { data: profileData } = await authService.getAuthProfile();
-      const profile = profileData.profile;
+      const profile = profileData;
       setProfile(profile);
       authService.saveAuthData(token, profile);
 
