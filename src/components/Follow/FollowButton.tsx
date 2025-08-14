@@ -26,8 +26,6 @@ export const FollowButton: React.FC<FollowButtonProps> = ({
   } = useFollow();
 
   const isOwner = currentUser?.id === targetProfileId;
-
-  // Não exibe o botão se não estiver autenticado ou se for o próprio perfil
   if (!isAuthenticated || isOwner) {
     return null;
   }
