@@ -119,15 +119,10 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       await followService.followProfile(targetProfileId);
-      toast.success("Perfil seguido com sucesso!");
-
-      // Otimização opcional: Update local instantâneo
-      setFollowingTotal((prev) => prev + 1); // Seu following +1
-
-      // Recarrega lista e counts async
-      loadFollowing(profile.id); // Lista
-      loadFollowingCount(profile.id); // Seu count
-      loadFollowersCount(targetProfileId); // Count do target (se exibindo perfil do target)
+      setFollowing((prev) => [
+        ...prev,
+        { id: targetProfileId } as PublicProfile,
+      ]);
     } catch (error) {
       toast.error("Erro ao seguir perfil");
       console.error("Erro ao seguir:", error);
@@ -147,15 +142,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     setLoading(true);
     try {
       await followService.unfollowProfile(targetProfileId);
-      toast.success("Perfil deixado de seguir com sucesso!");
-
-      // Otimização opcional: Update local instantâneo
-      setFollowingTotal((prev) => Math.max(0, prev - 1)); // Seu following -1
-
-      // Recarrega lista e counts async
-      loadFollowing(profile.id); // Lista
-      loadFollowingCount(profile.id); // Seu count
-      loadFollowersCount(targetProfileId); // Count do target (se necessário)
+      setFollowing((prev) => prev.filter((p) => p.id !== targetProfileId));
     } catch (error) {
       toast.error("Erro ao deixar de seguir");
       console.error("Erro ao deixar de seguir:", error);
@@ -175,9 +162,8 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     if (profile) {
       loadFollowersCount(profile.id);
       loadFollowingCount(profile.id);
-      // Opcional: Adicione se quiser listas iniciais (ex: para isFollowing funcionar logo)
-      // loadFollowers(profile.id);
-      // loadFollowing(profile.id);
+      loadFollowers(profile.id);
+      loadFollowing(profile.id);
     }
   }, [isAuthenticated, profile?.id]);
 
