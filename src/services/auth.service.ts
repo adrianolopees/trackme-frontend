@@ -37,7 +37,7 @@ export const authService = {
   },
 
   async getAuthProfile(): Promise<ProfileResponse> {
-    const response = await api.get("/profile/me");
+    const response = await api.get("/profiles/me");
 
     const validation = ProfileResponseSchema.safeParse(response.data);
     if (!validation.success) {

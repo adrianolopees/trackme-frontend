@@ -46,7 +46,6 @@ export const followService = {
     await api.delete(`/follow/${targetProfileId}`);
   },
 
-  // Novos métodos no service (follow.service.ts)
   async fetchFollowersCount(profileId: number) {
     const response = await api.get(`/follow/${profileId}/followers-count`);
     return response.data.data.followersTotal;

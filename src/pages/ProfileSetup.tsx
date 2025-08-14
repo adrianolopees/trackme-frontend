@@ -1,29 +1,19 @@
 import { useState, useEffect } from "react";
-
-// React Router - Navegação
 import { useNavigate } from "react-router-dom";
-
-// React Hook Form - Gerenciamento de formulários
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-// React Toastify - Notificações
 import { toast } from "react-toastify";
 
-// Schemas e tipos - Validação de dados
 import {
   ProfileSetupSchema,
   type ProfileSetupFormData,
 } from "../schemas/profileSchemas";
 
-// Services - API e comunicação externa
 import api from "../services/api.service";
 
-// Hooks customizados - Lógica de negócio
 import { useAuth } from "../hooks/useAuth";
 import { useRequireProfile } from "../hooks/useRequireProfile";
 
-// Componentes customizados - Interface da aplicação
 import {
   AvatarInput,
   GradientButton,
@@ -68,7 +58,7 @@ export default function ProfileSetup() {
     formData.append("profileSetupDone", "true");
 
     try {
-      const response = await api.put("/profile/me", formData);
+      const response = await api.put("/profiles/me", formData);
       const updatedProfile = response.data.data;
 
       setProfile(updatedProfile);
@@ -91,7 +81,7 @@ export default function ProfileSetup() {
     // avatar não será enviado
     formData.append("profileSetupDone", "true");
     try {
-      const response = await api.put("/profile/me", formData);
+      const response = await api.put("/profiles/me", formData);
       const updatedProfile = response.data.data;
 
       setProfile(updatedProfile);

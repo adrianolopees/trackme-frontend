@@ -27,7 +27,7 @@ export const ProfileView = () => {
     if (!profileId) return;
     setLoading(true);
     try {
-      const response = await api.get(`/users/${profileId}`);
+      const response = await api.get(`/profiles/${profileId}`);
       const data = response.data;
       setVisitedProfile(data.data);
       setFollowersCount(data.followersTotal || 0);
