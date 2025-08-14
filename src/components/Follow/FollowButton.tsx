@@ -1,38 +1,65 @@
 import React from "react";
 import { useFollow } from "../../hooks/useFollow";
+import { useAuth } from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { GradientButton } from "../index";
 
-interface FollowButtonProps {
+type FollowButtonProps = {
   targetProfileId: number;
-  className?: string;
-}
+  onFollow?: () => void;
+  onUnfollow?: () => void;
+};
 
 export const FollowButton: React.FC<FollowButtonProps> = ({
   targetProfileId,
-  className = "",
+  onFollow,
+  onUnfollow,
 }) => {
-  const { followProfile, unfollowProfile, isFollowing, loading } = useFollow();
+  const { isAuthenticated, profile: currentUser } = useAuth();
+  const navigate = useNavigate();
+  const {
+    followProfile,
+    unfollowProfile,
+    isFollowing,
+    isFollowingLoading,
+    isUnfollowingLoading,
+  } = useFollow();
 
-  const isFollowingUser = isFollowing(targetProfileId);
+  const isOwner = currentUser?.id === targetProfileId;
 
-  const handleClick = async () => {
-    if (isFollowingUser) {
+  // Não exibe o botão se não estiver autenticado ou se for o próprio perfil
+  if (!isAuthenticated || isOwner) {
+    return null;
+  }
+
+  const isCurrentlyFollowing = isFollowing(targetProfileId);
+  const loading = isCurrentlyFollowing
+    ? isUnfollowingLoading
+    : isFollowingLoading;
+
+  const handleToggle = async () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+      return;
+    }
+
+    if (isCurrentlyFollowing) {
       await unfollowProfile(targetProfileId);
+      onUnfollow?.(); // Atualiza contador na página
     } else {
       await followProfile(targetProfileId);
+      onFollow?.(); // Atualiza contador na página
     }
   };
 
   return (
-    <button
-      onClick={handleClick}
+    <GradientButton
+      onClick={handleToggle}
+      loading={loading}
       disabled={loading}
-      className={`px-4 py-2 rounded font-medium transition-colors ${
-        isFollowingUser
-          ? "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          : "bg-blue-500 text-white hover:bg-blue-600"
-      } disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      type="button"
     >
-      {loading ? "..." : isFollowingUser ? "Deixar de seguir" : "Seguir"}
-    </button>
+      {isCurrentlyFollowing ? "Deixar de seguir" : "Seguir"}
+    </GradientButton>
   );
 };

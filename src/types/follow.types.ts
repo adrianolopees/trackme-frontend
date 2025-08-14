@@ -6,6 +6,10 @@ export interface FollowContextData {
   followersTotal: number; // novo
   followingTotal: number; // novo
   loading: boolean;
+  isFollowingLoading: boolean;
+  isUnfollowingLoading: boolean;
+  isFollowersListLoading: boolean;
+  isFollowingListLoading: boolean;
   followProfile: (targetProfileId: number) => Promise<void>;
   unfollowProfile: (targetProfileId: number) => Promise<void>;
   loadFollowers: (

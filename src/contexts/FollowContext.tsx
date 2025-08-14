@@ -21,7 +21,12 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const [following, setFollowing] = useState<PublicProfile[]>([]);
   const [followersTotal, setFollowersTotal] = useState(0);
   const [followingTotal, setFollowingTotal] = useState(0);
+
   const [loading, setLoading] = useState(false);
+  const [isFollowingLoading, setIsFollowingLoading] = useState(false);
+  const [isUnfollowingLoading, setIsUnfollowingLoading] = useState(false);
+  const [isFollowersListLoading, setIsFollowersListLoading] = useState(false);
+  const [isFollowingListLoading, setIsFollowingListLoading] = useState(false);
 
   const loadFollowers = async (
     profileId?: number,
@@ -30,7 +35,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   ) => {
     if (!requireProfile(profile)) return;
     const targetId = profileId || profile.id;
-    setLoading(true);
+    setIsFollowersListLoading(true);
     try {
       const data = await followService.fetchFollowers(targetId, page);
 
@@ -45,7 +50,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       if (!append) setFollowers([]);
       setFollowersTotal(0);
     } finally {
-      setLoading(false);
+      setIsFollowersListLoading(false);
     }
   };
 
@@ -56,7 +61,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   ) => {
     if (!requireProfile(profile)) return;
     const targetId = profileId || profile.id;
-    setLoading(true);
+    setIsFollowingListLoading(true);
     try {
       const data = await followService.fetchFollowing(targetId, page);
 
@@ -71,7 +76,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       if (!append) setFollowing([]);
       setFollowingTotal(0);
     } finally {
-      setLoading(false);
+      setIsFollowingListLoading(false);
     }
   };
 
@@ -116,7 +121,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       return;
     }
 
-    setLoading(true);
+    setIsFollowingLoading(true);
     try {
       await followService.followProfile(targetProfileId);
       setFollowing((prev) => [
@@ -127,7 +132,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       toast.error("Erro ao seguir perfil");
       console.error("Erro ao seguir:", error);
     } finally {
-      setLoading(false);
+      setIsFollowingLoading(false);
     }
   };
 
@@ -139,7 +144,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     ) {
       return;
     }
-    setLoading(true);
+    setIsUnfollowingLoading(true);
     try {
       await followService.unfollowProfile(targetProfileId);
       setFollowing((prev) => prev.filter((p) => p.id !== targetProfileId));
@@ -147,7 +152,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       toast.error("Erro ao deixar de seguir");
       console.error("Erro ao deixar de seguir:", error);
     } finally {
-      setLoading(false);
+      setIsUnfollowingLoading(false);
     }
   };
 
@@ -175,6 +180,10 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
         followersTotal,
         followingTotal,
         loading,
+        isFollowingLoading,
+        isUnfollowingLoading,
+        isFollowersListLoading,
+        isFollowingListLoading,
         followProfile,
         unfollowProfile,
         loadFollowers,
