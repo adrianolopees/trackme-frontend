@@ -1,5 +1,5 @@
 // Layout
-export { default as PageWrapper } from "./Layout/PageWrapper";
+export { default as AnimatedWrapper } from "./Layout/AnimatedWrapper";
 export { default as UserGreeting } from "./Layout/UserGreeting";
 
 // Auth

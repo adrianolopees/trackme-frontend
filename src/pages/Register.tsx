@@ -18,7 +18,7 @@ import {
   AuthRedirectLinks,
   GradientButton,
   InputField,
-  PageWrapper,
+  AnimatedWrapper,
 } from "../components";
 
 function Register() {
@@ -46,7 +46,7 @@ function Register() {
   };
 
   return (
-    <PageWrapper>
+    <AnimatedWrapper className="min-h-screen flex flex-col justify-center items-center bg-gray-50 p-4">
       <AuthFormLayout
         title="Crie sua conta"
         redirectLinks={<AuthRedirectLinks alternate="login" />}
@@ -105,7 +105,7 @@ function Register() {
           </GradientButton>
         </form>
       </AuthFormLayout>
-    </PageWrapper>
+    </AnimatedWrapper>
   );
 }
 

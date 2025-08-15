@@ -14,7 +14,7 @@ import {
   AuthRedirectLinks,
   GradientButton,
   InputField,
-  PageWrapper,
+  AnimatedWrapper,
 } from "../components/index";
 
 function Login() {
@@ -40,7 +40,7 @@ function Login() {
   };
 
   return (
-    <PageWrapper>
+    <AnimatedWrapper className="min-h-screen flex flex-col justify-center items-center bg-gray-50 p-4">
       <AuthFormLayout
         title="Entrar no TrackMe"
         redirectLinks={<AuthRedirectLinks alternate="register" />}
@@ -76,7 +76,7 @@ function Login() {
           </GradientButton>
         </form>
       </AuthFormLayout>
-    </PageWrapper>
+    </AnimatedWrapper>
   );
 }
 

@@ -17,7 +17,7 @@ import { useRequireProfile } from "../hooks/useRequireProfile";
 import {
   AvatarInput,
   GradientButton,
-  PageWrapper,
+  AnimatedWrapper,
   SkipButton,
   TextAreaField,
 } from "../components/index";
@@ -96,7 +96,7 @@ export default function ProfileSetup() {
   };
 
   return (
-    <PageWrapper>
+    <AnimatedWrapper className="min-h-screen flex flex-col justify-center items-center bg-gray-50 p-4">
       <div className="bg-white rounded-lg text-center shadow-lg p-8 w-full max-w-md">
         <h2 className="text-4xl font-bold mb-6 text-blue-600">
           Complete seu perfil
@@ -134,6 +134,6 @@ export default function ProfileSetup() {
           </div>
         </form>
       </div>
-    </PageWrapper>
+    </AnimatedWrapper>
   );
 }

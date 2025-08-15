@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { FiHome } from "react-icons/fi";
-import { Avatar, GradientButton, PageWrapper } from "../components";
+import { Avatar, GradientButton, AnimatedWrapper } from "../components";
 import api from "../services/api.service";
 import type { SafeProfile } from "../schemas/profileSchemas";
 import { FollowButton } from "../components/Follow/FollowButton";
@@ -41,11 +41,11 @@ export const ProfileView = () => {
   }, [fetchProfileData]);
 
   if (!visitedProfile) {
-    return <PageWrapper>Carregando...</PageWrapper>;
+    return <AnimatedWrapper>Carregando...</AnimatedWrapper>;
   }
 
   return (
-    <PageWrapper>
+    <AnimatedWrapper className="min-h-screen flex flex-col justify-center items-center bg-gray-50 p-4">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <div className="text-center mb-6">
           <Avatar
@@ -107,7 +107,7 @@ export const ProfileView = () => {
           </div>
         </div>
       </div>
-    </PageWrapper>
+    </AnimatedWrapper>
   );
 };
 

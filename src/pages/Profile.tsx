@@ -2,7 +2,7 @@ import { FaUser, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
 import {
   Avatar,
   GradientButton,
-  PageWrapper,
+  AnimatedWrapper,
   ProfileSettingsButton,
 } from "../components";
 import { FiHome } from "react-icons/fi";
@@ -23,7 +23,7 @@ export const Profile = () => {
   };
 
   return (
-    <PageWrapper>
+    <AnimatedWrapper className="min-h-screen flex flex-col justify-center items-center bg-gray-50 p-4">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <div className="text-center mb-6">
           <Avatar src={profile.avatar} size={96} className="mx-auto mb-4" />
@@ -100,7 +100,7 @@ export const Profile = () => {
           </button>
         </div>
       </div>
-    </PageWrapper>
+    </AnimatedWrapper>
   );
 };
 
