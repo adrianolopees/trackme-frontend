@@ -4,11 +4,12 @@ import type { PaginatedProfiles } from "../schemas/followShemas";
 export const followService = {
   async fetchFollowers(
     profileId: number,
-    page: number = 1
+    page: number = 1,
+    limit: number = 5
   ): Promise<PaginatedProfiles> {
-    const { data } = await api.get(
-      `/follow/${profileId}/followers?page=${page}`
-    );
+    const { data } = await api.get(`/follow/${profileId}/followers`, {
+      params: { page, limit },
+    });
 
     return {
       profiles: data.data.followers,
@@ -22,12 +23,12 @@ export const followService = {
 
   async fetchFollowing(
     profileId: number,
-    page: number = 1
+    page: number = 1,
+    limit: number = 5
   ): Promise<PaginatedProfiles> {
-    const { data } = await api.get(
-      `/follow/${profileId}/following?page=${page}`
-    );
-
+    const { data } = await api.get(`/follow/${profileId}/following`, {
+      params: { page, limit },
+    });
     return {
       profiles: data.data.followings,
       pagination: {
