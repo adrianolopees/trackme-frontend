@@ -1,6 +1,5 @@
 // Layout
 export { default as AnimatedWrapper } from "./Layout/AnimatedWrapper";
-export { default as UserGreeting } from "./Layout/UserGreeting";
 
 // Auth
 export { default as AuthButtons } from "./ui/AuthButtons";

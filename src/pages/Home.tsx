@@ -1,10 +1,12 @@
 import { useAuth } from "../hooks/useAuth";
-import { FullPageSpinner, UserGreeting, AuthButtons } from "../components";
+import { FullPageSpinner, AuthButtons } from "../components";
 import { FiShare2, FiUsers, FiUser, FiMusic } from "react-icons/fi";
 import AnimatedWrapper from "../components/Layout/AnimatedWrapper";
+import { Navigate } from "react-router-dom";
 
 function Home() {
-  const { isAuthenticated, profile, loading } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+  if (isAuthenticated) return <Navigate to="/Profile" replace />;
 
   return (
     <AnimatedWrapper className="flex flex-col justify-center items-center min-h-screen max-w-4xl bg-gray-50 p-4 md:py-12 md:px-8 ">
@@ -16,11 +18,7 @@ function Home() {
         Bem-vindo! Comece agora:
       </p>
 
-      {isAuthenticated ? (
-        <UserGreeting profile={profile!} loading={loading} />
-      ) : (
-        <AuthButtons />
-      )}
+      {!isAuthenticated && !loading && <AuthButtons />}
 
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">
         O que é o TrackMe?

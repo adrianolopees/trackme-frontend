@@ -31,7 +31,7 @@ function Login() {
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login(data);
-      navigate("/", { replace: true });
+      navigate("/Profile", { replace: true });
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log("Error no login", error.message);

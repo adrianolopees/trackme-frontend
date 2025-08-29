@@ -12,7 +12,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<SafeProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const isAuthenticated = !!profile;
+  const isAuthenticated = profile !== null;
   const isProfileSetupDone = profile?.profileSetupDone === true;
 
   const checkAuth = async () => {

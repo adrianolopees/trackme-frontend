@@ -12,7 +12,7 @@ export const PublicRoute = ({ children }: PublicRouteProps) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/", { replace: true });
+      navigate("/Profile", { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
