@@ -180,10 +180,12 @@ function Home() {
 
               {!isAuthenticated && !loading && (
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  <button className="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center space-x-2 shadow-lg">
-                    <span>Criar conta grátis</span>
-                    <FiArrowRight size={20} />
-                  </button>
+                  <Link to="/register">
+                    <button className="bg-white text-blue-600 px-8 py-4 rounded-full cursor-pointer font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center space-x-2 shadow-lg">
+                      <span>Criar conta grátis</span>
+                      <FiArrowRight size={20} />
+                    </button>
+                  </Link>
                   <p className="text-sm text-blue-200">
                     Sem compromisso • Sempre gratuito
                   </p>
