@@ -30,6 +30,7 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
+        {/* Autenticação */}
         <Route
           path="/login"
           element={
@@ -46,9 +47,11 @@ function AnimatedRoutes() {
             </PublicRoute>
           }
         />
+
+        {/* Usuários (recurso principal) */}
         <Route path="/users/:id" element={<ProfileView />} />
 
-        {/* 🔒 Rotas protegidas individualmente */}
+        {/* Sub-recursos */}
         <Route
           path="/profile-setup"
           element={
@@ -58,27 +61,28 @@ function AnimatedRoutes() {
           }
         />
         <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile/:profileId/followers"
+          path="/users/:id/followers"
           element={
             <ProtectedRoute>
               <FollowersPage />
             </ProtectedRoute>
           }
         />
-
         <Route
-          path="/profile/:profileId/following"
+          path="/users/:id/following"
           element={
             <ProtectedRoute>
               <FollowingPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Rota do perfil do usuário autenticado */}
+        <Route
+          path="/me"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />

@@ -70,7 +70,7 @@ export const ProfileView = () => {
           {/* Estatísticas */}
           <div className="flex justify-center space-x-4 mt-4">
             <button
-              onClick={() => navigate(`/profile/${profileId}/followers`)}
+              onClick={() => navigate(`/users/${profileId}/followers`)}
               className="text-center hover:bg-gray-50 p-2 rounded transition-colors"
               disabled={profileLoading}
             >
@@ -80,7 +80,7 @@ export const ProfileView = () => {
               <div className="text-xs text-gray-500">Seguidores</div>
             </button>
             <button
-              onClick={() => navigate(`/profile/${profileId}/following`)}
+              onClick={() => navigate(`/users/${profileId}/following`)}
               className="text-center hover:bg-gray-50 p-2 rounded transition-colors"
               disabled={profileLoading}
             >
@@ -94,7 +94,7 @@ export const ProfileView = () => {
 
         <div className="space-y-3">
           <div className="flex gap-4 justify-center">
-            <Link to="/">
+            <Link to="/me">
               <GradientButton
                 type="button"
                 loading={profileLoading}

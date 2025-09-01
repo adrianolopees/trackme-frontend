@@ -4,21 +4,18 @@ import GradientButton from "./GradientButton";
 
 export default function AuthButtons() {
   return (
-    <div className="text-center">
-      <div className="flex gap-4 flex-wrap justify-center">
-        <Link to="/login">
-          <GradientButton type="button" icon={<FaUser />}>
-            Login
-          </GradientButton>
-        </Link>
-
-        <Link
-          to="/register"
-          className="bg-gray-200 text-gray-800 px-8 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium flex items-center justify-center gap-2 min-w-[150px]"
-        >
-          Cadastre-se
-        </Link>
-      </div>
+    <div className="flex items-center gap-4">
+      <Link to="/login">
+        <GradientButton type="button" icon={<FaUser />}>
+          Login
+        </GradientButton>
+      </Link>
+      <Link
+        to="/register"
+        className="bg-gray-200 text-gray-800 px-6 py-2 rounded-full hover:bg-gray-300 transition-colors font-medium text-sm flex items-center justify-center gap-2"
+      >
+        Cadastre-se
+      </Link>
     </div>
   );
 }

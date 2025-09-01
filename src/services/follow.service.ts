@@ -7,7 +7,7 @@ export const followService = {
     page: number = 1,
     limit: number = 5
   ): Promise<PaginatedProfiles> {
-    const { data } = await api.get(`/follow/${profileId}/followers`, {
+    const { data } = await api.get(`/profiles/${profileId}/followers`, {
       params: { page, limit },
     });
 
@@ -26,7 +26,7 @@ export const followService = {
     page: number = 1,
     limit: number = 5
   ): Promise<PaginatedProfiles> {
-    const { data } = await api.get(`/follow/${profileId}/following`, {
+    const { data } = await api.get(`/profiles/${profileId}/following`, {
       params: { page, limit },
     });
     return {
@@ -40,20 +40,20 @@ export const followService = {
   },
 
   async followProfile(targetProfileId: number): Promise<void> {
-    await api.post(`/follow/${targetProfileId}`);
+    await api.post(`/profiles/${targetProfileId}/follow`);
   },
 
   async unfollowProfile(targetProfileId: number): Promise<void> {
-    await api.delete(`/follow/${targetProfileId}`);
+    await api.delete(`/profiles/${targetProfileId}/follow`);
   },
 
   async fetchFollowersCount(profileId: number) {
-    const response = await api.get(`/follow/${profileId}/followers-count`);
+    const response = await api.get(`/profiles/${profileId}/followers-count`);
     return response.data.data.followersTotal;
   },
 
   async fetchFollowingCount(profileId: number) {
-    const response = await api.get(`/follow/${profileId}/following-count`);
+    const response = await api.get(`/profiles/${profileId}/following-count`);
     return response.data.data.followingTotal;
   },
 };

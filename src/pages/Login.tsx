@@ -1,12 +1,8 @@
 import { useNavigate } from "react-router-dom";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { LoginSchema, type LoginFormData } from "../schemas/authSchemas";
-
 import { useAuth } from "../hooks/useAuth";
-
 import { FaUser } from "react-icons/fa";
 
 import {
@@ -31,7 +27,7 @@ function Login() {
   const onSubmit = async (data: LoginFormData) => {
     try {
       await login(data);
-      navigate("/Profile", { replace: true });
+      navigate("/me", { replace: true });
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log("Error no login", error.message);

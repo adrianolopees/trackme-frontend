@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiSearch, FiUsers } from "react-icons/fi";
+import { FiArrowLeft, FiSearch, FiUsers, FiAlertCircle } from "react-icons/fi";
 import PageWrapperFollow from "../Layout/PageWrapperFollow";
 import { FollowersSkeleton, ProfileListItem } from "../index";
 
@@ -38,21 +38,42 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
     ? "Buscar seguidores..."
     : "Buscar usuários...";
 
+  // Validação do profileId
+  const isValidProfileId = !isNaN(profileId) && profileId > 0;
+
   // Carrega primeira página quando muda o profileId
   useEffect(() => {
+    if (!isValidProfileId) {
+      console.error("Profile ID inválido:", profileId);
+      setLoading(false);
+      return;
+    }
+
     setProfiles([]);
     setCurrentPage(1);
     setPagination(null);
     loadProfiles(1, false);
-  }, [profileId]);
+  }, [profileId, isValidProfileId]);
 
   const loadProfiles = async (page: number, append: boolean = false) => {
+    if (!isValidProfileId) {
+      setLoading(false);
+      return;
+    }
+
     try {
       if (append) {
         setLoadingMore(true);
       } else {
         setLoading(true);
       }
+
+      console.log(
+        "Carregando perfis para profileId:",
+        profileId,
+        "página:",
+        page
+      );
 
       const { profiles: newProfiles, pagination: newPagination } =
         await fetchFunction(profileId, page);
@@ -67,7 +88,7 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
 
       setPagination(newPagination);
     } catch (error) {
-      console.log(error);
+      console.error("Erro ao carregar perfis:", error);
     } finally {
       setLoading(false);
       setLoadingMore(false);
@@ -87,6 +108,31 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
   );
 
   const hasMorePages = pagination && currentPage < pagination.totalPages;
+
+  // Se o profileId não for válido, mostra erro
+  if (!isValidProfileId) {
+    return (
+      <PageWrapperFollow>
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center py-12">
+            <FiAlertCircle size={48} className="mx-auto text-red-400 mb-4" />
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              ID de perfil inválido
+            </h2>
+            <p className="text-gray-500 mb-4">
+              O ID do perfil fornecido não é válido: {profileId}
+            </p>
+            <button
+              onClick={() => navigate(-1)}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Voltar
+            </button>
+          </div>
+        </div>
+      </PageWrapperFollow>
+    );
+  }
 
   return (
     <PageWrapperFollow>
