@@ -2,13 +2,11 @@
 export { default as AnimatedWrapper } from "./Layout/AnimatedWrapper";
 
 // Auth
-export { default as AuthButtons } from "./ui/AuthButtons";
 export { default as AuthFormLayout } from "./ui/AuthFormLayout";
 export { default as AuthRedirectLinks } from "./ui/AuthRedirectLinks";
 
 // Buttons
 export { default as GradientButton } from "./ui/GradientButton";
-export { default as ButtonSpinner } from "./ui/ButtonSpinner";
 export { default as SkipButton } from "./ui/SkipButton";
 export { default as ProfileSettingsButton } from "./ui/ProfileSettingsButton";
 
