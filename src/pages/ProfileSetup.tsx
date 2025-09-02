@@ -63,7 +63,7 @@ export default function ProfileSetup() {
 
       setProfile(updatedProfile);
       toast.success("Perfil configurado com sucesso!");
-      navigate("/");
+      navigate("/me");
     } catch (error) {
       console.error("Erro ao configurar perfil:", error);
       toast.error("Erro ao configurar perfil. Tente novamente.");
@@ -86,7 +86,7 @@ export default function ProfileSetup() {
 
       setProfile(updatedProfile);
       toast.success("Perfil será completado depois!");
-      navigate("/");
+      navigate("/me");
     } catch (error) {
       console.error("Erro ao pular configuração de perfil:", error);
       toast.error("Erro ao continuar. Tente novamente.");

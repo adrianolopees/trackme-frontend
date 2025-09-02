@@ -12,7 +12,7 @@ export default function AuthButtons() {
       </Link>
       <Link
         to="/register"
-        className="bg-gray-200 text-gray-800 px-6 py-2 rounded-full hover:bg-gray-300 transition-colors font-medium text-sm flex items-center justify-center gap-2"
+        className="bg-gray-200 text-gray-800 px-4 py-1 lg:px-6 lg:py-2 rounded-full hover:bg-gray-300 transition-colors font-medium text-sm flex items-center justify-center h-9"
       >
         Cadastre-se
       </Link>

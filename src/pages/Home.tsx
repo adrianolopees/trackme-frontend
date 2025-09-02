@@ -1,5 +1,5 @@
 import { useAuth } from "../hooks/useAuth";
-import { FullPageSpinner, AuthButtons } from "../components";
+import { FullPageSpinner, AuthButtons, Avatar } from "../components";
 import {
   FiShare2,
   FiUsers,
@@ -11,24 +11,27 @@ import {
 } from "react-icons/fi";
 import AnimatedWrapper from "../components/Layout/AnimatedWrapper";
 import { Link } from "react-router-dom";
-
 function Home() {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, profile } = useAuth();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
       {loading && <FullPageSpinner />}
 
       {/* Navbar fixa no topo */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-2 bg-white/80 backdrop-blur-sm shadow-sm transition-all duration-300">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm shadow-sm transition-all duration-300">
         {/* Logo/Brand */}
-        <Link to="/" className="flex items-center space-x-2">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
+        <Link to="/" className="flex items-center space-x-2 lg:ml-8 lg:mr-8">
+          <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
             TrackMe
           </h1>
         </Link>
         {/* Auth Buttons */}
-        {!isAuthenticated && !loading && <AuthButtons />}
+        {!isAuthenticated && !loading ? (
+          <AuthButtons />
+        ) : (
+          <Avatar src={profile?.avatar} size={40} />
+        )}
       </nav>
 
       <AnimatedWrapper className="relative">
@@ -63,9 +66,9 @@ function Home() {
             </div>
 
             {/* Features Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 cursor-pointer">
               {/* Feature 1 */}
-              <div className="group">
+              <div className="group ">
                 <div className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-blue-200 h-full">
                   <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                     <FiShare2 className="text-white" size={24} />
