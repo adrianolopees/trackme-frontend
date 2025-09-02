@@ -1,5 +1,5 @@
 import { useAuth } from "../hooks/useAuth";
-import { FullPageSpinner, AuthButtons, Avatar } from "../components";
+import { FullPageSpinner } from "../components";
 import {
   FiShare2,
   FiUsers,
@@ -11,6 +11,7 @@ import {
 } from "react-icons/fi";
 import AnimatedWrapper from "../components/Layout/AnimatedWrapper";
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar/Navbar";
 function Home() {
   const { isAuthenticated, loading, profile } = useAuth();
 
@@ -19,20 +20,11 @@ function Home() {
       {loading && <FullPageSpinner />}
 
       {/* Navbar fixa no topo */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm shadow-sm transition-all duration-300">
-        {/* Logo/Brand */}
-        <Link to="/" className="flex items-center space-x-2 lg:ml-8 lg:mr-8">
-          <h1 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
-            TrackMe
-          </h1>
-        </Link>
-        {/* Auth Buttons */}
-        {!isAuthenticated && !loading ? (
-          <AuthButtons />
-        ) : (
-          <Avatar src={profile?.avatar} size={40} />
-        )}
-      </nav>
+      <Navbar
+        isAuthenticated={isAuthenticated}
+        loading={loading}
+        profile={profile || undefined}
+      />
 
       <AnimatedWrapper className="relative">
         {/* Hero Section com espaçamento superior para a navbar */}
