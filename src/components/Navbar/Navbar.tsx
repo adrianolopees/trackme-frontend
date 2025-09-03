@@ -45,16 +45,19 @@ const Navbar: React.FC<NavbarProps> = ({
   // Fecha menu do avatar ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (avatarMenuRef.current && !avatarMenuRef.current.contains(event.target as Node)) {
+      if (
+        avatarMenuRef.current &&
+        !avatarMenuRef.current.contains(event.target as Node)
+      ) {
         setIsAvatarMenuOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Menu items padrão caso não sejam fornecidos
+  // Menu items padrão , ainda nao fiz as outras funcionalidades !
   const defaultMenuItems: MenuItem[] = [
     { label: "Home", href: "/" },
     { label: "Features", href: "/features" },
@@ -85,7 +88,7 @@ const Navbar: React.FC<NavbarProps> = ({
   // Instagram-style Avatar Menu
   const AvatarMenu = () => {
     const size = isScrolled ? 36 : 40;
-    
+
     return (
       <div className="relative" ref={avatarMenuRef}>
         {/* Avatar Button */}
@@ -99,9 +102,9 @@ const Navbar: React.FC<NavbarProps> = ({
                 src={profile.avatar}
                 alt="User avatar"
                 className={`rounded-full object-cover transition-all duration-200 ${
-                  isAvatarMenuOpen 
-                    ? 'ring-2 ring-blue-500 ring-offset-2' 
-                    : 'group-hover:ring-2 group-hover:ring-blue-400 group-hover:ring-offset-1'
+                  isAvatarMenuOpen
+                    ? "ring-2 ring-blue-500 ring-offset-2"
+                    : "group-hover:ring-2 group-hover:ring-blue-400 group-hover:ring-offset-1"
                 }`}
                 style={{ width: `${size}px`, height: `${size}px` }}
               />
@@ -112,9 +115,10 @@ const Navbar: React.FC<NavbarProps> = ({
                 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 p-2
                 transition-all duration-200
                 ${isScrolled ? "w-9 h-9" : "w-10 h-10"}
-                ${isAvatarMenuOpen 
-                  ? 'ring-2 ring-blue-500 ring-offset-2 scale-105' 
-                  : 'group-hover:scale-105 group-hover:ring-2 group-hover:ring-blue-400 group-hover:ring-offset-1'
+                ${
+                  isAvatarMenuOpen
+                    ? "ring-2 ring-blue-500 ring-offset-2 scale-105"
+                    : "group-hover:scale-105 group-hover:ring-2 group-hover:ring-blue-400 group-hover:ring-offset-1"
                 }
               `}
             >
@@ -128,7 +132,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
             {/* Triangle pointer */}
             <div className="absolute -top-2 right-3 w-4 h-4 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
-            
+
             {isAuthenticated ? (
               <>
                 {/* User Info Section - Only for authenticated users */}
@@ -151,9 +155,7 @@ const Navbar: React.FC<NavbarProps> = ({
                       <p className="text-sm font-semibold text-gray-900 truncate">
                         Meu Perfil
                       </p>
-                      <p className="text-xs text-gray-500">
-                        Ver seu perfil
-                      </p>
+                      <p className="text-xs text-gray-500">Ver seu perfil</p>
                     </div>
                   </div>
                 </div>
@@ -168,7 +170,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     <FaUser className="w-4 h-4 mr-3 text-gray-400" />
                     Perfil
                   </Link>
-                  
+
                   <Link
                     to="/"
                     onClick={() => setIsAvatarMenuOpen(false)}
@@ -178,18 +180,19 @@ const Navbar: React.FC<NavbarProps> = ({
                     Home
                   </Link>
 
-                  {showMenuItems && navigationItems.map((item, index) => (
-                    <Link
-                      key={index}
-                      to={item.href}
-                      onClick={() => setIsAvatarMenuOpen(false)}
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors sm:hidden"
-                    >
-                      <FaMusic className="w-4 h-4 mr-3 text-gray-400" />
-                      {item.label}
-                    </Link>
-                  ))}
-                  
+                  {showMenuItems &&
+                    navigationItems.map((item, index) => (
+                      <Link
+                        key={index}
+                        to={item.href}
+                        onClick={() => setIsAvatarMenuOpen(false)}
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors sm:hidden"
+                      >
+                        <FaMusic className="w-4 h-4 mr-3 text-gray-400" />
+                        {item.label}
+                      </Link>
+                    ))}
+
                   <Link
                     to="/settings"
                     onClick={() => setIsAvatarMenuOpen(false)}
@@ -228,17 +231,18 @@ const Navbar: React.FC<NavbarProps> = ({
                     Home
                   </Link>
 
-                  {showMenuItems && navigationItems.map((item, index) => (
-                    <Link
-                      key={index}
-                      to={item.href}
-                      onClick={() => setIsAvatarMenuOpen(false)}
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                    >
-                      <FaMusic className="w-4 h-4 mr-3 text-gray-400" />
-                      {item.label}
-                    </Link>
-                  ))}
+                  {showMenuItems &&
+                    navigationItems.map((item, index) => (
+                      <Link
+                        key={index}
+                        to={item.href}
+                        onClick={() => setIsAvatarMenuOpen(false)}
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <FaMusic className="w-4 h-4 mr-3 text-gray-400" />
+                        {item.label}
+                      </Link>
+                    ))}
                 </div>
 
                 {/* Separator */}
@@ -351,7 +355,6 @@ const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
       </nav>
-
     </>
   );
 };
