@@ -31,7 +31,7 @@ export default function ProfileSetup() {
 
   useEffect(() => {
     if (profile?.profileSetupDone) {
-      navigate("/profile", { replace: true });
+      navigate("/me", { replace: true });
     }
   }, [profile, navigate]);
 
