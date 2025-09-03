@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FaBars, FaTimes, FaUser } from "react-icons/fa";
+import { FaUser, FaCog, FaSignOutAlt, FaHome, FaMusic } from "react-icons/fa";
 
 interface MenuItem {
   label: string;
@@ -29,7 +29,8 @@ const Navbar: React.FC<NavbarProps> = ({
   menuItems = [],
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAvatarMenuOpen, setIsAvatarMenuOpen] = useState(false);
+  const avatarMenuRef = useRef<HTMLDivElement>(null);
 
   // Detecta scroll para tornar navbar mais compacta
   useEffect(() => {
@@ -39,6 +40,18 @@ const Navbar: React.FC<NavbarProps> = ({
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Fecha menu do avatar ao clicar fora
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (avatarMenuRef.current && !avatarMenuRef.current.contains(event.target as Node)) {
+        setIsAvatarMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   // Menu items padrão caso não sejam fornecidos
@@ -69,34 +82,191 @@ const Navbar: React.FC<NavbarProps> = ({
     </div>
   );
 
-  // Renderização do Avatar ou ícone de usuário
-  const UserAvatar = () => {
+  // Instagram-style Avatar Menu
+  const AvatarMenu = () => {
     const size = isScrolled ? 36 : 40;
+    
     return (
-      <Link to="/me" className="group relative">
-        {profile?.avatar ? (
-          <div className="relative">
-            <img
-              src={profile.avatar}
-              alt="User avatar"
-              className="rounded-full object-cover"
-              style={{ width: `${size}px`, height: `${size}px` }}
-            />
-            {/* Ring hover effect */}
-            <div className="absolute inset-0 rounded-full ring-2 ring-transparent group-hover:ring-blue-400 transition-all duration-200"></div>
-          </div>
-        ) : (
-          <div
-            className={`
-              rounded-full bg-gradient-to-r from-blue-500 to-purple-500 p-2
-              group-hover:scale-105 transition-transform duration-200
-              ${isScrolled ? "w-9 h-9" : "w-10 h-10"}
-            `}
-          >
-            <FaUser className="w-full h-full text-white" />
+      <div className="relative" ref={avatarMenuRef}>
+        {/* Avatar Button */}
+        <button
+          onClick={() => setIsAvatarMenuOpen(!isAvatarMenuOpen)}
+          className="group relative focus:outline-none"
+        >
+          {profile?.avatar ? (
+            <div className="relative">
+              <img
+                src={profile.avatar}
+                alt="User avatar"
+                className={`rounded-full object-cover transition-all duration-200 ${
+                  isAvatarMenuOpen 
+                    ? 'ring-2 ring-blue-500 ring-offset-2' 
+                    : 'group-hover:ring-2 group-hover:ring-blue-400 group-hover:ring-offset-1'
+                }`}
+                style={{ width: `${size}px`, height: `${size}px` }}
+              />
+            </div>
+          ) : (
+            <div
+              className={`
+                rounded-full bg-gradient-to-r from-blue-500 to-purple-500 p-2
+                transition-all duration-200
+                ${isScrolled ? "w-9 h-9" : "w-10 h-10"}
+                ${isAvatarMenuOpen 
+                  ? 'ring-2 ring-blue-500 ring-offset-2 scale-105' 
+                  : 'group-hover:scale-105 group-hover:ring-2 group-hover:ring-blue-400 group-hover:ring-offset-1'
+                }
+              `}
+            >
+              <FaUser className="w-full h-full text-white" />
+            </div>
+          )}
+        </button>
+
+        {/* Dropdown Menu - Instagram Style */}
+        {isAvatarMenuOpen && (
+          <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+            {/* Triangle pointer */}
+            <div className="absolute -top-2 right-3 w-4 h-4 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+            
+            {isAuthenticated ? (
+              <>
+                {/* User Info Section - Only for authenticated users */}
+                <div className="px-4 py-3 border-b border-gray-100">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10">
+                      {profile?.avatar ? (
+                        <img
+                          src={profile.avatar}
+                          alt="User avatar"
+                          className="w-full h-full rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                          <FaUser className="text-white text-sm" />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 truncate">
+                        Meu Perfil
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Ver seu perfil
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Menu Items - Authenticated */}
+                <div className="py-1">
+                  <Link
+                    to="/me"
+                    onClick={() => setIsAvatarMenuOpen(false)}
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <FaUser className="w-4 h-4 mr-3 text-gray-400" />
+                    Perfil
+                  </Link>
+                  
+                  <Link
+                    to="/"
+                    onClick={() => setIsAvatarMenuOpen(false)}
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors sm:hidden"
+                  >
+                    <FaHome className="w-4 h-4 mr-3 text-gray-400" />
+                    Home
+                  </Link>
+
+                  {showMenuItems && navigationItems.map((item, index) => (
+                    <Link
+                      key={index}
+                      to={item.href}
+                      onClick={() => setIsAvatarMenuOpen(false)}
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors sm:hidden"
+                    >
+                      <FaMusic className="w-4 h-4 mr-3 text-gray-400" />
+                      {item.label}
+                    </Link>
+                  ))}
+                  
+                  <Link
+                    to="/settings"
+                    onClick={() => setIsAvatarMenuOpen(false)}
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <FaCog className="w-4 h-4 mr-3 text-gray-400" />
+                    Configurações
+                  </Link>
+                </div>
+
+                {/* Separator */}
+                <div className="border-t border-gray-100 my-1"></div>
+
+                {/* Logout */}
+                <button
+                  onClick={() => {
+                    setIsAvatarMenuOpen(false);
+                    // TODO: Implement logout logic
+                  }}
+                  className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  <FaSignOutAlt className="w-4 h-4 mr-3" />
+                  Sair
+                </button>
+              </>
+            ) : (
+              <>
+                {/* Menu Items - Not authenticated */}
+                <div className="py-1">
+                  <Link
+                    to="/"
+                    onClick={() => setIsAvatarMenuOpen(false)}
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    <FaHome className="w-4 h-4 mr-3 text-gray-400" />
+                    Home
+                  </Link>
+
+                  {showMenuItems && navigationItems.map((item, index) => (
+                    <Link
+                      key={index}
+                      to={item.href}
+                      onClick={() => setIsAvatarMenuOpen(false)}
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      <FaMusic className="w-4 h-4 mr-3 text-gray-400" />
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Separator */}
+                <div className="border-t border-gray-100 my-1"></div>
+
+                {/* Auth Buttons - Not authenticated */}
+                <div className="px-4 py-2 space-y-2">
+                  <Link
+                    to="/login"
+                    onClick={() => setIsAvatarMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm w-full"
+                  >
+                    <FaUser className="w-4 h-4" />
+                    Login
+                  </Link>
+                  <Link
+                    to="/register"
+                    onClick={() => setIsAvatarMenuOpen(false)}
+                    className="bg-gray-200 text-gray-800 px-4 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium text-sm text-center block w-full"
+                  >
+                    Cadastre-se
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
         )}
-      </Link>
+      </div>
     );
   };
 
@@ -162,91 +332,26 @@ const Navbar: React.FC<NavbarProps> = ({
 
             {/* Área direita - Auth/Profile */}
             <div className="flex items-center space-x-4">
-              {/* Auth Buttons ou Avatar */}
+              {/* Auth Buttons ou Avatar Menu */}
               {!isAuthenticated && !loading ? (
-                <div className="hidden sm:block">
-                  <AuthButtons />
-                </div>
+                <>
+                  {/* Desktop Auth Buttons */}
+                  <div className="hidden sm:block">
+                    <AuthButtons />
+                  </div>
+                  {/* Mobile Avatar Menu para usuários não autenticados */}
+                  <div className="sm:hidden">
+                    <AvatarMenu />
+                  </div>
+                </>
               ) : (
-                <UserAvatar />
+                <AvatarMenu />
               )}
-
-              {/* Menu Mobile Hamburger */}
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
-                aria-label="Toggle menu"
-              >
-                {isMobileMenuOpen ? (
-                  <FaTimes className="w-6 h-6 text-gray-700" />
-                ) : (
-                  <FaBars className="w-6 h-6 text-gray-700" />
-                )}
-              </button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Menu Mobile - Slide down */}
-      <div
-        className={`
-          fixed top-0 left-0 right-0 z-40 md:hidden
-          bg-white/95 backdrop-blur-md shadow-lg
-          transform transition-all duration-300 ease-in-out
-          ${
-            isMobileMenuOpen
-              ? `translate-y-${isScrolled ? "14" : "20"} opacity-100`
-              : "-translate-y-full opacity-0"
-          }
-        `}
-      >
-        <div className="pt-4 pb-6 px-4 space-y-4">
-          {/* Menu Items Mobile */}
-          {showMenuItems &&
-            navigationItems.map((item, index) => (
-              <Link
-                key={index}
-                to={item.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-all duration-200"
-              >
-                {item.label}
-              </Link>
-            ))}
-
-          {/* Auth Buttons Mobile */}
-          {!isAuthenticated && !loading && (
-            <div className="px-4 pt-4 border-t border-gray-200">
-              <div className="flex flex-col space-y-3">
-                <Link
-                  to="/login"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium"
-                >
-                  <FaUser className="w-4 h-4" />
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="bg-gray-200 text-gray-800 px-4 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium text-center"
-                >
-                  Cadastre-se
-                </Link>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Overlay para fechar menu mobile */}
-      {isMobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-30 bg-black/20 md:hidden"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
     </>
   );
 };
