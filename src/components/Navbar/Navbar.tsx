@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaCog, FaSignOutAlt, FaHome, FaMusic } from "react-icons/fa";
+import { useAuth } from "../../hooks/useAuth";
 
 interface MenuItem {
   label: string;
@@ -31,6 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const [isScrolled, setIsScrolled] = useState(false);
   const [isAvatarMenuOpen, setIsAvatarMenuOpen] = useState(false);
   const avatarMenuRef = useRef<HTMLDivElement>(null);
+  const { logout } = useAuth();
 
   // Detecta scroll para tornar navbar mais compacta
   useEffect(() => {
@@ -210,7 +212,7 @@ const Navbar: React.FC<NavbarProps> = ({
                 <button
                   onClick={() => {
                     setIsAvatarMenuOpen(false);
-                    // TODO: Implement logout logic
+                    logout();
                   }}
                   className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
                 >
