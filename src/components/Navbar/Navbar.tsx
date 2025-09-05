@@ -2,24 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaCog, FaSignOutAlt, FaHome, FaMusic } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
-
-interface MenuItem {
-  label: string;
-  href: string;
-}
-
-interface Profile {
-  avatar?: string;
-}
-
-interface NavbarProps {
-  isAuthenticated?: boolean;
-  loading?: boolean;
-  profile?: Profile;
-  brandName?: string;
-  showMenuItems?: boolean;
-  menuItems?: MenuItem[];
-}
+import type { NavbarProps, MenuItem } from "../../types/navbar.types";
 
 const Navbar: React.FC<NavbarProps> = ({
   isAuthenticated = false,
