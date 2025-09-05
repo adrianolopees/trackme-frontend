@@ -15,7 +15,7 @@ import {
 
 function Login() {
   const navigate = useNavigate();
-  const { login, loading } = useAuth();
+  const { login, loginLoading } = useAuth();
   const {
     register: registerForm,
     handleSubmit,
@@ -51,7 +51,7 @@ function Login() {
             {...registerForm("identifier")}
             error={errors.identifier?.message}
             required
-            disabled={loading}
+            disabled={loginLoading}
           />
           <InputField
             type="password"
@@ -59,12 +59,12 @@ function Login() {
             {...registerForm("password")}
             error={errors.password?.message}
             required
-            disabled={loading}
+            disabled={loginLoading}
           />
           <GradientButton
             type="submit"
-            loading={loading}
-            disabled={loading}
+            loading={loginLoading}
+            disabled={loginLoading}
             icon={<FaUser />}
             loadingText="Entrando..."
           >

@@ -10,30 +10,42 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profile, setProfile] = useState<SafeProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
 
   const isAuthenticated = profile !== null;
   const isProfileSetupDone = profile?.profileSetupDone === true;
 
   const checkAuth = async () => {
-    const tokenStorage = authService.getToken();
-    if (!tokenStorage) {
-      authService.clearAuthData();
-      setLoading(false);
-      return;
+    try {
+      const tokenStorage = authService.getToken();
+      if (!tokenStorage) {
+        authService.clearAuthData();
+        setInitialLoading(false);
+        return;
+      }
+      const validatedProfile = await authService.getAuthProfile();
+      const profile = validatedProfile.data;
+      setProfile(profile);
+      authService.saveAuthData(tokenStorage, profile);
+    } finally {
+      setInitialLoading(false);
     }
-    const validatedProfile = await authService.getAuthProfile();
-    const profile = validatedProfile.data;
-    setProfile(profile);
-    authService.saveAuthData(tokenStorage, profile);
-    setLoading(false);
   };
   useEffect(() => {
-    checkAuth();
+    const initializeAuth = async () => {
+      try {
+        await checkAuth();
+      } finally {
+        setInitialLoading(false);
+      }
+    };
+    initializeAuth();
   }, []);
 
   const login = async (data: LoginFormData) => {
-    setLoading(true);
+    setLoginLoading(true);
     try {
       const { data: loginData } = await authService.login(data);
       const token = loginData.token;
@@ -46,12 +58,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       toast.success("Login realizado com sucesso!");
     } finally {
-      setLoading(false);
+      setLoginLoading(false);
     }
   };
 
   const register = async (data: RegisterData) => {
-    setLoading(true);
+    setRegisterLoading(true);
     try {
       const response = await authService.register(data);
       const {
@@ -62,7 +74,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setProfile(profile);
       toast.success("Fale mais sobre você e coloque uma foto!");
     } finally {
-      setLoading(false);
+      setRegisterLoading(false);
     }
   };
 
@@ -77,7 +89,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       value={{
         profile,
         setProfile,
-        loading,
+        loginLoading,
+        initialLoading,
+        registerLoading,
         login,
         register,
         logout,

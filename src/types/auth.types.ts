@@ -5,7 +5,9 @@ import type { SafeProfile } from "../schemas/profileSchemas";
 export interface AuthContextData {
   profile: SafeProfile | null;
   setProfile: Dispatch<SetStateAction<SafeProfile | null>>;
-  loading: boolean;
+  registerLoading: boolean;
+  initialLoading: boolean;
+  loginLoading: boolean;
   login: (data: LoginFormData) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
   logout: () => void;
