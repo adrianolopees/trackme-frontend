@@ -1,10 +1,5 @@
 import { FaUser, FaEnvelope, FaSignOutAlt } from "react-icons/fa";
-import {
-  Avatar,
-  GradientButton,
-  AnimatedWrapper,
-  ProfileSettingsButton,
-} from "../components";
+import { Avatar, GradientButton, AnimatedWrapper } from "../components";
 import { FiHome } from "react-icons/fi";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
@@ -14,7 +9,7 @@ import { useFollow } from "../hooks/useFollow";
 export const Profile = () => {
   const profile = useRequireProfile();
   const navigate = useNavigate();
-  const { logout, loading } = useAuth();
+  const { logout, loginLoading } = useAuth();
   const { followersTotal, followingTotal } = useFollow();
 
   const handleLogout = () => {
@@ -30,7 +25,6 @@ export const Profile = () => {
           <h1 className="text-2xl font-bold text-gray-800">
             {profile.username}
           </h1>
-          <ProfileSettingsButton />
           <p className="text-gray-600">{profile.bio}</p>
 
           {/* Estatísticas de Follow */}
@@ -81,8 +75,8 @@ export const Profile = () => {
             <Link to="/">
               <GradientButton
                 type="submit"
-                loading={loading}
-                disabled={loading}
+                loading={loginLoading}
+                disabled={loginLoading}
                 icon={<FiHome size={14} />}
                 loadingText="Entrando..."
               >
@@ -93,7 +87,7 @@ export const Profile = () => {
           <button
             onClick={handleLogout}
             className="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center space-x-2"
-            disabled={loading}
+            disabled={loginLoading}
           >
             <FaSignOutAlt />
             <span>Sair</span>

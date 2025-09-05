@@ -23,7 +23,7 @@ import {
 
 function Register() {
   const navigate = useNavigate();
-  const { register, loading } = useAuth();
+  const { register, registerLoading } = useAuth();
 
   const {
     register: registerForm,
@@ -60,14 +60,14 @@ function Register() {
             placeholder="Nome completo"
             {...registerForm("name")}
             error={errors.name?.message}
-            disabled={loading}
+            disabled={registerLoading}
           />
           <InputField
             type="text"
             placeholder="Usuário"
             {...registerForm("username")}
             error={errors.username?.message}
-            disabled={loading}
+            disabled={registerLoading}
           />
 
           <InputField
@@ -75,7 +75,7 @@ function Register() {
             placeholder="Email"
             {...registerForm("email")}
             error={errors.email?.message}
-            disabled={loading}
+            disabled={registerLoading}
           />
 
           <InputField
@@ -83,7 +83,7 @@ function Register() {
             placeholder="Senha"
             {...registerForm("password")}
             error={errors.password?.message}
-            disabled={loading}
+            disabled={registerLoading}
           />
 
           <InputField
@@ -91,13 +91,13 @@ function Register() {
             placeholder="Confirmar senha"
             {...registerForm("confirmPassword")}
             error={errors.confirmPassword?.message}
-            disabled={loading}
+            disabled={registerLoading}
           />
 
           <GradientButton
             type="submit"
-            loading={loading}
-            disabled={loading}
+            loading={registerLoading}
+            disabled={registerLoading}
             icon={<FaUserPlus />}
             loadingText="Criando conta..."
           >

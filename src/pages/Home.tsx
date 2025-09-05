@@ -13,16 +13,16 @@ import AnimatedWrapper from "../components/Layout/AnimatedWrapper";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 function Home() {
-  const { isAuthenticated, loading, profile } = useAuth();
+  const { isAuthenticated, initialLoading, loginLoading, profile } = useAuth();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
-      {loading && <FullPageSpinner />}
+      {initialLoading && <FullPageSpinner />}
 
       {/* Navbar fixa no topo */}
       <Navbar
         isAuthenticated={isAuthenticated}
-        loading={loading}
+        loading={loginLoading}
         profile={profile || undefined}
       />
 
@@ -173,7 +173,7 @@ function Home() {
                 Junte-se à comunidade que conecta através da música
               </p>
 
-              {!isAuthenticated && !loading && (
+              {!isAuthenticated && !loginLoading && (
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <Link to="/register">
                     <button className="bg-white text-blue-600 px-8 py-4 rounded-full cursor-pointer font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center space-x-2 shadow-lg">

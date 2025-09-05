@@ -8,7 +8,6 @@ export { default as AuthRedirectLinks } from "./ui/AuthRedirectLinks";
 // Buttons
 export { default as GradientButton } from "./ui/GradientButton";
 export { default as SkipButton } from "./ui/SkipButton";
-export { default as ProfileSettingsButton } from "./ui/ProfileSettingsButton";
 
 // Inputs
 export { default as InputField } from "./ui/InputField";
