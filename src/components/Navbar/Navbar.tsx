@@ -86,7 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({
               <img
                 src={profile.avatar}
                 alt="User avatar"
-                className={`rounded-full object-cover transition-all duration-200 ${
+                className={`rounded-full object-cover transition-all duration-200 cursor-pointer ${
                   isAvatarMenuOpen
                     ? "ring-2 ring-blue-500 ring-offset-2"
                     : "group-hover:ring-2 group-hover:ring-blue-400 group-hover:ring-offset-1"
@@ -121,14 +121,14 @@ const Navbar: React.FC<NavbarProps> = ({
             {isAuthenticated ? (
               <>
                 {/* User Info Section - Only for authenticated users */}
-                <div className="px-4 py-3 border-b border-gray-100">
+                <div className="px-4 py-3 border-b border-gray-100 ">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10">
                       {profile?.avatar ? (
                         <img
                           src={profile.avatar}
                           alt="User avatar"
-                          className="w-full h-full rounded-full object-cover"
+                          className="w-full h-full rounded-full object-cover "
                         />
                       ) : (
                         <div className="w-full h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
@@ -138,9 +138,9 @@ const Navbar: React.FC<NavbarProps> = ({
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold text-gray-900 truncate">
-                        Meu Perfil
+                        {profile?.username}
                       </p>
-                      <p className="text-xs text-gray-500">Ver seu perfil</p>
+                      <p className="text-xs text-gray-500">{profile?.name}</p>
                     </div>
                   </div>
                 </div>
@@ -197,9 +197,9 @@ const Navbar: React.FC<NavbarProps> = ({
                     setIsAvatarMenuOpen(false);
                     logout();
                   }}
-                  className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
                 >
-                  <FaSignOutAlt className="w-4 h-4 mr-3" />
+                  <FaSignOutAlt className="w-4 h-4 mr-3 cursor-pointer" />
                   Sair
                 </button>
               </>
