@@ -64,37 +64,25 @@ export const Profile = () => {
                   </div>
                 </div>
 
-                {/* Stats */}
-                <div className="flex justify-center md:justify-start gap-8 mb-6">
-                  <div className="text-center group">
-                    <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                      0
-                    </div>
-                    <div className="text-sm text-gray-600 group-hover:text-blue-600 transition-colors">
-                      publicações
-                    </div>
+                {/* Stats - Instagram Style */}
+                <div className="flex justify-center md:justify-start gap-10 mb-6">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl font-semibold text-gray-900">0</span>
+                    <span className="text-sm text-gray-600">publicações</span>
                   </div>
                   <button
                     onClick={() => navigate(`/users/${profile.id}/followers`)}
-                    className="text-center group hover:scale-105 transition-all duration-200"
+                    className="flex items-center gap-2 hover:opacity-70 transition-opacity"
                   >
-                    <div className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                      {followersTotal}
-                    </div>
-                    <div className="text-sm text-gray-600 group-hover:text-purple-600 transition-colors">
-                      seguidores
-                    </div>
+                    <span className="text-xl font-semibold text-gray-900">{followersTotal}</span>
+                    <span className="text-sm text-gray-600">seguidores</span>
                   </button>
                   <button
                     onClick={() => navigate(`/users/${profile.id}/following`)}
-                    className="text-center group hover:scale-105 transition-all duration-200"
+                    className="flex items-center gap-2 hover:opacity-70 transition-opacity"
                   >
-                    <div className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-blue-600 bg-clip-text text-transparent">
-                      {followingTotal}
-                    </div>
-                    <div className="text-sm text-gray-600 group-hover:text-pink-600 transition-colors">
-                      seguindo
-                    </div>
+                    <span className="text-xl font-semibold text-gray-900">{followingTotal}</span>
+                    <span className="text-sm text-gray-600">seguindo</span>
                   </button>
                 </div>
 
