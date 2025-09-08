@@ -68,13 +68,6 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
         setLoading(true);
       }
 
-      console.log(
-        "Carregando perfis para profileId:",
-        profileId,
-        "página:",
-        page
-      );
-
       const { profiles: newProfiles, pagination: newPagination } =
         await fetchFunction(profileId, page);
 
