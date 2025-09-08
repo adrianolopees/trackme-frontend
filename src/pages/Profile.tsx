@@ -67,21 +67,27 @@ export const Profile = () => {
                 {/* Stats - Instagram Style */}
                 <div className="flex justify-center md:justify-start gap-10 mb-6">
                   <div className="flex items-center gap-2">
-                    <span className="text-xl font-semibold text-gray-900">0</span>
+                    <span className="text-xl font-semibold text-gray-900">
+                      0
+                    </span>
                     <span className="text-sm text-gray-600">publicações</span>
                   </div>
                   <button
                     onClick={() => navigate(`/users/${profile.id}/followers`)}
-                    className="flex items-center gap-2 hover:opacity-70 transition-opacity"
+                    className="flex items-center gap-2 hover:opacity-70 transition-opacity cursor-pointer"
                   >
-                    <span className="text-xl font-semibold text-gray-900">{followersTotal}</span>
+                    <span className="text-xl font-semibold text-gray-900">
+                      {followersTotal}
+                    </span>
                     <span className="text-sm text-gray-600">seguidores</span>
                   </button>
                   <button
                     onClick={() => navigate(`/users/${profile.id}/following`)}
-                    className="flex items-center gap-2 hover:opacity-70 transition-opacity"
+                    className="flex items-center gap-2 hover:opacity-70 transition-opacity cursor-pointer "
                   >
-                    <span className="text-xl font-semibold text-gray-900">{followingTotal}</span>
+                    <span className="text-xl font-semibold text-gray-900">
+                      {followingTotal}
+                    </span>
                     <span className="text-sm text-gray-600">seguindo</span>
                   </button>
                 </div>
