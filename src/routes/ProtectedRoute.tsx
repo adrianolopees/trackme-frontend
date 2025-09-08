@@ -7,9 +7,9 @@ type ProtectedRoutesProps = {
 };
 
 export const ProtectedRoute = ({ children }: ProtectedRoutesProps) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, initialLoading } = useAuth();
 
-  if (loading) {
+  if (initialLoading) {
     return (
       <div className="flex justify-center items-center h-screen text-gray-500">
         <FullPageSpinner />

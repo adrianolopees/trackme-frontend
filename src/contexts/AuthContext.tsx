@@ -32,6 +32,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setInitialLoading(false);
     }
   };
+
   useEffect(() => {
     const initializeAuth = async () => {
       try {
