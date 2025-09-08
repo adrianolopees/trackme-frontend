@@ -44,7 +44,6 @@ api.interceptors.response.use(
 
     let errorMessage = "Erro interno do servidor";
 
-    // -- Tratamento específico por status code
     switch (error.response?.status) {
       case 400:
         errorMessage = apiError?.message || "Dados inválidos";
@@ -54,23 +53,20 @@ api.interceptors.response.use(
         authService.clearAuthData();
         break;
       case 403:
-        errorMessage = "Acesso negado";
+        toast.error("Acesso negado");
         break;
       case 404:
-        errorMessage = "Recurso não encontrado";
+        toast.error("Recurso não encontrado");
         break;
       case 422:
         errorMessage = apiError?.message || "Dados de entrada inválidos";
         break;
       case 500:
-        errorMessage = "Erro interno do servidor";
+        toast.error("Erro interno do servidor");
         break;
       default:
         errorMessage = apiError?.message || "Erro desconhecido";
     }
-
-    // -- Exibir toast de erro automaticamente
-    toast.error(errorMessage);
 
     // -- Rejeitar com erro customizado
     return Promise.reject({
