@@ -25,7 +25,7 @@ export const authService = {
     const response = await api.post("/auth/login", data);
     const validation = TokenResponseSchema.safeParse(response.data);
     if (!validation.success) {
-      throw new Error("Resposta de Token inválida");
+      throw new Error("Credenciais inválidasas");
     }
     return validation.data;
   },
@@ -34,7 +34,7 @@ export const authService = {
     const response = await api.post("/auth/register", data);
     const validation = AuthResponseSchema.safeParse(response.data);
     if (!validation.success) {
-      throw new Error(" Resposta de autenticação inválida");
+      throw new Error("Resposta de autenticação inválida");
     }
     return validation.data;
   },

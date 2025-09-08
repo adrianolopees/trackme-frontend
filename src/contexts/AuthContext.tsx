@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { authService } from "../services/auth.service";
+import { useNotification } from "../hooks/useNotification";
 
 import type { AuthContextData, AuthProviderProps } from "../types/auth.types";
 import type { LoginFormData, RegisterData } from "../schemas/authSchemas";
@@ -13,6 +14,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [initialLoading, setInitialLoading] = useState(true);
   const [loginLoading, setLoginLoading] = useState(false);
   const [registerLoading, setRegisterLoading] = useState(false);
+  const { showSuccess, showError } = useNotification();
 
   const isAuthenticated = profile !== null;
   const isProfileSetupDone = profile?.profileSetupDone === true;
@@ -55,8 +57,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const profile = profileData;
       setProfile(profile);
       authService.saveAuthData(token, profile);
-
-      toast.success("Login realizado com sucesso!");
+      showSuccess("Login realizado com sucesso!");
+    } catch (error: any) {
+      if (error.message && error.status === 401) {
+        showError(error.message);
+      } else {
+        showError("Erro no login. Tente novamente.");
+      }
     } finally {
       setLoginLoading(false);
     }
@@ -72,7 +79,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       authService.saveAuthData(token, profile);
       setProfile(profile);
-      toast.success("Fale mais sobre você e coloque uma foto!");
+      showSuccess("Fale mais sobre você e coloque uma foto!");
+    } catch (error: any) {
+      // Trata erros específicos baseado no que realmente vem do backend
+      let errorMessage = "Erro ao criar conta. Tente novamente.";
+      
+      // Tenta extrair mensagem do backend de vários lugares possíveis
+      const backendMessage = error.message || 
+                            error.originalError?.response?.data?.message ||
+                            error.originalError?.message;
+      
+      if (backendMessage && (error.status === 400 || error.status === 422 || error.status === 409)) {
+        errorMessage = backendMessage;
+      }
+      
+      showError(errorMessage);
+      throw error;
     } finally {
       setRegisterLoading(false);
     }
@@ -81,7 +103,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     authService.clearAuthData();
     setProfile(null);
-    toast.success("Logout realizado com sucesso!");
+    showSuccess("Logout realizado com sucesso!");
   };
 
   return (
