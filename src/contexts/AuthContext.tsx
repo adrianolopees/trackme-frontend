@@ -20,9 +20,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const checkAuth = async () => {
     try {
       const tokenStorage = authService.getToken();
-      if (!tokenStorage) {
+      if (!tokenStorage || authService.isTokenExpired(tokenStorage)) {
         authService.clearAuthData();
-        setInitialLoading(false);
         return;
       }
       const validatedProfile = await authService.getAuthProfile();

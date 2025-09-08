@@ -1,4 +1,6 @@
 import api from "../services/api.service";
+import { jwtDecode } from "jwt-decode";
+
 import type {
   LoginFormData,
   RegisterData,
@@ -13,6 +15,7 @@ import {
   TokenResponseSchema,
   AuthResponseSchema,
 } from "../schemas/authSchemas";
+import type { JwtPayload } from "../types/jwt.types";
 
 const TOKEN_KEY = "@app:token";
 const PROFILE_KEY = "@app:profile";
@@ -44,6 +47,19 @@ export const authService = {
       throw new Error("Resposta de validação do profile inválida!");
     }
     return validation.data;
+  },
+
+  isTokenExpired(token: string): boolean {
+    if (!token) return true;
+
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      const currentTime = Date.now() / 1000;
+
+      return decoded.exp < currentTime;
+    } catch (error) {
+      return true;
+    }
   },
 
   saveAuthData(token: string, profile?: SafeProfile) {
