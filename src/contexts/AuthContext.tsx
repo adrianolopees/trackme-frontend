@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-import { toast } from "react-toastify";
 import { authService } from "../services/auth.service";
 import { useNotification } from "../hooks/useNotification";
 
@@ -79,22 +78,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       authService.saveAuthData(token, profile);
       setProfile(profile);
-      showSuccess("Fale mais sobre você e coloque uma foto!");
+      showSuccess(response.message);
     } catch (error: any) {
-      // Trata erros específicos baseado no que realmente vem do backend
-      let errorMessage = "Erro ao criar conta. Tente novamente.";
-      
-      // Tenta extrair mensagem do backend de vários lugares possíveis
-      const backendMessage = error.message || 
-                            error.originalError?.response?.data?.message ||
-                            error.originalError?.message;
-      
-      if (backendMessage && (error.status === 400 || error.status === 422 || error.status === 409)) {
-        errorMessage = backendMessage;
-      }
-      
-      showError(errorMessage);
-      throw error;
+      showError(error.message);
     } finally {
       setRegisterLoading(false);
     }

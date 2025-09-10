@@ -20,6 +20,7 @@ export const AuthResponseSchema = z.object({
   success: z.boolean(),
   data: AuthDataSchema,
   message: z.string(),
+  errors: z.array(z.string()).optional(),
 });
 
 export const ProfileResponseSchema = z.object({

@@ -1,6 +1,5 @@
 import axios from "axios";
 import type { AxiosResponse, AxiosError } from "axios";
-import { toast } from "react-toastify";
 import { authService } from "../services/auth.service";
 
 // Configuração base do Axios
@@ -40,32 +39,44 @@ api.interceptors.response.use(
     const apiError = error.response?.data as {
       message?: string;
       statusCode?: number;
+      errors?: string[];
     };
 
     let errorMessage = "Erro interno do servidor";
 
-    switch (error.response?.status) {
-      case 400:
-        errorMessage = apiError?.message || "Dados inválidos";
-        break;
-      case 401:
-        errorMessage = "Credenciais inválidas";
-        authService.clearAuthData();
-        break;
-      case 403:
-        toast.error("Acesso negado");
-        break;
-      case 404:
-        toast.error("Recurso não encontrado");
-        break;
-      case 422:
-        errorMessage = apiError?.message || "Dados de entrada inválidos";
-        break;
-      case 500:
-        toast.error("Erro interno do servidor");
-        break;
-      default:
-        errorMessage = apiError?.message || "Erro desconhecido";
+    // Se não há resposta do servidor (erro de rede)
+    if (!error.response) {
+      errorMessage =
+        "Erro de conexão. Verifique sua internet ou se o servidor está rodando.";
+    } else {
+      switch (error.response?.status) {
+        case 400:
+          errorMessage = apiError?.message || "Dados inválidos";
+          break;
+        case 401:
+          errorMessage = apiError?.message || "Credenciais inválidas";
+          authService.clearAuthData();
+          break;
+        case 403:
+          errorMessage = apiError?.message || "Acesso negado";
+          break;
+        case 404:
+          errorMessage = apiError?.message || "Recurso não encontrado";
+          break;
+        case 409:
+          errorMessage = apiError?.message || "Conflito: dados já existem";
+          break;
+        case 422:
+          errorMessage = apiError?.message || "Dados de entrada inválidos";
+          break;
+        case 500:
+          errorMessage = apiError?.message || "Erro interno do servidor";
+          break;
+        default:
+          errorMessage =
+            apiError?.message ||
+            `Erro ${error.response?.status}: ${error.response?.statusText}`;
+      }
     }
 
     // -- Rejeitar com erro customizado
@@ -73,6 +84,7 @@ api.interceptors.response.use(
       message: errorMessage,
       status: error.response?.status,
       originalError: error,
+      apiData: apiError,
     });
   }
 );
