@@ -1,6 +1,7 @@
 import axios from "axios";
 import type { AxiosResponse, AxiosError } from "axios";
 import { authService } from "../services/auth.service";
+import { ApiError } from "../types/errors";
 
 // Configuração base do Axios
 const api = axios.create({
@@ -79,13 +80,10 @@ api.interceptors.response.use(
       }
     }
 
-    // -- Rejeitar com erro customizado
-    return Promise.reject({
-      message: errorMessage,
-      status: error.response?.status,
-      originalError: error,
-      apiData: apiError,
-    });
+    // -- Rejeitar com erro
+    return Promise.reject(
+      new ApiError(errorMessage, error.response?.status, apiError)
+    );
   }
 );
 
