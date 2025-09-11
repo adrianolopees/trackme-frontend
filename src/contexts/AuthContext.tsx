@@ -48,21 +48,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (data: LoginFormData) => {
     setLoginLoading(true);
     try {
-      const { data: loginData } = await authService.login(data);
-      const token = loginData.token;
+      const loginResponse = await authService.login(data);
+      const token = loginResponse.data.token;
       authService.saveAuthData(token);
 
-      const { data: profileData } = await authService.getAuthProfile();
-      const profile = profileData;
+      const profileResponse = await authService.getAuthProfile();
+      const profile = profileResponse.data;
       setProfile(profile);
       authService.saveAuthData(token, profile);
-      showSuccess("Login realizado com sucesso!");
-    } catch (error: any) {
-      if (error.message && error.status === 401) {
-        showError(error.message);
-      } else {
-        showError("Erro no login. Tente novamente.");
-      }
+      showSuccess(loginResponse.message);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Erro no login";
+      showError(message);
     } finally {
       setLoginLoading(false);
     }
@@ -71,16 +68,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (data: RegisterData) => {
     setRegisterLoading(true);
     try {
-      const response = await authService.register(data);
+      const registerResponse = await authService.register(data);
       const {
         data: { token, profile },
-      } = response;
+      } = registerResponse;
 
       authService.saveAuthData(token, profile);
       setProfile(profile);
-      showSuccess(response.message);
-    } catch (error: any) {
-      showError(error.message);
+      showSuccess(registerResponse.message);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro no registro";
+      showError(message);
     } finally {
       setRegisterLoading(false);
     }
