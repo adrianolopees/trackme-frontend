@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { AxiosResponse, AxiosError } from "axios";
-import { authService } from "../services/auth.service";
+import { authService } from "./authService";
 import { ApiError } from "../types/errors";
 
 // Configuração base do Axios

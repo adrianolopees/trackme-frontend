@@ -8,7 +8,7 @@ import type {
 } from "../types/follow.types";
 import type { PublicProfile } from "../schemas/profileSchemas";
 
-import { followService } from "../services/follow.service";
+import { followService } from "../services/followService";
 import { requireProfile } from "../helpers/requireProfile";
 
 export const FollowContext = createContext<FollowContextData>(

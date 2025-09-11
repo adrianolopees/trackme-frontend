@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { followService } from "../services/follow.service";
+import { followService } from "../services/followService";
 import { FollowList } from "../components";
 
 const FollowersPage = () => {
