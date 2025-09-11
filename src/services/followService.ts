@@ -1,4 +1,4 @@
-import api from "../services/api.service";
+import api from "./apiService";
 
 import type { PaginatedProfiles } from "../schemas/followShemas";
 export const followService = {

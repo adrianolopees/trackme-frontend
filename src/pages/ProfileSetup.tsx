@@ -9,7 +9,7 @@ import {
   type ProfileSetupFormData,
 } from "../schemas/profileSchemas";
 
-import api from "../services/api.service";
+import api from "../services/apiService";
 
 import { useAuth } from "../hooks/useAuth";
 import { useRequireProfile } from "../hooks/useRequireProfile";

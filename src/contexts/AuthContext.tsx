@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { authService } from "../services/auth.service";
+import { authService } from "../services/authService";
 import { useNotification } from "../hooks/useNotification";
 
 import type { AuthContextData, AuthProviderProps } from "../types/auth.types";

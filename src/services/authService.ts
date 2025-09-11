@@ -1,4 +1,4 @@
-import api from "../services/api.service";
+import api from "./apiService";
 import { jwtDecode } from "jwt-decode";
 
 import type {
