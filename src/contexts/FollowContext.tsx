@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { toast } from "react-toastify";
+import { useNotification } from "../hooks/useNotification";
 import { useAuth } from "../hooks/useAuth";
 
 import type {
@@ -16,6 +16,7 @@ export const FollowContext = createContext<FollowContextData>(
 );
 
 export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
+  const { showError } = useNotification();
   const { profile, isAuthenticated } = useAuth();
   const [followers, setFollowers] = useState<PublicProfile[]>([]);
   const [following, setFollowing] = useState<PublicProfile[]>([]);
@@ -115,7 +116,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const followProfile = async (targetProfileId: number) => {
     if (
       !requireProfile(profile, () =>
-        toast.error("Você precisa estar logado para seguir")
+        showError("Você precisa estar logado para seguir")
       )
     ) {
       return;
@@ -128,9 +129,10 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
         ...prev,
         { id: targetProfileId } as PublicProfile,
       ]);
-    } catch (error) {
-      toast.error("Erro ao seguir perfil");
-      console.error("Erro ao seguir:", error);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro ao seguir perfil";
+      showError(message);
     } finally {
       setIsFollowingLoading(false);
     }
@@ -139,7 +141,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const unfollowProfile = async (targetProfileId: number) => {
     if (
       !requireProfile(profile, () =>
-        toast.error("Você precisa estar logado para deixar de seguir alguém")
+        showError("Você precisa estar logado para deixar de seguir alguém")
       )
     ) {
       return;
@@ -148,9 +150,10 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     try {
       await followService.unfollowProfile(targetProfileId);
       setFollowing((prev) => prev.filter((p) => p.id !== targetProfileId));
-    } catch (error) {
-      toast.error("Erro ao deixar de seguir");
-      console.error("Erro ao deixar de seguir:", error);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro ao deixar de seguir";
+      showError(message);
     } finally {
       setIsUnfollowingLoading(false);
     }
