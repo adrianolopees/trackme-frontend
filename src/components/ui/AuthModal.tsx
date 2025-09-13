@@ -36,12 +36,12 @@ export default function AuthModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Overlay transparente com blur */}
       <div 
-        className="absolute inset-0 bg-transparent backdrop-blur-sm"
+        className="absolute inset-0 bg-transparent backdrop-blur-sm transition-all duration-300 ease-in-out"
         onClick={onClose}
       />
       
       {/* Modal */}
-      <AnimatedWrapper className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+      <AnimatedWrapper className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-out animate-in fade-in-0 zoom-in-95">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
