@@ -4,6 +4,10 @@ export { default as AnimatedWrapper } from "./Layout/AnimatedWrapper";
 // Auth
 export { default as AuthFormLayout } from "./ui/AuthFormLayout";
 export { default as AuthRedirectLinks } from "./ui/AuthRedirectLinks";
+export { default as AuthModal } from "./ui/AuthModal";
+export { default as LoginForm } from "./auth/LoginForm";
+export { default as RegisterForm } from "./auth/RegisterForm";
+export { default as AuthModalContainer } from "./auth/AuthModalContainer";
 
 // Buttons
 export { default as GradientButton } from "./ui/GradientButton";

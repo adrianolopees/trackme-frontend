@@ -11,6 +11,8 @@ const Navbar: React.FC<NavbarProps> = ({
   brandName = "TrackMe",
   showMenuItems = true,
   menuItems = [],
+  onOpenLogin,
+  onOpenRegister,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isAvatarMenuOpen, setIsAvatarMenuOpen] = useState(false);
@@ -55,18 +57,19 @@ const Navbar: React.FC<NavbarProps> = ({
   // Auth Buttons integrados
   const AuthButtons = () => (
     <div className="flex items-center gap-4">
-      <Link to="/login">
-        <button className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm">
-          <FaUser className="w-3 h-3" />
-          Login
-        </button>
-      </Link>
-      <Link
-        to="/register"
+      <button 
+        onClick={onOpenLogin}
+        className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm"
+      >
+        <FaUser className="w-3 h-3" />
+        Login
+      </button>
+      <button
+        onClick={onOpenRegister}
         className="bg-gray-200 text-gray-800 px-4 py-1 lg:px-6 lg:py-2 rounded-full hover:bg-gray-300 transition-colors font-medium text-sm flex items-center justify-center h-9"
       >
         Cadastre-se
-      </Link>
+      </button>
     </div>
   );
 
@@ -235,21 +238,25 @@ const Navbar: React.FC<NavbarProps> = ({
 
                 {/* Auth Buttons - Not authenticated */}
                 <div className="px-4 py-2 space-y-2">
-                  <Link
-                    to="/login"
-                    onClick={() => setIsAvatarMenuOpen(false)}
+                  <button
+                    onClick={() => {
+                      setIsAvatarMenuOpen(false);
+                      onOpenLogin?.();
+                    }}
                     className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm w-full"
                   >
                     <FaUser className="w-4 h-4" />
                     Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    onClick={() => setIsAvatarMenuOpen(false)}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsAvatarMenuOpen(false);
+                      onOpenRegister?.();
+                    }}
                     className="bg-gray-200 text-gray-800 px-4 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium text-sm text-center block w-full"
                   >
                     Cadastre-se
-                  </Link>
+                  </button>
                 </div>
               </>
             )}

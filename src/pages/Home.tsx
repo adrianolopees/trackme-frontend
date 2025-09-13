@@ -1,5 +1,6 @@
 import { useAuth } from "../hooks/useAuth";
-import { FullPageSpinner } from "../components";
+import { useAuthModal } from "../hooks/useAuthModal";
+import { FullPageSpinner, AuthModalContainer } from "../components";
 import {
   FiShare2,
   FiUsers,
@@ -14,6 +15,15 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 function Home() {
   const { isAuthenticated, initialLoading, loginLoading, profile } = useAuth();
+  const { 
+    modalType, 
+    isOpen, 
+    openLogin, 
+    openRegister, 
+    closeModal, 
+    switchToLogin, 
+    switchToRegister 
+  } = useAuthModal();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
@@ -24,6 +34,8 @@ function Home() {
         isAuthenticated={isAuthenticated}
         loading={loginLoading}
         profile={profile || undefined}
+        onOpenLogin={openLogin}
+        onOpenRegister={openRegister}
       />
 
       <AnimatedWrapper className="relative">
@@ -175,12 +187,13 @@ function Home() {
 
               {!isAuthenticated && !loginLoading && (
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  <Link to="/register">
-                    <button className="bg-white text-blue-600 px-8 py-4 rounded-full cursor-pointer font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center space-x-2 shadow-lg">
-                      <span>Criar conta grátis</span>
-                      <FiArrowRight size={20} />
-                    </button>
-                  </Link>
+                  <button 
+                    onClick={openRegister}
+                    className="bg-white text-blue-600 px-8 py-4 rounded-full cursor-pointer font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center space-x-2 shadow-lg"
+                  >
+                    <span>Criar conta grátis</span>
+                    <FiArrowRight size={20} />
+                  </button>
                   <p className="text-sm text-blue-200">
                     Sem compromisso • Sempre gratuito
                   </p>
@@ -195,6 +208,15 @@ function Home() {
         <div className="fixed top-40 right-10 w-20 h-20 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000 hidden lg:block"></div>
         <div className="fixed bottom-20 left-20 w-20 h-20 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000 hidden lg:block"></div>
       </AnimatedWrapper>
+
+      {/* Auth Modal */}
+      <AuthModalContainer
+        modalType={modalType}
+        isOpen={isOpen}
+        onClose={closeModal}
+        onSwitchToLogin={switchToLogin}
+        onSwitchToRegister={switchToRegister}
+      />
     </div>
   );
 }

@@ -18,6 +18,7 @@ export const FollowContext = createContext<FollowContextData>(
 export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const { showError } = useNotification();
   const { profile, isAuthenticated } = useAuth();
+
   const [followers, setFollowers] = useState<PublicProfile[]>([]);
   const [following, setFollowing] = useState<PublicProfile[]>([]);
   const [followersTotal, setFollowersTotal] = useState(0);
@@ -28,6 +29,61 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const [isUnfollowingLoading, setIsUnfollowingLoading] = useState(false);
   const [isFollowersListLoading, setIsFollowersListLoading] = useState(false);
   const [isFollowingListLoading, setIsFollowingListLoading] = useState(false);
+
+  const followProfile = async (targetProfileId: number) => {
+    if (
+      !requireProfile(profile, () =>
+        showError("Você precisa estar logado para seguir")
+      )
+    ) {
+      return;
+    }
+
+    setIsFollowingLoading(true);
+    try {
+      await followService.followProfile(targetProfileId);
+      // Atualiza estado apenas após sucesso da API
+      setFollowing((prev) => [
+        ...prev,
+        { id: targetProfileId } as PublicProfile,
+      ]);
+      setFollowingTotal((prev) => prev + 1);
+    } catch (error: unknown) {
+      console.error("Erro ao seguir perfil:", error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : `Erro ao seguir perfil (ID: ${targetProfileId})`;
+      showError(message);
+    } finally {
+      setIsFollowingLoading(false);
+    }
+  };
+
+  const unfollowProfile = async (targetProfileId: number) => {
+    if (
+      !requireProfile(profile, () =>
+        showError("Você precisa estar logado para deixar de seguir alguém")
+      )
+    ) {
+      return;
+    }
+    setIsUnfollowingLoading(true);
+    try {
+      await followService.unfollowProfile(targetProfileId);
+      setFollowing((prev) => prev.filter((p) => p.id !== targetProfileId));
+      setFollowingTotal((prev) => prev - 1);
+    } catch (error: unknown) {
+      console.error("Erro ao deixar de seguir perfil:", error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : `Erro ao deixar de seguir perfil (ID: ${targetProfileId})`;
+      showError(message);
+    } finally {
+      setIsUnfollowingLoading(false);
+    }
+  };
 
   const loadFollowers = async (
     profileId?: number,
@@ -46,8 +102,10 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
         setFollowers(data.profiles || []);
       }
       setFollowersTotal(data.pagination.total);
-    } catch (error) {
-      console.error("Erro ao buscar seguidores:", error);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro ao buscar seguidores";
+      showError(message);
       if (!append) setFollowers([]);
       setFollowersTotal(0);
     } finally {
@@ -72,8 +130,10 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
         setFollowing(data.profiles || []);
       }
       setFollowingTotal(data.pagination.total);
-    } catch (error) {
-      console.error("Erro ao buscar seguindo:", error);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro ao buscar seguidos";
+      showError(message);
       if (!append) setFollowing([]);
       setFollowingTotal(0);
     } finally {
@@ -89,8 +149,10 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     try {
       const count = await followService.fetchFollowersCount(targetId);
       setFollowersTotal(count);
-    } catch (error) {
-      console.error("Erro ao carregar quantidade de seguidores!", error);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro ao contar seguidores";
+      showError(message);
       setFollowersTotal(0);
     } finally {
       setLoading(false);
@@ -105,61 +167,16 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     try {
       const count = await followService.fetchFollowingCount(targetId);
       setFollowingTotal(count);
-    } catch (error) {
-      console.error("Erro ao buscar total de seguindo:", error);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Erro ao contar seguidos";
+      showError(message);
       setFollowingTotal(0);
     } finally {
       setLoading(false);
     }
   };
 
-  const followProfile = async (targetProfileId: number) => {
-    if (
-      !requireProfile(profile, () =>
-        showError("Você precisa estar logado para seguir")
-      )
-    ) {
-      return;
-    }
-
-    setIsFollowingLoading(true);
-    try {
-      await followService.followProfile(targetProfileId);
-      setFollowing((prev) => [
-        ...prev,
-        { id: targetProfileId } as PublicProfile,
-      ]);
-    } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Erro ao seguir perfil";
-      showError(message);
-    } finally {
-      setIsFollowingLoading(false);
-    }
-  };
-
-  const unfollowProfile = async (targetProfileId: number) => {
-    if (
-      !requireProfile(profile, () =>
-        showError("Você precisa estar logado para deixar de seguir alguém")
-      )
-    ) {
-      return;
-    }
-    setIsUnfollowingLoading(true);
-    try {
-      await followService.unfollowProfile(targetProfileId);
-      setFollowing((prev) => prev.filter((p) => p.id !== targetProfileId));
-    } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Erro ao deixar de seguir";
-      showError(message);
-    } finally {
-      setIsUnfollowingLoading(false);
-    }
-  };
-
-  // Função utilitária para verificar se está seguindo
   const isFollowing = (targetProfileId: number): boolean => {
     if (!Array.isArray(following)) return false;
     return following.some((p) => p.id === targetProfileId);
@@ -192,8 +209,8 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
         loadFollowers,
         loadFollowing,
         isFollowing,
-        loadFollowersCount, // Novo
-        loadFollowingCount, // Novo
+        loadFollowersCount,
+        loadFollowingCount,
       }}
     >
       {children}

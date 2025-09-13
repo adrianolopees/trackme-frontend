@@ -10,4 +10,6 @@ export interface NavbarProps {
   brandName?: string;
   showMenuItems?: boolean;
   menuItems?: MenuItem[];
+  onOpenLogin?: () => void;
+  onOpenRegister?: () => void;
 }
