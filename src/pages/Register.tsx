@@ -36,7 +36,7 @@ function Register() {
   const onSubmit = async (data: RegisterFormData) => {
     const { confirmPassword: _, ...rest } = data;
     const userData: RegisterData = rest;
-    
+
     try {
       await register(userData);
       navigate("/profile-setup", { replace: true });

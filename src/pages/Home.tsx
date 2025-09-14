@@ -11,18 +11,17 @@ import {
   FiHeart,
 } from "react-icons/fi";
 import AnimatedWrapper from "../components/Layout/AnimatedWrapper";
-import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar/Navbar";
+import Navbar from "../components/Layout/Navbar";
 function Home() {
   const { isAuthenticated, initialLoading, loginLoading, profile } = useAuth();
-  const { 
-    modalType, 
-    isOpen, 
-    openLogin, 
-    openRegister, 
-    closeModal, 
-    switchToLogin, 
-    switchToRegister 
+  const {
+    modalType,
+    isOpen,
+    openLogin,
+    openRegister,
+    closeModal,
+    switchToLogin,
+    switchToRegister,
   } = useAuthModal();
 
   return (
@@ -187,7 +186,7 @@ function Home() {
 
               {!isAuthenticated && !loginLoading && (
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  <button 
+                  <button
                     onClick={openRegister}
                     className="bg-white text-blue-600 px-8 py-4 rounded-full cursor-pointer font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center space-x-2 shadow-lg"
                   >

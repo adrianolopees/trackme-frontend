@@ -10,6 +10,7 @@ import type {
   PaginatedProfiles,
   PaginationMeta,
 } from "../../schemas/followShemas";
+import Spinner from "../ui/Spinner";
 
 interface FollowListProps {
   profileId: number;
@@ -202,7 +203,7 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
             >
               {loadingMore ? (
                 <div className="flex items-center justify-center gap-2">
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <Spinner size="sm" color="white" />
                   Carregando...
                 </div>
               ) : (
