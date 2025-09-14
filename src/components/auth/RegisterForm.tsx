@@ -11,17 +11,17 @@ import {
 import { useAuth } from "../../hooks/useAuth";
 import { FaUserPlus } from "react-icons/fa";
 
-import {
-  GradientButton,
-  InputField,
-} from "../index";
+import { GradientButton, InputField } from "../index";
 
 interface RegisterFormProps {
   onSuccess?: () => void;
   onSwitchToLogin?: () => void;
 }
 
-export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFormProps) {
+export default function RegisterForm({
+  onSuccess,
+  onSwitchToLogin,
+}: RegisterFormProps) {
   const navigate = useNavigate();
   const { register, registerLoading } = useAuth();
 
@@ -36,7 +36,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
   const onSubmit = async (data: RegisterFormData) => {
     const { confirmPassword: _, ...rest } = data;
     const userData: RegisterData = rest;
-    
+
     try {
       await register(userData);
       onSuccess?.(); // Fecha modal
@@ -48,10 +48,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
 
   return (
     <div className="space-y-6">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-4"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <InputField
           type="text"
           placeholder="Nome completo"
@@ -110,7 +107,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
           <button
             type="button"
             onClick={onSwitchToLogin}
-            className="text-blue-600 hover:text-blue-700 font-medium"
+            className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer"
           >
             Fazer login
           </button>

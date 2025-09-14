@@ -1,5 +1,5 @@
 import { FiChevronRight } from "react-icons/fi";
-import Avatar from "../Avatar/Avatar";
+import Avatar from "../ui/Avatar";
 import type { PublicProfile } from "../../schemas/profileSchemas";
 
 interface ProfileListItemProps {

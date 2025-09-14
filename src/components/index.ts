@@ -2,9 +2,9 @@
 export { default as AnimatedWrapper } from "./Layout/AnimatedWrapper";
 
 // Auth
-export { default as AuthFormLayout } from "./ui/AuthFormLayout";
-export { default as AuthRedirectLinks } from "./ui/AuthRedirectLinks";
-export { default as AuthModal } from "./ui/AuthModal";
+export { default as AuthFormLayout } from "./auth/AuthFormLayout";
+export { default as AuthRedirectLinks } from "./auth/AuthRedirectLinks";
+export { default as AuthModal } from "./auth/AuthModal";
 export { default as LoginForm } from "./auth/LoginForm";
 export { default as RegisterForm } from "./auth/RegisterForm";
 export { default as AuthModalContainer } from "./auth/AuthModalContainer";
@@ -19,10 +19,10 @@ export { default as AvatarInput } from "./ui/AvatarInput";
 export { default as TextAreaField } from "./ui/TextAreaField";
 
 // Avatar
-export { default as Avatar } from "./Avatar/Avatar";
+export { default as Avatar } from "./ui/Avatar";
 
 // Feedback
-export { default as FullPageSpinner } from "./Feedback/FullPageSpinner";
+export { default as FullPageSpinner } from "./ui/FullPageSpinner";
 
 // Folllow
 /* export { default as FollowButton } from "./Follow/FollowButton"; */

@@ -1,4 +1,4 @@
-import AuthModal from "../ui/AuthModal";
+import AuthModal from "./AuthModal";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import { type AuthModalType } from "../../hooks/useAuthModal";
@@ -40,10 +40,7 @@ export default function AuthModalContainer({
         );
       case "register":
         return (
-          <RegisterForm
-            onSuccess={onClose}
-            onSwitchToLogin={onSwitchToLogin}
-          />
+          <RegisterForm onSuccess={onClose} onSwitchToLogin={onSwitchToLogin} />
         );
       default:
         return null;
@@ -51,11 +48,7 @@ export default function AuthModalContainer({
   };
 
   return (
-    <AuthModal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={getTitle()}
-    >
+    <AuthModal isOpen={isOpen} onClose={onClose} title={getTitle()}>
       {renderContent()}
     </AuthModal>
   );

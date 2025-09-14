@@ -4,17 +4,17 @@ import { LoginSchema, type LoginFormData } from "../../schemas/authSchemas";
 import { useAuth } from "../../hooks/useAuth";
 import { FaUser } from "react-icons/fa";
 
-import {
-  GradientButton,
-  InputField,
-} from "../index";
+import { GradientButton, InputField } from "../index";
 
 interface LoginFormProps {
   onSuccess?: () => void;
   onSwitchToRegister?: () => void;
 }
 
-export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormProps) {
+export default function LoginForm({
+  onSuccess,
+  onSwitchToRegister,
+}: LoginFormProps) {
   const { login, loginLoading } = useAuth();
   const {
     register: registerForm,
@@ -37,10 +37,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
 
   return (
     <div className="space-y-6">
-      <form
-        className="space-y-4"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <InputField
           type="text"
           placeholder="Email ou usuário"
@@ -76,7 +73,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
           <button
             type="button"
             onClick={onSwitchToRegister}
-            className="text-blue-600 hover:text-blue-700 font-medium"
+            className="text-blue-600 hover:text-blue-700 font-medium cursor-pointer"
           >
             Criar conta
           </button>

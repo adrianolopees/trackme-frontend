@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaCamera } from "react-icons/fa";
-import Avatar from "../Avatar/Avatar";
+import Avatar from "./Avatar";
 
 type AvatarInputProps = {
   onFileSelect: (file: File) => void;

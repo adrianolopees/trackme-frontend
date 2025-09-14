@@ -57,16 +57,16 @@ const Navbar: React.FC<NavbarProps> = ({
   // Auth Buttons integrados
   const AuthButtons = () => (
     <div className="flex items-center gap-4">
-      <button 
+      <button
         onClick={onOpenLogin}
-        className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm"
+        className="flex items-center gap-2 cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm"
       >
         <FaUser className="w-3 h-3" />
         Login
       </button>
       <button
         onClick={onOpenRegister}
-        className="bg-gray-200 text-gray-800 px-4 py-1 lg:px-6 lg:py-2 rounded-full hover:bg-gray-300 transition-colors font-medium text-sm flex items-center justify-center h-9"
+        className="bg-gray-200 text-gray-800 px-4 py-1 lg:px-6 lg:py-2 cursor-pointer rounded-full hover:bg-gray-300 transition-colors font-medium text-sm flex items-center justify-center h-9"
       >
         Cadastre-se
       </button>
