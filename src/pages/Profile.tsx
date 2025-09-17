@@ -35,10 +35,65 @@ export const Profile = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           {/* Profile Header */}
           <div className="p-8">
-            <div className="flex flex-col md:flex-row md:items-start gap-8">
+            {/* Layout Mobile */}
+            <div className="md:hidden">
+              <h1 className="text-2xl font-bold mb-4 text-center">{profile.username}</h1>
+              <div className="flex items-center gap-4 mb-6">
+                <Avatar
+                  src={profile.avatar}
+                  size={64}
+                  className="shadow-lg w-16 h-16 flex-shrink-0"
+                />
+                <div className="flex-1">
+                  <div className="flex gap-6 text-sm mb-2">
+                    <button
+                      onClick={() => navigate(`/users/${profile.id}/followers`)}
+                      className="hover:opacity-70 transition-opacity"
+                    >
+                      <span className="font-semibold">{followersTotal}</span> seguidores
+                    </button>
+                    <button
+                      onClick={() => navigate(`/users/${profile.id}/following`)}
+                      className="hover:opacity-70 transition-opacity"
+                    >
+                      <span className="font-semibold">{followingTotal}</span> seguindo
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => navigate("/profile-edit")}
+                    className="text-blue-600 font-medium text-sm"
+                  >
+                    Editar perfil
+                  </button>
+                </div>
+              </div>
+
+              {/* Bio Section Mobile */}
+              {(profile.name || profile.bio) && (
+                <div className="space-y-2 mb-6">
+                  {profile.name && (
+                    <div className="font-bold text-lg text-gray-800">
+                      {profile.name}
+                    </div>
+                  )}
+                  {profile.bio && (
+                    <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                      {profile.bio}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Layout Desktop */}
+            <div className="hidden md:flex flex-col md:flex-row md:items-start gap-8">
               {/* Avatar */}
               <div className="flex justify-center md:justify-start">
-                <Avatar src={profile.avatar} size={140} className="shadow-lg" />
+                <Avatar
+                  src={profile.avatar}
+                  size={140}
+                  className="shadow-lg "
+                />
               </div>
 
               {/* Profile Info */}
