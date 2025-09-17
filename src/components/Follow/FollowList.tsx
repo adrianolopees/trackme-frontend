@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft, FiSearch, FiUsers, FiAlertCircle } from "react-icons/fi";
-import PageWrapperFollow from "../Layout/PageWrapperFollow";
+import { AnimatedWrapper } from "../index";
 import { FollowersSkeleton, ProfileListItem } from "../index";
 
 import type { PublicProfile } from "../../schemas/profileSchemas";
@@ -106,7 +106,7 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
   // Se o profileId não for válido, mostra erro
   if (!isValidProfileId) {
     return (
-      <PageWrapperFollow>
+      <AnimatedWrapper>
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center py-12">
             <FiAlertCircle size={48} className="mx-auto text-red-400 mb-4" />
@@ -124,12 +124,12 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
             </button>
           </div>
         </div>
-      </PageWrapperFollow>
+      </AnimatedWrapper>
     );
   }
 
   return (
-    <PageWrapperFollow>
+    <AnimatedWrapper>
       <div className="min-h-screen bg-gray-50">
         {/* Header Mobile - Sticky */}
         <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3">
@@ -215,7 +215,7 @@ const FollowList = ({ profileId, type, fetchFunction }: FollowListProps) => {
           )}
         </div>
       </div>
-    </PageWrapperFollow>
+    </AnimatedWrapper>
   );
 };
 

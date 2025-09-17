@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 interface AnimatedWrapperProps {
   children: ReactNode;
-  className?: string; // Prop opcional para adicionar classes customizadas
+  className?: string;
 }
 
 export default function AnimatedWrapper({

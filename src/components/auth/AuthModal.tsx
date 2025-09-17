@@ -35,11 +35,11 @@ export default function AuthModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Overlay transparente com blur */}
-      <div 
+      <div
         className="absolute inset-0 bg-transparent backdrop-blur-sm transition-all duration-300 ease-in-out"
         onClick={onClose}
       />
-      
+
       {/* Modal */}
       <AnimatedWrapper className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-out animate-in fade-in-0 zoom-in-95">
         {/* Header */}
@@ -49,14 +49,12 @@ export default function AuthModal({
             onClick={onClose}
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
           >
-            <FiX size={20} className="text-gray-500" />
+            <FiX size={20} className="text-gray-500 cursor-pointer" />
           </button>
         </div>
-        
+
         {/* Content */}
-        <div className="p-6">
-          {children}
-        </div>
+        <div className="p-6">{children}</div>
       </AnimatedWrapper>
     </div>
   );
