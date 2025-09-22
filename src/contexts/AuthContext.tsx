@@ -60,6 +60,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : "Erro no login";
       showError(message);
+      throw error;
     } finally {
       setLoginLoading(false);
     }
@@ -80,6 +81,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const message =
         error instanceof Error ? error.message : "Erro no registro";
       showError(message);
+      throw error;
     } finally {
       setRegisterLoading(false);
     }

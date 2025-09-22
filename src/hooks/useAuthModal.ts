@@ -24,6 +24,7 @@ export function useAuthModal(): UseAuthModalReturn {
   }, []);
 
   const closeModal = useCallback(() => {
+    console.log("🚪 FECHANDO MODAL - closeModal chamado");
     setModalType(null);
   }, []);
 
