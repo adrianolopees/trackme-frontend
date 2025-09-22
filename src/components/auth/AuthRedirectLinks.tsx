@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 
-// Interface que define as props do componente
 interface AuthRedirectLinksProps {
-  alternate?: "login" | "register"; // Union type: só aceita esses 2 valores
+  alternate?: "login" | "register";
 }
 
 export default function AuthRedirectLinks({
@@ -14,7 +13,7 @@ export default function AuthRedirectLinks({
         <p>
           Ainda não tem conta?{" "}
           <Link
-            to="/register" // Rota para página de cadastro
+            to="/register"
             className="text-blue-600 underline hover:text-blue-800"
           >
             Cadastre-se
@@ -24,7 +23,7 @@ export default function AuthRedirectLinks({
         <p>
           Já tem uma conta?{" "}
           <Link
-            to="/login" // Rota para página de login
+            to="/login"
             className="text-blue-600 underline hover:text-blue-800"
           >
             Entrar
@@ -33,10 +32,7 @@ export default function AuthRedirectLinks({
       )}
 
       <p>
-        <Link
-          to="/" // Rota raiz da aplicação
-          className="text-gray-600 underline hover:text-gray-800"
-        >
+        <Link to="/" className="text-gray-600 underline hover:text-gray-800">
           Voltar ao início
         </Link>
       </p>

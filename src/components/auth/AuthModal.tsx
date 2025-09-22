@@ -15,7 +15,6 @@ export default function AuthModal({
   children,
   title,
 }: AuthModalProps) {
-  // Fecha modal com ESC
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
