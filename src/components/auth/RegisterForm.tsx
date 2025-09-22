@@ -28,6 +28,7 @@ export default function RegisterForm({
   const {
     register: registerForm,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(RegisterSchema),
@@ -41,8 +42,8 @@ export default function RegisterForm({
       await register(userData);
       onSuccess?.(); // Fecha modal
       navigate("/profile-setup", { replace: true });
-    } catch (error) {
-      console.error("Erro ao registrar:", error);
+    } catch (error: unknown) {
+      setFocus("username", { shouldSelect: true });
     }
   };
 

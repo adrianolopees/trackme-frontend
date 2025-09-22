@@ -19,6 +19,7 @@ export default function LoginForm({
   const {
     register: registerForm,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(LoginSchema),
@@ -29,9 +30,7 @@ export default function LoginForm({
       await login(data);
       onSuccess?.();
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log("Error no login", error.message);
-      }
+      setFocus("identifier", { shouldSelect: true });
     }
   };
 
