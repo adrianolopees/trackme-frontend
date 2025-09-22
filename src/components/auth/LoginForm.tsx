@@ -25,18 +25,14 @@ export default function LoginForm({
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    console.log("🔄 INICIANDO LOGIN");
     try {
       await login(data);
-      console.log("✅ LOGIN SUCESSO - CHAMANDO onSuccess");
       onSuccess?.();
     } catch (error: unknown) {
-      console.log("❌ LOGIN ERRO - NÃO CHAMANDO onSuccess");
       if (error instanceof Error) {
         console.log("Error no login", error.message);
       }
     }
-    console.log("🏁 FINALIZANDO onSubmit");
   };
 
   return (
