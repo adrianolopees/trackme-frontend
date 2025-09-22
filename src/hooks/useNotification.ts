@@ -14,47 +14,26 @@ const useMediaQuery = (query: string) => {
   return matches;
 };
 
-// Tipos para as opções
-interface NotificationOptions {
-  duration?: number;
-  position?: "top" | "bottom" | "center";
-  persistent?: boolean;
-}
-
 export const useNotification = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return {
-    showSuccess: (message: string, options?: NotificationOptions) => {
-      if (isMobile) {
-        toast.success(message, {
-          position: "bottom-center",
-          autoClose: 3000,
-        });
-      } else {
-        toast.success(message, {
-          position: "top-right",
-          autoClose: 4000,
-        });
-      }
+    showSuccess: (message: string) => {
+      toast.success(message, {
+        position: isMobile ? "bottom-center" : "top-right",
+        autoClose: isMobile ? 2500 : 3500,
+      });
     },
-    showError: (message: string, options?: NotificationOptions) => {
-      if (isMobile) {
-        toast.error(message, {
-          position: "bottom-center",
-          autoClose: 4000,
-        });
-      } else {
-        toast.error(message, {
-          position: "top-right",
-          autoClose: 5000,
-        });
-      }
+    showError: (message: string) => {
+      toast.error(message, {
+        position: isMobile ? "bottom-center" : "top-right",
+        autoClose: isMobile ? 4000 : 5000,
+      });
     },
-    showWarning: (message: string, options?: NotificationOptions) => {
+    showWarning: (message: string) => {
       console.log("Warning:", message, "Mobile:", isMobile);
     },
-    showInfo: (message: string, options?: NotificationOptions) => {
+    showInfo: (message: string) => {
       console.log("Info:", message, "Mobile:", isMobile);
     },
   };
