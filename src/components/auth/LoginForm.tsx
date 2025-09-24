@@ -3,6 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema, type LoginFormData } from "../../schemas/authSchemas";
 import { useAuth } from "../../hooks/useAuth";
 import { FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 import { GradientButton, InputField } from "../index";
 
@@ -16,6 +17,7 @@ export default function LoginForm({
   onSwitchToRegister,
 }: LoginFormProps) {
   const { login, loginLoading } = useAuth();
+  const navigate = useNavigate();
   const {
     register: registerForm,
     handleSubmit,
@@ -29,6 +31,7 @@ export default function LoginForm({
     try {
       await login(data);
       onSuccess?.();
+      navigate("/me");
     } catch (error: unknown) {
       setFocus("identifier", { shouldSelect: true });
     }

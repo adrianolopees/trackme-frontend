@@ -30,7 +30,7 @@ export const followService = {
       params: { page, limit },
     });
     return {
-      profiles: data.data.followings,
+      profiles: data.data.following,
       pagination: {
         total: data.data.total,
         totalPages: data.data.totalPages,
