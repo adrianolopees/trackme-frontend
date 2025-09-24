@@ -59,7 +59,6 @@ export default function LoginForm({
           disabled={loginLoading}
           icon={<FaUser />}
           loadingText="Entrando..."
-          className="w-full"
         >
           Entrar
         </GradientButton>

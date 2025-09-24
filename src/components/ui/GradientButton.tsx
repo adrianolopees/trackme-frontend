@@ -20,7 +20,7 @@ export default function GradientButton({
     <button
       {...props}
       className={`
-        flex items-center justify-center cursor-pointer gap-2 px-6 py-3 rounded-full
+        flex items-center justify-center cursor-pointer gap-2 w-full py-3 rounded-full
         text-white font-semibold
         bg-gradient-to-r from-purple-600 to-blue-500
         hover:from-purple-700 hover:to-blue-600

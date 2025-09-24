@@ -2,6 +2,7 @@ import AuthModal from "./AuthModal";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import { type AuthModalType } from "../../hooks/useAuthModal";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface AuthModalContainerProps {
   modalType: AuthModalType;
@@ -49,7 +50,17 @@ export default function AuthModalContainer({
 
   return (
     <AuthModal isOpen={isOpen} onClose={onClose} title={getTitle()}>
-      {renderContent()}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={modalType}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.3 }}
+        >
+          {renderContent()}
+        </motion.div>
+      </AnimatePresence>
     </AuthModal>
   );
 }

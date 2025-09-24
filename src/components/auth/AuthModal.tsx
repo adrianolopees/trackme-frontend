@@ -40,7 +40,7 @@ export default function AuthModal({
       />
 
       {/* Modal */}
-      <AnimatedWrapper className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-out animate-in fade-in-0 zoom-in-95">
+      <AnimatedWrapper className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto ">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
@@ -52,7 +52,7 @@ export default function AuthModal({
           </button>
         </div>
 
-        {/* Content */}
+        {/* Resgister form ou login form */}
         <div className="p-6">{children}</div>
       </AnimatedWrapper>
     </div>
