@@ -1,7 +1,7 @@
-import AuthModal from "./AuthModal";
+import AuthModal from "./AuthModalLayout";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
-import { type AuthModalType } from "../../hooks/useAuthModal";
+import { type AuthModalType } from "../../hooks/useAuthModalController";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface AuthModalContainerProps {
