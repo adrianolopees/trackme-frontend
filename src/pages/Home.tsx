@@ -15,11 +15,11 @@ import Navbar from "../components/Layout/Navbar";
 function Home() {
   const { isAuthenticated, initialLoading, loginLoading, profile } = useAuth();
   const {
-    modalType,
-    isOpen,
-    openLogin,
-    openRegister,
-    closeModal,
+    authModalType,
+    isAuthModalOpen,
+    openLoginModal,
+    openRegisterModal,
+    closeAuthModal,
     switchToLogin,
     switchToRegister,
   } = useAuthModal();
@@ -28,17 +28,17 @@ function Home() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50">
       {initialLoading && <FullPageSpinner />}
 
-      {/* Navbar fixa no topo */}
+      {/* Navbar */}
       <Navbar
         isAuthenticated={isAuthenticated}
         loading={loginLoading}
         profile={profile || undefined}
-        onOpenLogin={openLogin}
-        onOpenRegister={openRegister}
+        onOpenLogin={openLoginModal}
+        onOpenRegister={openRegisterModal}
       />
 
       <AnimatedWrapper className="relative">
-        {/* Hero Section com espaçamento superior para a navbar */}
+        {/* Hero Section */}
         <section className="relative px-4 pt-24 pb-20 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="text-center">
@@ -187,7 +187,7 @@ function Home() {
               {!isAuthenticated && !loginLoading && (
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                   <button
-                    onClick={openRegister}
+                    onClick={openRegisterModal}
                     className="bg-white text-blue-600 px-8 py-4 rounded-full cursor-pointer font-semibold hover:bg-gray-50 transition-colors duration-200 flex items-center space-x-2 shadow-lg"
                   >
                     <span>Criar conta grátis</span>
@@ -210,9 +210,9 @@ function Home() {
 
       {/* Auth Modal */}
       <AuthModalContainer
-        authType={modalType}
-        isAuthModalOpen={isOpen}
-        onAuthModalClose={closeModal}
+        authType={authModalType}
+        isAuthModalOpen={isAuthModalOpen}
+        onAuthModalClose={closeAuthModal}
         onSwitchToLogin={switchToLogin}
         onSwitchToRegister={switchToRegister}
       />
