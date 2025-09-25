@@ -1,5 +1,5 @@
 import { useAuth } from "../hooks/useAuth";
-import { useAuthModal } from "../hooks/useAuthModal";
+import { useAuthModal } from "../hooks/useAuthModalController";
 import { FullPageSpinner, AuthModalContainer } from "../components";
 import {
   FiShare2,
