@@ -27,10 +27,9 @@ function Login() {
     try {
       await login(data);
       navigate("/me", { replace: true });
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log("Error no login", error.message);
-      }
+    } catch (error) {
+      // Erro já é tratado pelo AuthContext com useNotification
+      console.error("Error no login", error);
     }
   };
 
