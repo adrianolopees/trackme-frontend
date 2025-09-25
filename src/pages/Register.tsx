@@ -14,8 +14,7 @@ import { useAuth } from "../hooks/useAuth";
 import { FaUserPlus } from "react-icons/fa";
 
 import {
-  AuthFormLayout,
-  AuthRedirectLinks,
+  AuthLinksFooter,
   GradientButton,
   InputField,
   AnimatedWrapper,
@@ -48,64 +47,61 @@ function Register() {
 
   return (
     <AnimatedWrapper className="min-h-screen flex flex-col justify-center items-center bg-gray-50 p-4">
-      <AuthFormLayout
-        title="Crie sua conta"
-        redirectLinks={<AuthRedirectLinks alternate="login" />}
+      <h1 className="text-2xl font-bold mb-4 ">Crie sua conta</h1>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-4 w-full max-w-sm"
       >
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4 w-full max-w-sm"
+        <InputField
+          type="text"
+          placeholder="Nome completo"
+          {...registerForm("name")}
+          error={errors.name?.message}
+          disabled={registerLoading}
+        />
+        <InputField
+          type="text"
+          placeholder="Usuário"
+          {...registerForm("username")}
+          error={errors.username?.message}
+          disabled={registerLoading}
+        />
+
+        <InputField
+          type="email"
+          placeholder="Email"
+          {...registerForm("email")}
+          error={errors.email?.message}
+          disabled={registerLoading}
+        />
+
+        <InputField
+          type="password"
+          placeholder="Senha"
+          {...registerForm("password")}
+          error={errors.password?.message}
+          disabled={registerLoading}
+        />
+
+        <InputField
+          type="password"
+          placeholder="Confirmar senha"
+          {...registerForm("confirmPassword")}
+          error={errors.confirmPassword?.message}
+          disabled={registerLoading}
+        />
+
+        <GradientButton
+          type="submit"
+          loading={registerLoading}
+          disabled={registerLoading}
+          icon={<FaUserPlus />}
+          loadingText="Criando conta..."
         >
-          <InputField
-            type="text"
-            placeholder="Nome completo"
-            {...registerForm("name")}
-            error={errors.name?.message}
-            disabled={registerLoading}
-          />
-          <InputField
-            type="text"
-            placeholder="Usuário"
-            {...registerForm("username")}
-            error={errors.username?.message}
-            disabled={registerLoading}
-          />
-
-          <InputField
-            type="email"
-            placeholder="Email"
-            {...registerForm("email")}
-            error={errors.email?.message}
-            disabled={registerLoading}
-          />
-
-          <InputField
-            type="password"
-            placeholder="Senha"
-            {...registerForm("password")}
-            error={errors.password?.message}
-            disabled={registerLoading}
-          />
-
-          <InputField
-            type="password"
-            placeholder="Confirmar senha"
-            {...registerForm("confirmPassword")}
-            error={errors.confirmPassword?.message}
-            disabled={registerLoading}
-          />
-
-          <GradientButton
-            type="submit"
-            loading={registerLoading}
-            disabled={registerLoading}
-            icon={<FaUserPlus />}
-            loadingText="Criando conta..."
-          >
-            Registrar
-          </GradientButton>
-        </form>
-      </AuthFormLayout>
+          Registrar
+        </GradientButton>
+      </form>
+      <AuthLinksFooter alternate="login" />
     </AnimatedWrapper>
   );
 }

@@ -2,8 +2,7 @@
 export { default as AnimatedWrapper } from "./Layout/AnimatedWrapper";
 
 // Auth
-export { default as AuthFormLayout } from "./auth/AuthFormLayout";
-export { default as AuthRedirectLinks } from "./auth/AuthRedirectLinks";
+export { default as AuthLinksFooter } from "./auth/AuthLinksFooter";
 export { default as AuthModal } from "./auth/AuthModal";
 export { default as LoginForm } from "./auth/LoginForm";
 export { default as RegisterForm } from "./auth/RegisterForm";
