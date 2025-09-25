@@ -36,7 +36,7 @@ export default function AuthModal({
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Overlay transparente com blur */}
+          {/* Overlay com blur */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -59,7 +59,7 @@ export default function AuthModal({
               </button>
             </div>
 
-            {/* Resgister form ou login form */}
+            {/* Form login ou register */}
             <div className="p-6">{children}</div>
           </AnimatedWrapper>
         </div>

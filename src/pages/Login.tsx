@@ -6,8 +6,7 @@ import { useAuth } from "../hooks/useAuth";
 import { FaUser } from "react-icons/fa";
 
 import {
-  AuthFormLayout,
-  AuthRedirectLinks,
+  AuthLinksFooter,
   GradientButton,
   InputField,
   AnimatedWrapper,
@@ -37,41 +36,38 @@ function Login() {
 
   return (
     <AnimatedWrapper className="min-h-screen flex flex-col justify-center items-center bg-gray-50 p-4">
-      <AuthFormLayout
-        title="Entrar no TrackMe"
-        redirectLinks={<AuthRedirectLinks alternate="register" />}
+      <h1 className="text-2xl font-bold mb-4">Entrar no TrackMe</h1>
+      <form
+        className="w-full max-w-sm flex flex-col gap-4"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <form
-          className="w-full max-w-sm flex flex-col gap-4"
-          onSubmit={handleSubmit(onSubmit)}
+        <InputField
+          type="text"
+          placeholder="Email ou usuário"
+          {...registerForm("identifier")}
+          error={errors.identifier?.message}
+          required
+          disabled={loginLoading}
+        />
+        <InputField
+          type="password"
+          placeholder="Senha"
+          {...registerForm("password")}
+          error={errors.password?.message}
+          required
+          disabled={loginLoading}
+        />
+        <GradientButton
+          type="submit"
+          loading={loginLoading}
+          disabled={loginLoading}
+          icon={<FaUser />}
+          loadingText="Entrando..."
         >
-          <InputField
-            type="text"
-            placeholder="Email ou usuário"
-            {...registerForm("identifier")}
-            error={errors.identifier?.message}
-            required
-            disabled={loginLoading}
-          />
-          <InputField
-            type="password"
-            placeholder="Senha"
-            {...registerForm("password")}
-            error={errors.password?.message}
-            required
-            disabled={loginLoading}
-          />
-          <GradientButton
-            type="submit"
-            loading={loginLoading}
-            disabled={loginLoading}
-            icon={<FaUser />}
-            loadingText="Entrando..."
-          >
-            Entrar
-          </GradientButton>
-        </form>
-      </AuthFormLayout>
+          Entrar
+        </GradientButton>
+      </form>
+      <AuthLinksFooter alternate="register" />
     </AnimatedWrapper>
   );
 }
