@@ -3,44 +3,44 @@ import { useState, useCallback } from "react";
 export type AuthModalType = "login" | "register" | null;
 
 export interface UseAuthModalReturn {
-  modalType: AuthModalType;
-  isOpen: boolean;
-  openLogin: () => void;
-  openRegister: () => void;
-  closeModal: () => void;
+  authModalType: AuthModalType;
+  isAuthModalOpen: boolean;
+  openLoginModal: () => void;
+  openRegisterModal: () => void;
+  closeAuthModal: () => void;
   switchToLogin: () => void;
   switchToRegister: () => void;
 }
 
 export function useAuthModal(): UseAuthModalReturn {
-  const [modalType, setModalType] = useState<AuthModalType>(null);
+  const [authModalType, setAuthModalType] = useState<AuthModalType>(null);
 
-  const openLogin = useCallback(() => {
-    setModalType("login");
+  const openLoginModal = useCallback(() => {
+    setAuthModalType("login");
   }, []);
 
-  const openRegister = useCallback(() => {
-    setModalType("register");
+  const openRegisterModal = useCallback(() => {
+    setAuthModalType("register");
   }, []);
 
-  const closeModal = useCallback(() => {
-    setModalType(null);
+  const closeAuthModal = useCallback(() => {
+    setAuthModalType(null);
   }, []);
 
   const switchToLogin = useCallback(() => {
-    setModalType("login");
+    setAuthModalType("login");
   }, []);
 
   const switchToRegister = useCallback(() => {
-    setModalType("register");
+    setAuthModalType("register");
   }, []);
 
   return {
-    modalType,
-    isOpen: modalType !== null,
-    openLogin,
-    openRegister,
-    closeModal,
+    authModalType,
+    isAuthModalOpen: authModalType !== null,
+    openLoginModal,
+    openRegisterModal,
+    closeAuthModal,
     switchToLogin,
     switchToRegister,
   };
