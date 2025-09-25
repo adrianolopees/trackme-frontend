@@ -1,26 +1,27 @@
-import AuthModal from "./AuthModalLayout";
+import AuthModal from "./AuthModal";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
-import { type AuthModalType } from "../../hooks/useAuthModalController";
-import { AnimatePresence, motion } from "framer-motion";
+import { type AuthModalType } from "../../hooks/useAuthModal";
+import { AnimatePresence } from "framer-motion";
+import AnimatedWrapper from "../Layout/AnimatedWrapper";
 
 interface AuthModalContainerProps {
-  modalType: AuthModalType;
-  isOpen: boolean;
-  onClose: () => void;
+  authType: AuthModalType;
+  isAuthModalOpen: boolean;
+  onAuthModalClose: () => void;
   onSwitchToLogin: () => void;
   onSwitchToRegister: () => void;
 }
 
 export default function AuthModalContainer({
-  modalType,
-  isOpen,
-  onClose,
+  authType,
+  isAuthModalOpen,
+  onAuthModalClose,
   onSwitchToLogin,
   onSwitchToRegister,
 }: AuthModalContainerProps) {
   const getTitle = () => {
-    switch (modalType) {
+    switch (authType) {
       case "login":
         return "Entrar no TrackMe";
       case "register":
@@ -31,17 +32,20 @@ export default function AuthModalContainer({
   };
 
   const renderContent = () => {
-    switch (modalType) {
+    switch (authType) {
       case "login":
         return (
           <LoginForm
-            onSuccess={onClose}
+            onSuccess={onAuthModalClose}
             onSwitchToRegister={onSwitchToRegister}
           />
         );
       case "register":
         return (
-          <RegisterForm onSuccess={onClose} onSwitchToLogin={onSwitchToLogin} />
+          <RegisterForm
+            onSuccess={onAuthModalClose}
+            onSwitchToLogin={onSwitchToLogin}
+          />
         );
       default:
         return null;
@@ -49,17 +53,15 @@ export default function AuthModalContainer({
   };
 
   return (
-    <AuthModal isOpen={isOpen} onClose={onClose} title={getTitle()}>
+    <AuthModal
+      isOpen={isAuthModalOpen}
+      onClose={onAuthModalClose}
+      title={getTitle()}
+    >
       <AnimatePresence mode="wait">
-        <motion.div
-          key={modalType}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          transition={{ duration: 0.3 }}
-        >
+        <AnimatedWrapper key={authType} duration={0.3} initialY={20} exitY={20}>
           {renderContent()}
-        </motion.div>
+        </AnimatedWrapper>
       </AnimatePresence>
     </AuthModal>
   );

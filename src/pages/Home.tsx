@@ -1,6 +1,6 @@
 import { useAuth } from "../hooks/useAuth";
-import { useAuthModal } from "../hooks/useAuthModalController";
-import { FullPageSpinner, AuthModalContainer } from "../components";
+import { useAuthModal } from "../hooks/useAuthModal";
+import { AuthModalContainer, FullPageSpinner } from "../components";
 import {
   FiShare2,
   FiUsers,
@@ -210,9 +210,9 @@ function Home() {
 
       {/* Auth Modal */}
       <AuthModalContainer
-        modalType={modalType}
-        isOpen={isOpen}
-        onClose={closeModal}
+        authType={modalType}
+        isAuthModalOpen={isOpen}
+        onAuthModalClose={closeModal}
         onSwitchToLogin={switchToLogin}
         onSwitchToRegister={switchToRegister}
       />
