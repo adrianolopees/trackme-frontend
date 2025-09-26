@@ -35,7 +35,6 @@ function Register() {
       await register(userData);
       navigate("/profile-setup", { replace: true });
     } catch (error) {
-      // Erro já é tratado pelo AuthContext com useNotification
       console.error("Erro ao registrar:", error);
     }
   };

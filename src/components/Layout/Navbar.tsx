@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaCog, FaSignOutAlt, FaHome, FaMusic } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
-import type { NavbarProps, MenuItem } from "../../types/navbarTypes";
+import type { NavbarProps, MenuItem } from "../../types/navbar.types";
 
 const Navbar: React.FC<NavbarProps> = ({
   isAuthenticated = false,

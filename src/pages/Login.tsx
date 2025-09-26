@@ -10,7 +10,7 @@ import {
   GradientButton,
   InputField,
   AnimatedWrapper,
-} from "../components/index";
+} from "../components";
 
 function Login() {
   const navigate = useNavigate();
