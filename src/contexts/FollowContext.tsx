@@ -23,7 +23,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const [followersTotal, setFollowersTotal] = useState(0);
   const [followingTotal, setFollowingTotal] = useState(0);
 
-  const [loading, setLoading] = useState(false);
+  const [countsLoading, setCountsLoading] = useState(false);
   const [isFollowingLoading, setIsFollowingLoading] = useState(false);
   const [isUnfollowingLoading, setIsUnfollowingLoading] = useState(false);
   const [isFollowersListLoading, setIsFollowersListLoading] = useState(false);
@@ -76,6 +76,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     append: boolean = false
   ) => {
     if (!profile) return;
+
     const targetId = profileId || profile.id;
     setIsFollowersListLoading(true);
     try {
@@ -102,6 +103,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     append: boolean = false
   ) => {
     if (!profile) return;
+
     const targetId = profileId || profile.id;
     setIsFollowingListLoading(true);
     try {
@@ -122,35 +124,25 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     }
   };
 
-  const loadFollowersCount = async (profileId?: number) => {
+  const loadCounts = async (profileId?: number) => {
     if (!profile) return;
 
     const targetId = profileId || profile.id;
-    setLoading(true);
+    setCountsLoading(true);
     try {
-      const count = await followService.fetchFollowersCount(targetId);
-      setFollowersTotal(count);
+      const [followersCount, followingCount] = await Promise.all([
+        followService.fetchFollowersCount(targetId),
+        followService.fetchFollowingCount(targetId),
+      ]);
+      setFollowersTotal(followersCount);
+      setFollowingTotal(followingCount);
     } catch (error: unknown) {
+      console.error("Erro ao carregar contadores:", error);
       showError(error instanceof Error ? error.message : "Erro inesperado!");
       setFollowersTotal(0);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadFollowingCount = async (profileId?: number) => {
-    if (!profile) return;
-
-    const targetId = profileId || profile.id;
-    setLoading(true);
-    try {
-      const count = await followService.fetchFollowingCount(targetId);
-      setFollowingTotal(count);
-    } catch (error: unknown) {
-      showError(error instanceof Error ? error.message : "Erro inesperado!");
       setFollowingTotal(0);
     } finally {
-      setLoading(false);
+      setCountsLoading(false);
     }
   };
 
@@ -162,8 +154,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   // Carrega dados iniciais apenas se estiver autenticado
   useEffect(() => {
     if (profile) {
-      loadFollowersCount(profile.id);
-      loadFollowingCount(profile.id);
+      loadCounts(profile.id);
       loadFollowers(profile.id);
       loadFollowing(profile.id);
     }
@@ -176,7 +167,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
         following,
         followersTotal,
         followingTotal,
-        loading,
+        countsLoading,
         isFollowingLoading,
         isUnfollowingLoading,
         isFollowersListLoading,
@@ -186,8 +177,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
         loadFollowers,
         loadFollowing,
         isFollowing,
-        loadFollowersCount,
-        loadFollowingCount,
+        loadCounts,
       }}
     >
       {children}
