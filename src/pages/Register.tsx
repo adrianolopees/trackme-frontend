@@ -1,18 +1,13 @@
 import { useNavigate } from "react-router-dom";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import {
   RegisterSchema,
   type RegisterData,
   type RegisterFormData,
 } from "../schemas/authSchemas";
-
 import { useAuth } from "../hooks/useAuth";
-
 import { FaUserPlus } from "react-icons/fa";
-
 import {
   AuthLinksFooter,
   GradientButton,
