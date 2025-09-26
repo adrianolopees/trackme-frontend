@@ -151,7 +151,6 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     return following.some((p) => p.id === targetProfileId);
   };
 
-  // Carrega dados iniciais apenas se estiver autenticado
   useEffect(() => {
     if (profile) {
       loadCounts(profile.id);

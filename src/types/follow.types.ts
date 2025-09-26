@@ -1,10 +1,11 @@
 import type { PublicProfile } from "../schemas/profileSchemas";
+import { type ReactNode } from "react";
 
 export interface FollowContextData {
   followers: PublicProfile[];
   following: PublicProfile[];
-  followersTotal: number; // novo
-  followingTotal: number; // novo
+  followersTotal: number;
+  followingTotal: number;
   countsLoading: boolean;
   isFollowingLoading: boolean;
   isUnfollowingLoading: boolean;
@@ -27,5 +28,5 @@ export interface FollowContextData {
 }
 
 export interface FollowProviderProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
