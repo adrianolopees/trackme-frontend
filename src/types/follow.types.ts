@@ -5,7 +5,7 @@ export interface FollowContextData {
   following: PublicProfile[];
   followersTotal: number; // novo
   followingTotal: number; // novo
-  loading: boolean;
+  countsLoading: boolean;
   isFollowingLoading: boolean;
   isUnfollowingLoading: boolean;
   isFollowersListLoading: boolean;
@@ -23,8 +23,7 @@ export interface FollowContextData {
     append?: boolean
   ) => Promise<void>;
   isFollowing: (targetProfileId: number) => boolean;
-  loadFollowersCount: (profileId?: number) => Promise<void>;
-  loadFollowingCount: (profileId?: number) => Promise<void>;
+  loadCounts: (profileId?: number) => Promise<void>;
 }
 
 export interface FollowProviderProps {
