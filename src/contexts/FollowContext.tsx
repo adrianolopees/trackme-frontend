@@ -31,7 +31,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
 
   const followProfile = async (targetProfileId: number) => {
     if (!profile) {
-      showError("Você precisa estar logado para seguir!");
+      showError("Você precisa estar logado para continuar!");
       return;
     }
 
@@ -46,11 +46,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       setFollowingTotal((prev) => prev + 1);
     } catch (error: unknown) {
       console.error("Erro ao seguir perfil:", error);
-      const message =
-        error instanceof Error
-          ? error.message
-          : `Erro ao seguir perfil (ID: ${targetProfileId})`;
-      showError(message);
+      showError(error instanceof Error ? error.message : "Erro inesperado!");
     } finally {
       setIsFollowingLoading(false);
     }
@@ -58,7 +54,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
 
   const unfollowProfile = async (targetProfileId: number) => {
     if (!profile) {
-      showError("Você precisa estar logado para deixar de seguir alguém");
+      showError("Você precisa estar logado para continuar!");
       return;
     }
     setIsUnfollowingLoading(true);
@@ -68,11 +64,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       setFollowingTotal((prev) => prev - 1);
     } catch (error: unknown) {
       console.error("Erro ao deixar de seguir perfil:", error);
-      const message =
-        error instanceof Error
-          ? error.message
-          : `Erro ao deixar de seguir perfil (ID: ${targetProfileId})`;
-      showError(message);
+      showError(error instanceof Error ? error.message : "Erro inesperado!");
     } finally {
       setIsUnfollowingLoading(false);
     }
@@ -96,9 +88,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       }
       setFollowersTotal(data.pagination.total);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Erro ao buscar seguidores";
-      showError(message);
+      showError(error instanceof Error ? error.message : "Erro inesperado!");
       if (!append) setFollowers([]);
       setFollowersTotal(0);
     } finally {
@@ -124,9 +114,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       }
       setFollowingTotal(data.pagination.total);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Erro ao buscar seguidos";
-      showError(message);
+      showError(error instanceof Error ? error.message : "Erro inesperado!");
       if (!append) setFollowing([]);
       setFollowingTotal(0);
     } finally {
@@ -143,9 +131,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       const count = await followService.fetchFollowersCount(targetId);
       setFollowersTotal(count);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Erro ao contar seguidores";
-      showError(message);
+      showError(error instanceof Error ? error.message : "Erro inesperado!");
       setFollowersTotal(0);
     } finally {
       setLoading(false);
@@ -161,9 +147,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
       const count = await followService.fetchFollowingCount(targetId);
       setFollowingTotal(count);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Erro ao contar seguidos";
-      showError(message);
+      showError(error instanceof Error ? error.message : "Erro inesperado!");
       setFollowingTotal(0);
     } finally {
       setLoading(false);
