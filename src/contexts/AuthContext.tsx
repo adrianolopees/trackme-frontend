@@ -29,6 +29,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const profile = validatedProfile.data;
       setProfile(profile);
       authService.saveAuthData(tokenStorage, profile);
+    } catch (error) {
+      console.error("Erro na verificação de autenticação:", error);
+      authService.clearAuthData();
     } finally {
       setInitialLoading(false);
     }
@@ -58,8 +61,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       authService.saveAuthData(token, profile);
       showSuccess(loginResponse.message);
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : "Erro no login";
-      showError(message);
+      showError(error instanceof Error ? error.message : "Erro inesperado!");
       throw error;
     } finally {
       setLoginLoading(false);
@@ -78,9 +80,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setProfile(profile);
       showSuccess(registerResponse.message);
     } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : "Erro no registro";
-      showError(message);
+      showError(error instanceof Error ? error.message : "Erro inesperado!");
       throw error;
     } finally {
       setRegisterLoading(false);
