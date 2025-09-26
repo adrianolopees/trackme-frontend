@@ -5,7 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import type {
   FollowContextData,
   FollowProviderProps,
-} from "../types/follow.types";
+} from "../types/followTypes";
 import type { PublicProfile } from "../schemas/profileSchemas";
 
 import { followService } from "../services/followService";
