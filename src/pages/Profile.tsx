@@ -37,7 +37,9 @@ export const Profile = () => {
           <div className="p-8">
             {/* Layout Mobile */}
             <div className="md:hidden">
-              <h1 className="text-2xl font-bold mb-4 text-center">{profile.username}</h1>
+              <h1 className="text-2xl font-bold mb-4 text-center">
+                {profile.username}
+              </h1>
               <div className="flex items-center gap-4 mb-6">
                 <Avatar
                   src={profile.avatar}
@@ -50,13 +52,15 @@ export const Profile = () => {
                       onClick={() => navigate(`/users/${profile.id}/followers`)}
                       className="hover:opacity-70 transition-opacity"
                     >
-                      <span className="font-semibold">{followersTotal}</span> seguidores
+                      <span className="font-semibold">{followersTotal}</span>{" "}
+                      seguidores
                     </button>
                     <button
                       onClick={() => navigate(`/users/${profile.id}/following`)}
                       className="hover:opacity-70 transition-opacity"
                     >
-                      <span className="font-semibold">{followingTotal}</span> seguindo
+                      <span className="font-semibold">{followingTotal}</span>{" "}
+                      seguindo
                     </button>
                   </div>
                   <button

@@ -10,17 +10,12 @@ export const ProtectedRoute = ({ children }: ProtectedRoutesProps) => {
   const { isAuthenticated, initialLoading } = useAuth();
 
   if (initialLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen text-gray-500">
-        <FullPageSpinner />
-      </div>
-    );
+    return <FullPageSpinner />;
   }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Somente verifica se está autenticado
   return <>{children}</>;
 };
