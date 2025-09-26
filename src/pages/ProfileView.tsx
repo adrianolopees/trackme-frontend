@@ -1,10 +1,14 @@
 import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { FiHome } from "react-icons/fi";
-import { Avatar, GradientButton, AnimatedWrapper } from "../components";
+import {
+  Avatar,
+  GradientButton,
+  AnimatedWrapper,
+  FollowButton,
+} from "../components/index";
 import api from "../services/apiService";
 import type { SafeProfile } from "../schemas/profileSchemas";
-import { FollowButton } from "../components/Follow/FollowButton";
 
 export const ProfileView = () => {
   const { id } = useParams<{ id: string }>();

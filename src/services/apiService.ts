@@ -1,9 +1,8 @@
 import axios from "axios";
 import type { AxiosResponse, AxiosError } from "axios";
 import { authService } from "./authService";
-import { ApiError } from "../types/errorsTypes";
+import { ApiError } from "../types/errors";
 
-// Configuração base do Axios
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 10000,
@@ -12,7 +11,6 @@ const api = axios.create({
   },
 });
 
-// Interceptor para adicionar token de autenticação nas requisições
 api.interceptors.request.use(
   (config) => {
     const token = authService.getToken();
@@ -32,7 +30,6 @@ api.interceptors.request.use(
   }
 );
 
-// Interceptor para tratar respostas e erros
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
@@ -45,7 +42,6 @@ api.interceptors.response.use(
 
     let errorMessage = "Erro interno do servidor";
 
-    // Se não há resposta do servidor (erro de rede)
     if (!error.response) {
       errorMessage =
         "Erro de conexão. Verifique sua internet ou se o servidor está rodando.";
@@ -80,7 +76,6 @@ api.interceptors.response.use(
       }
     }
 
-    // -- Rejeitar com erro
     return Promise.reject(
       new ApiError(errorMessage, error.response?.status, apiError)
     );

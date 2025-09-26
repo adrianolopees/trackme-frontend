@@ -1,6 +1,11 @@
 import { useAuth } from "../hooks/useAuth";
 import { useAuthModal } from "../hooks/useAuthModal";
-import { AuthModalContainer, FullPageSpinner } from "../components";
+import {
+  AuthModalContainer,
+  FullPageSpinner,
+  AnimatedWrapper,
+  Navbar,
+} from "../components";
 import {
   FiShare2,
   FiUsers,
@@ -10,8 +15,6 @@ import {
   FiStar,
   FiHeart,
 } from "react-icons/fi";
-import AnimatedWrapper from "../components/Layout/AnimatedWrapper";
-import Navbar from "../components/Layout/Navbar";
 function Home() {
   const { isAuthenticated, initialLoading, loginLoading, profile } = useAuth();
   const {
