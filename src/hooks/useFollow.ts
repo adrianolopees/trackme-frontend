@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { FollowContext } from "../contexts/FollowContext";
-import type { FollowContextData } from "../types/follow.types";
+import type { FollowContextData } from "../types/followTypes";
 
 export const useFollow = (): FollowContextData => {
   const context = useContext(FollowContext);

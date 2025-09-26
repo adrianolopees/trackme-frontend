@@ -15,7 +15,7 @@ import {
   TokenResponseSchema,
   AuthResponseSchema,
 } from "../schemas/authSchemas";
-import type { JwtPayload } from "../types/jwt.types";
+import type { JwtPayload } from "../types/jwtTypes";
 
 const TOKEN_KEY = "@app:token";
 const PROFILE_KEY = "@app:profile";
