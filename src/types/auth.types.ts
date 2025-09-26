@@ -19,5 +19,3 @@ export interface AuthContextData {
 export interface AuthProviderProps {
   children: ReactNode;
 }
-
-export * from "./auth.types";
