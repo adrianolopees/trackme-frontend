@@ -9,7 +9,6 @@ import type {
 import type { PublicProfile } from "../schemas/profileSchemas";
 
 import { followService } from "../services/followService";
-import { requireProfile } from "../helpers/requireProfile";
 
 export const FollowContext = createContext<FollowContextData>(
   {} as FollowContextData
@@ -31,11 +30,8 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   const [isFollowingListLoading, setIsFollowingListLoading] = useState(false);
 
   const followProfile = async (targetProfileId: number) => {
-    if (
-      !requireProfile(profile, () =>
-        showError("Você precisa estar logado para seguir")
-      )
-    ) {
+    if (!profile) {
+      showError("Você precisa estar logado para seguir!");
       return;
     }
 
@@ -61,11 +57,8 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   };
 
   const unfollowProfile = async (targetProfileId: number) => {
-    if (
-      !requireProfile(profile, () =>
-        showError("Você precisa estar logado para deixar de seguir alguém")
-      )
-    ) {
+    if (!profile) {
+      showError("Você precisa estar logado para deixar de seguir alguém");
       return;
     }
     setIsUnfollowingLoading(true);
@@ -90,7 +83,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     page: number = 1,
     append: boolean = false
   ) => {
-    if (!requireProfile(profile)) return;
+    if (!profile) return;
     const targetId = profileId || profile.id;
     setIsFollowersListLoading(true);
     try {
@@ -118,7 +111,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
     page: number = 1,
     append: boolean = false
   ) => {
-    if (!requireProfile(profile)) return;
+    if (!profile) return;
     const targetId = profileId || profile.id;
     setIsFollowingListLoading(true);
     try {
@@ -142,7 +135,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   };
 
   const loadFollowersCount = async (profileId?: number) => {
-    if (!requireProfile(profile)) return;
+    if (!profile) return;
 
     const targetId = profileId || profile.id;
     setLoading(true);
@@ -160,7 +153,7 @@ export const FollowProvider: React.FC<FollowProviderProps> = ({ children }) => {
   };
 
   const loadFollowingCount = async (profileId?: number) => {
-    if (!requireProfile(profile)) return;
+    if (!profile) return;
 
     const targetId = profileId || profile.id;
     setLoading(true);
