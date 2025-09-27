@@ -36,7 +36,7 @@ export default function GradientButton({
         </>
       ) : (
         <>
-          {icon && <span className="w-5 h-5">{icon}</span>}
+          {icon && <span className="w-5 h-5 flex items-center">{icon}</span>}
           {children}
         </>
       )}
