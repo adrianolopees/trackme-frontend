@@ -56,7 +56,7 @@ const Navbar: React.FC<NavbarProps> = ({
   // Auth Buttons integrados
   const AuthButtons = () => (
     <div className="flex items-center gap-4">
-      <GradientButton onClick={onOpenLogin} icon={<FaUser />}>
+      <GradientButton variant="navbar" onClick={onOpenLogin} icon={<FaUser />}>
         Login
       </GradientButton>
       <button
@@ -233,16 +233,16 @@ const Navbar: React.FC<NavbarProps> = ({
 
                 {/* Auth Buttons - Not authenticated */}
                 <div className="px-4 py-2 space-y-2">
-                  <button
+                  <GradientButton
+                    variant="mobile"
                     onClick={() => {
                       setIsAvatarMenuOpen(false);
                       onOpenLogin?.();
                     }}
-                    className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm w-full"
                   >
                     <FaUser className="w-4 h-4" />
                     Login
-                  </button>
+                  </GradientButton>
                   <button
                     onClick={() => {
                       setIsAvatarMenuOpen(false);
