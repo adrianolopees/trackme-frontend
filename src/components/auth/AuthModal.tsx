@@ -30,28 +30,15 @@ export default function AuthModal({
       );
 
       document.body.classList.add("modal-open");
-      const navbar = document.querySelector("nav");
-      if (navbar) {
-        navbar.classList.add("navbar-modal-compensation");
-      }
 
       document.addEventListener("keydown", handleEsc);
     } else {
       document.body.classList.remove("modal-open");
-      const navbar = document.querySelector("nav");
-      if (navbar) {
-        navbar.classList.remove("navbar-modal-compensation");
-      }
     }
 
     return () => {
       document.removeEventListener("keydown", handleEsc);
       document.body.classList.remove("modal-open");
-
-      const navbar = document.querySelector("nav");
-      if (navbar) {
-        navbar.classList.remove("navbar-modal-compensation");
-      }
     };
   }, [isOpen, onClose]);
 
