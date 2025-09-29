@@ -22,13 +22,36 @@ export default function AuthModal({
     };
 
     if (isOpen) {
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty(
+        "--scrollbar-width",
+        `${scrollbarWidth}px`
+      );
+
+      document.body.classList.add("modal-open");
+      const navbar = document.querySelector("nav");
+      if (navbar) {
+        navbar.classList.add("navbar-modal-compensation");
+      }
+
       document.addEventListener("keydown", handleEsc);
-      document.body.style.overflow = "hidden";
+    } else {
+      document.body.classList.remove("modal-open");
+      const navbar = document.querySelector("nav");
+      if (navbar) {
+        navbar.classList.remove("navbar-modal-compensation");
+      }
     }
 
     return () => {
       document.removeEventListener("keydown", handleEsc);
-      document.body.style.overflow = "unset";
+      document.body.classList.remove("modal-open");
+
+      const navbar = document.querySelector("nav");
+      if (navbar) {
+        navbar.classList.remove("navbar-modal-compensation");
+      }
     };
   }, [isOpen, onClose]);
 

@@ -1,6 +1,6 @@
 @import "tailwindcss";
-/* Adicionar ao seu arquivo CSS global (index.css ou App.css) */
 
+/*Animações do background*/
 @keyframes blob {
   0% {
     transform: translate(0px, 0px) scale(1);
@@ -28,3 +28,16 @@
   animation-delay: 4s;
 }
 
+/* Modal */
+.modal-open {
+  overflow: hidden !important;
+  padding-right: var(--scrollbar-width, 0px) !important;
+}
+
+/* Compensação completa para navbar quando modal aberto */
+nav.navbar-modal-compensation {
+  /* Compensa o espaço da scrollbar */
+  margin-right: calc(-1 * var(--scrollbar-width)) !important;
+  /* Compensa o movimento visual do reflow */
+  transform: translateX(calc(-1 * var(--scrollbar-width) / 2)) !important;
+}
