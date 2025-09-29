@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FaUser, FaCog, FaSignOutAlt, FaHome, FaMusic } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 import type { NavbarProps, MenuItem } from "../../types/navbar.types";
+import GradientButton from "../ui/GradientButton";
 
 const Navbar: React.FC<NavbarProps> = ({
   isAuthenticated = false,
@@ -19,7 +20,6 @@ const Navbar: React.FC<NavbarProps> = ({
   const avatarMenuRef = useRef<HTMLDivElement>(null);
   const { logout } = useAuth();
 
-  // Detecta scroll para tornar navbar mais compacta
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -29,7 +29,6 @@ const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Fecha menu do avatar ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -44,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Menu items padrão , ainda nao fiz as outras funcionalidades !
+  //  ainda nao fiz as outras funcionalidades !
   const defaultMenuItems: MenuItem[] = [
     { label: "Home", href: "/" },
     { label: "Features", href: "/features" },
@@ -57,13 +56,9 @@ const Navbar: React.FC<NavbarProps> = ({
   // Auth Buttons integrados
   const AuthButtons = () => (
     <div className="flex items-center gap-4">
-      <button
-        onClick={onOpenLogin}
-        className="flex items-center gap-2 cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-medium text-sm"
-      >
-        <FaUser className="w-3 h-3" />
+      <GradientButton onClick={onOpenLogin} icon={<FaUser />}>
         Login
-      </button>
+      </GradientButton>
       <button
         onClick={onOpenRegister}
         className="bg-gray-200 text-gray-800 px-4 py-1 lg:px-6 lg:py-2 cursor-pointer rounded-full hover:bg-gray-300 transition-colors font-medium text-sm flex items-center justify-center h-9"

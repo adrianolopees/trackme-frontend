@@ -7,6 +7,7 @@ type GradientButtonProps = {
   loading?: boolean;
   loadingText?: string;
   icon?: ReactNode;
+  className?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function GradientButton({
@@ -14,20 +15,22 @@ export default function GradientButton({
   loading,
   loadingText = "Carregando...",
   icon,
+  className,
   ...props
 }: GradientButtonProps) {
   return (
     <button
+      className={`flex justify-center items-center px-4 py-1 h-9 gap-2 lg:px-6 rounded-full text-sm
+       font-semibold
+      text-white
+      bg-gradient-to-r from-purple-600 to-blue-500
+      hover:from-purple-700 hover:to-blue-600
+      transition-colors duration-300
+      disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer ${
+        className || ""
+      }
+      `}
       {...props}
-      className={`
-        flex items-center justify-center cursor-pointer gap-2 w-full py-3 rounded-full
-        text-white font-semibold
-        bg-gradient-to-r from-purple-600 to-blue-500
-        hover:from-purple-700 hover:to-blue-600
-        transition-colors duration-300
-        disabled:opacity-70 disabled:cursor-not-allowed
-        h-9
-        `}
     >
       {loading ? (
         <>
