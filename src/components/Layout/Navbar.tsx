@@ -4,6 +4,7 @@ import { FaUser, FaCog, FaSignOutAlt, FaHome, FaMusic } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 import type { NavbarProps, MenuItem } from "../../types/navbar.types";
 import GradientButton from "../ui/GradientButton";
+import SecondaryButton from "../ui/SecondaryButton";
 
 const Navbar: React.FC<NavbarProps> = ({
   isAuthenticated = false,
@@ -59,12 +60,9 @@ const Navbar: React.FC<NavbarProps> = ({
       <GradientButton variant="navbar" onClick={onOpenLogin} icon={<FaUser />}>
         Login
       </GradientButton>
-      <button
-        onClick={onOpenRegister}
-        className="bg-gray-200 text-gray-800 px-4 py-1 lg:px-6 lg:py-2 cursor-pointer rounded-full hover:bg-gray-300 transition-colors font-medium text-sm flex items-center justify-center h-9"
-      >
+      <SecondaryButton variant="navbar" onClick={onOpenRegister}>
         Cadastre-se
-      </button>
+      </SecondaryButton>
     </div>
   );
 
@@ -243,15 +241,14 @@ const Navbar: React.FC<NavbarProps> = ({
                     <FaUser className="w-4 h-4" />
                     Login
                   </GradientButton>
-                  <button
+                  <SecondaryButton
                     onClick={() => {
                       setIsAvatarMenuOpen(false);
                       onOpenRegister?.();
                     }}
-                    className="bg-gray-200 text-gray-800 px-4 py-3 rounded-lg hover:bg-gray-300 transition-colors font-medium text-sm text-center block w-full"
                   >
                     Cadastre-se
-                  </button>
+                  </SecondaryButton>
                 </div>
               </>
             )}
